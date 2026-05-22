@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>惜食揪團 FoodWeb — 國立中興大學</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Variables ─────────────────────────────── */
+    :root {
+      --bg:        #f2ece0;
+      --bg2:       #e9e2d3;
+      --bg3:       #ede7da;
+      --surface:   #f8f5ee;
+      --card:      #ffffff;
+      --border:    #ddd6c6;
+      --border-s:  #ccc4b0;
+
+      --text:      #1c1710;
+      --text2:     #5c5040;
+      --text3:     #8a7d68;
+      --text4:     #b0a488;
+
+      --green:     #2a6e3c;
+      --green-l:   #3d9452;
+      --green-bg:  rgba(42,110,60,.08);
+      --green-bd:  rgba(42,110,60,.22);
+
+      --orange:    #b53a18;
+      --orange-l:  #d44e28;
+      --orange-bg: rgba(181,58,24,.08);
+      --orange-bd: rgba(181,58,24,.22);
+
+      --gold:      #a07828;
+      --gold-bg:   rgba(160,120,40,.09);
+
+      --sh-sm: 0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);
+      --sh-md: 0 4px 16px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);
+      --sh-lg: 0 12px 40px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);
+
+      --r:    10px;
+      --r-lg: 16px;
+    }
+
+    /* ─── Reset ─────────────────────────────────── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:15px;line-height:1.65;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:none;font-family:inherit;background:none}
+    input,select{font-family:inherit}
+
+    /* ─── Nav ────────────────────────────────────── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:200;
+      padding:0 48px;height:60px;
+      display:flex;align-items:center;justify-content:space-between;
+      transition:background .25s,box-shadow .25s;
+    }
+    nav.scrolled{
+      background:rgba(242,236,224,.92);
+      backdrop-filter:blur(16px);
+      box-shadow:0 1px 0 var(--border);
+    }
+    .nav-logo{display:flex;align-items:center;gap:10px}
+    .logo-mark{
+      width:34px;height:34px;border-radius:8px;
+      background:var(--green);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Noto Serif TC',serif;font-weight:700;font-size:15px;color:#fff;
+    }
+    .logo-name{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;letter-spacing:-.01em}
+    .logo-sub{font-size:10px;color:var(--text3);letter-spacing:.1em;display:block;line-height:1}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:13px;font-weight:500;color:var(--text2);letter-spacing:.02em;transition:color .15s}
+    .nav-links a:hover{color:var(--text)}
+    .nav-actions{display:flex;gap:10px}
+    .btn-ghost{padding:8px 18px;border-radius:var(--r);border:1px solid var(--border-s);color:var(--text2);font-size:13px;font-weight:500;transition:all .15s}
+    .btn-ghost:hover{border-color:var(--text3);color:var(--text)}
+    .btn-solid{padding:8px 18px;border-radius:var(--r);background:var(--green);color:#fff;font-size:13px;font-weight:700;transition:background .15s}
+    .btn-solid:hover{background:var(--green-l)}
+
+    /* ─── Hero ───────────────────────────────────── */
+    #hero{
+      padding:100px 48px 0;
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+    }
+    .hero-top{
+      max-width:1200px;margin:0 auto;
+      padding-bottom:40px;
+    }
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:11px;font-weight:700;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--green);
+      margin-bottom:20px;
+      animation:fadeUp .5s ease both;
+    }
+    .eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+    h1{
+      font-family:'Noto Serif TC',serif;
+      font-size:clamp(36px,5vw,68px);font-weight:700;
+      line-height:1.1;letter-spacing:-.025em;
+      animation:fadeUp .5s .06s ease both;
+    }
+    h1 em{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--green);font-size:1.08em}
+    .hero-sub{
+      margin-top:16px;font-size:15px;font-weight:300;
+      line-height:1.85;color:var(--text2);max-width:560px;
+      animation:fadeUp .5s .12s ease both;
+    }
+
+    /* ─── Hero Tabs (left / right split) ────────── */
+    .hero-tabs{
+      display:grid;grid-template-columns:1fr 1fr;
+      width:100%;margin-top:40px;
+      border:1px solid var(--border);border-radius:var(--r-lg);
+      overflow:hidden;
+      animation:fadeUp .5s .18s ease both;
+    }
+    .hero-tab{
+      padding:22px 28px;
+      display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+      font-family:'Noto Sans TC',sans-serif;
+      background:var(--bg2);color:var(--text3);
+      transition:all .22s;text-align:left;
+      position:relative;
+    }
+    .hero-tab:first-child{border-right:1px solid var(--border)}
+    .hero-tab:hover{background:var(--bg3);color:var(--text2)}
+    .hero-tab .tab-label{
+      font-size:15px;font-weight:700;letter-spacing:.01em;
+      display:flex;align-items:center;gap:8px;
+    }
+    .hero-tab .tab-label::before{
+      content:'';width:8px;height:8px;border-radius:50%;
+      border:2px solid currentColor;flex-shrink:0;
+      transition:background .22s;
+    }
+    .hero-tab .tab-sub{
+      font-size:12px;font-weight:400;letter-spacing:.02em;
+      padding-left:16px;
+    }
+    .hero-tab.active-green{
+      background:var(--green);color:#fff;
+    }
+    .hero-tab.active-green .tab-label::before{background:#fff;border-color:#fff}
+    .hero-tab.active-orange{
+      background:var(--orange);color:#fff;
+    }
+    .hero-tab.active-orange .tab-label::before{background:#fff;border-color:#fff}
+
+    /* ─── Hero Tab Panels ─────────────────────────── */
+    .hero-panel{display:none}
+    .hero-panel.active{display:block}
+
+    .panel-inner{
+      max-width:1200px;margin:0 auto;
+      padding:48px 0 64px;
+    }
+
+    /* Top 2-col: module info + steps */
+    .panel-overview{
+      display:grid;grid-template-columns:1fr 1fr;gap:48px;
+      margin-bottom:48px;
+      padding-bottom:48px;
+      border-bottom:1px solid var(--border);
+    }
+    .panel-module{}
+    .pm-badge{
+      display:inline-flex;align-items:center;gap:7px;
+      font-size:11px;font-weight:700;letter-spacing:.1em;
+      text-transform:uppercase;margin-bottom:16px;
+      padding:5px 12px;border-radius:6px;
+    }
+    .pm-badge.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+    .pm-badge.orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd)}
+    .pm-title{
+      font-family:'Noto Serif TC',serif;
+      font-size:26px;font-weight:700;letter-spacing:-.02em;
+      margin-bottom:6px;
+    }
+    .pm-en{
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic;font-size:14px;color:var(--text3);
+      margin-bottom:16px;letter-spacing:.02em;
+    }
+    .pm-desc{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:24px}
+    .pm-features{list-style:none;display:flex;flex-direction:column;gap:9px}
+    .pm-features li{display:flex;gap:9px;font-size:13px;color:var(--text2);line-height:1.6}
+    .feat-chip{
+      padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;
+      letter-spacing:.06em;flex-shrink:0;margin-top:2px;align-self:flex-start;
+    }
+    .feat-chip.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+    .feat-chip.orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd)}
+
+    /* Steps column */
+    .panel-steps{}
+    .ps-title{
+      font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--text3);margin-bottom:24px;padding-bottom:14px;
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:10px;
+    }
+    .step-list{display:flex;flex-direction:column}
+    .step-row{display:flex;gap:16px;padding-bottom:24px;position:relative}
+    .step-row:last-child{padding-bottom:0}
+    .step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+    .step-n{
+      width:34px;height:34px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'DM Mono',monospace;font-size:12px;font-weight:500;
+    }
+    .step-n.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+    .step-n.orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd)}
+    .step-connector{flex:1;width:1px;margin-top:6px;background:linear-gradient(to bottom,var(--border),transparent)}
+    .step-row:last-child .step-connector{display:none}
+    .step-body{padding-top:6px}
+    .step-ttl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+    .step-dsc{font-size:12px;color:var(--text2);line-height:1.75}
+
+    /* Live listings row */
+    .panel-listings-title{
+      font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--text3);margin-bottom:20px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .live-dot{width:6px;height:6px;border-radius:50%;animation:blink 1.4s infinite}
+    .live-dot.green{background:var(--green)}
+    .live-dot.orange{background:var(--orange)}
+    .cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+    /* ─── Group Buy Cards ────────────────────────── */
+    .gb-card{
+      background:var(--card);border-radius:var(--r-lg);
+      border:1px solid var(--border);box-shadow:var(--sh-sm);
+      overflow:hidden;transition:box-shadow .2s,transform .2s;
+    }
+    .gb-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .gb-card.hidden{display:none}
+
+    /* ─── GB Filter bar ──────────────────────────── */
+    .gb-filter{
+      display:flex;align-items:center;gap:8px;
+      margin-bottom:16px;flex-wrap:wrap;
+    }
+    .gb-filter-lbl{
+      font-size:11px;font-weight:700;letter-spacing:.08em;
+      color:var(--text3);text-transform:uppercase;margin-right:4px;
+      flex-shrink:0;
+    }
+    .filt-btn{
+      padding:6px 14px;border-radius:999px;
+      font-size:12px;font-weight:600;letter-spacing:.03em;
+      border:1px solid var(--border);color:var(--text3);
+      background:var(--card);transition:all .15s;
+      font-family:'Noto Sans TC',sans-serif;
+    }
+    .filt-btn:hover{border-color:var(--green);color:var(--green)}
+    .filt-btn.active{
+      background:var(--green);border-color:var(--green);
+      color:#fff;
+    }
+    .filt-count{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:16px;height:16px;border-radius:50%;
+      font-size:10px;font-weight:700;margin-left:4px;
+      background:rgba(255,255,255,.25);
+    }
+    .filt-btn:not(.active) .filt-count{background:var(--bg2);color:var(--text3)}
+
+    /* ─── GB category chip ───────────────────────── */
+    .gb-cat{
+      display:inline-block;padding:2px 8px;border-radius:4px;
+      font-size:10px;font-weight:700;letter-spacing:.06em;
+      background:var(--bg2);color:var(--text3);
+      border:1px solid var(--border);flex-shrink:0;
+    }
+    .gb-head{padding:16px 18px 14px;border-bottom:1px solid var(--border)}
+    .gb-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .gb-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+    .gb-tag{
+      padding:3px 8px;border-radius:4px;flex-shrink:0;
+      font-size:10px;font-weight:700;letter-spacing:.06em;
+      background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);
+    }
+    .gb-host{font-size:11px;color:var(--text3);margin-top:3px}
+    .gb-meta{padding:12px 18px 0}
+    .gb-loc{font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+    .loc-dot{width:5px;height:5px;border-radius:50%;background:var(--text4);flex-shrink:0}
+    .gb-prog-wrap{margin-bottom:10px}
+    .gb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px}
+    .gb-prog-lbl span{font-family:'DM Mono',monospace;color:var(--text2)}
+    .bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--green-l));transition:width .5s}
+    .gb-status{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px}
+    .countdown{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text2)}
+    .cd-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+    .countdown.urgent{color:var(--orange)}
+    .countdown.urgent .cd-dot{background:var(--orange)}
+    .member-ct{font-size:11px;color:var(--text3)}
+    .member-ct strong{font-family:'DM Mono',monospace;font-size:13px;color:var(--green)}
+    .gb-members{border-top:1px solid var(--border);padding:10px 18px;max-height:104px;overflow-y:auto}
+    .gb-members::-webkit-scrollbar{width:3px}
+    .gb-members::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    .member-row{display:flex;align-items:center;gap:7px;padding:3px 0;border-bottom:1px dashed var(--border)}
+    .member-row:last-child{border-bottom:none}
+    .m-avatar{width:22px;height:22px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text2);flex-shrink:0}
+    .m-name{font-size:11px;color:var(--text2);flex:1}
+    .m-item{font-size:10px;color:var(--text3)}
+    .m-badge{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--gold-bg);color:var(--gold);font-weight:700}
+    .gb-footer{padding:10px 18px;border-top:1px solid var(--border)}
+    .btn-room{
+      width:100%;padding:9px;border-radius:var(--r);
+      border:1.5px solid var(--green);color:var(--green);
+      font-size:12px;font-weight:700;letter-spacing:.03em;
+      transition:all .15s;
+    }
+    .btn-room:hover{background:var(--green);color:#fff}
+
+    /* ─── Stats ──────────────────────────────────── */
+    #stats{
+      background:var(--bg2);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      padding:0 48px;
+    }
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);max-width:1200px;margin:0 auto}
+    .stat-cell{padding:32px 24px;text-align:center;position:relative}
+    .stat-cell+.stat-cell::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:32px;width:1px;background:var(--border)}
+    .stat-n{font-family:'DM Mono',monospace;font-size:36px;font-weight:500;line-height:1;color:var(--text);letter-spacing:-.03em}
+    .stat-n sub{font-size:16px;font-weight:300;vertical-align:baseline}
+    .stat-lbl{margin-top:5px;font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.06em}
+
+    /* ─── CTA ────────────────────────────────────── */
+    #cta{background:var(--green);padding:72px 48px;text-align:center}
+    .cta-inner{max-width:500px;margin:0 auto}
+    .cta-kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:12px}
+    .cta-h{font-family:'Noto Serif TC',serif;font-size:clamp(24px,3.5vw,38px);font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px}
+    .cta-p{font-size:14px;color:rgba(255,255,255,.75);line-height:1.8;margin-bottom:28px}
+    .cta-form{display:flex;gap:10px;max-width:400px;margin:0 auto}
+    .cta-in{flex:1;padding:12px 15px;border-radius:var(--r);border:none;background:rgba(255,255,255,.15);color:#fff;font-size:13px;outline:none;font-family:'Noto Sans TC',sans-serif;transition:background .15s;backdrop-filter:blur(4px)}
+    .cta-in:focus{background:rgba(255,255,255,.22)}
+    .cta-in::placeholder{color:rgba(255,255,255,.55)}
+    .cta-btn{padding:12px 22px;border-radius:var(--r);background:#fff;color:var(--green);font-size:13px;font-weight:700;letter-spacing:.03em;font-family:'Noto Sans TC',sans-serif;transition:all .15s;flex-shrink:0}
+    .cta-btn:hover{background:rgba(255,255,255,.9)}
+    .cta-note{margin-top:10px;font-size:11px;color:rgba(255,255,255,.5)}
+
+    /* ─── Footer ─────────────────────────────────── */
+    footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 48px 28px}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:36px;border-bottom:1px solid var(--border);margin-bottom:20px}
+    .ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .ft-logo-mark{width:34px;height:34px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:'Noto Serif TC',serif;font-weight:700;font-size:15px;color:#fff}
+    .ft-logo-name{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--text)}
+    .ft-tagline{font-size:13px;color:var(--text2);line-height:1.8;max-width:210px;margin-bottom:14px}
+    .ft-nchu{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:var(--card);border:1px solid var(--border);font-size:11px;color:var(--text3);letter-spacing:.06em}
+    .ft-col-t{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}
+    .ft-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .ft-links a{font-size:13px;color:var(--text2);transition:color .15s}
+    .ft-links a:hover{color:var(--text)}
+    .footer-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    .footer-copy,.footer-team{font-size:12px;color:var(--text3)}
+    .footer-team{text-align:right}
+    .footer-team strong{color:var(--text2)}
+
+    /* ─── Publish CTA bar ────────────────��──────── */
+    .publish-bar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:20px 24px;border-radius:var(--r-lg);
+      border:1.5px dashed var(--border-s);
+      background:var(--surface);
+      margin:0 0 36px;
+      gap:16px;flex-wrap:wrap;
+    }
+    .publish-bar-text{}
+    .publish-bar-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+    .publish-bar-sub{font-size:12px;color:var(--text3)}
+    .btn-publish{
+      display:flex;align-items:center;gap:8px;
+      padding:12px 24px;border-radius:var(--r);
+      font-size:13px;font-weight:700;letter-spacing:.03em;
+      font-family:'Noto Sans TC',sans-serif;
+      white-space:nowrap;flex-shrink:0;transition:all .15s;
+    }
+    .btn-publish.green{background:var(--green);color:#fff}
+    .btn-publish.green:hover{background:var(--green-l);transform:translateY(-1px);box-shadow:0 4px 14px rgba(42,110,60,.25)}
+    .btn-publish.orange{background:var(--orange);color:#fff}
+    .btn-publish.orange:hover{background:var(--orange-l);transform:translateY(-1px);box-shadow:0 4px 14px rgba(181,58,24,.25)}
+    .btn-publish-icon{
+      width:18px;height:18px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.7);
+      display:flex;align-items:center;justify-content:center;
+      font-size:13px;line-height:1;font-weight:300;
+    }
+
+    /* ─── Create Form Modal ───────────���──────────── */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-grid.full{grid-template-columns:1fr}
+    .form-field{display:flex;flex-direction:column;gap:5px}
+    .form-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+    .form-label .req{color:var(--orange);margin-left:2px}
+    .form-ctrl{
+      padding:10px 12px;border-radius:var(--r);
+      border:1px solid var(--border);background:var(--bg);
+      font-size:13px;color:var(--text);outline:none;
+      font-family:'Noto Sans TC',sans-serif;
+      transition:border-color .15s;width:100%;
+    }
+    .form-ctrl:focus{border-color:var(--green)}
+    .form-ctrl.orange:focus{border-color:var(--orange)}
+    .form-ctrl::placeholder{color:var(--text4)}
+    textarea.form-ctrl{resize:vertical;min-height:72px;line-height:1.6}
+    select.form-ctrl{cursor:pointer}
+    .form-row-inline{display:flex;gap:8px}
+    .form-row-inline .form-ctrl{flex:1}
+    .form-hint{font-size:11px;color:var(--text3);margin-top:2px}
+    .modal-submit{
+      width:100%;padding:13px;border-radius:var(--r);
+      font-size:14px;font-weight:700;letter-spacing:.03em;
+      font-family:'Noto Sans TC',sans-serif;
+      margin-top:4px;transition:all .15s;
+    }
+    .modal-submit.green{background:var(--green);color:#fff}
+    .modal-submit.green:hover{background:var(--green-l)}
+    .modal-submit.orange{background:var(--orange);color:#fff}
+    .modal-submit.orange:hover{background:var(--orange-l)}
+    .submit-success{
+      display:none;text-align:center;padding:24px 0 8px;
+    }
+    .submit-success.show{display:block}
+    .submit-success-icon{
+      width:48px;height:48px;border-radius:50%;margin:0 auto 12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;
+    }
+    .submit-success-icon.green{background:var(--green-bg);color:var(--green)}
+    .submit-success-icon.orange{background:var(--orange-bg);color:var(--orange)}
+    .submit-success-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+    .submit-success-sub{font-size:13px;color:var(--text2)}
+
+    /* ─── Profile side panel ──────────────────── */
+.profile-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 600;
+  width: 400px; max-width: 100vw;
+  background: var(--card);
+  box-shadow: -8px 0 40px rgba(0,0,0,.14);
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.profile-panel.open { transform: translateX(0); }
+.profile-overlay {
+  position: fixed; inset: 0; z-index: 590;
+  background: rgba(28,23,16,.4); backdrop-filter: blur(3px);
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.profile-overlay.open { opacity: 1; pointer-events: auto; }
+.pp-header {
+  padding: 20px 20px 0; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.pp-close {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg2); color: var(--text3); font-size: 14px;
+  transition: all .15s; flex-shrink: 0;
+}
+.pp-close:hover { background: var(--border); color: var(--text); }
+.pp-body { flex: 1; overflow-y: auto; padding: 0 20px 32px; }
+.pp-body::-webkit-scrollbar { width: 4px; }
+.pp-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.pp-avatar-wrap { padding: 24px 0 0; display: flex; align-items: flex-end; gap: 16px; margin-bottom: 16px; }
+.pp-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif TC', serif; font-size: 28px; font-weight: 700;
+  flex-shrink: 0; border: 3px solid var(--card);
+  box-shadow: 0 0 0 2px var(--border);
+}
+.pp-name { font-family: 'Noto Serif TC', serif; font-size: 20px; font-weight: 700; letter-spacing: -.01em; color: var(--text); }
+.pp-dept { font-size: 12px; color: var(--text3); margin-top: 3px; }
+.pp-since { font-size: 11px; color: var(--text4); margin-top: 2px; font-family: 'DM Mono', monospace; }
+.pp-rep-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 16px 18px; margin-bottom: 20px;
+}
+.pp-rep-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.pp-rep-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); }
+.pp-score-wrap { display: flex; align-items: baseline; gap: 5px; }
+.pp-score { font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 500; color: var(--text); line-height: 1; }
+.pp-score-max { font-size: 13px; color: var(--text3); }
+.pp-score-stars { display: flex; gap: 3px; margin-bottom: 10px; }
+.pp-star { width: 14px; height: 14px; border-radius: 2px; background: var(--gold-bg); position: relative; overflow: hidden; }
+.pp-star-fill { position: absolute; inset: 0; background: var(--gold); }
+.pp-rep-bars { display: flex; flex-direction: column; gap: 7px; }
+.pp-rep-row { display: flex; align-items: center; gap: 10px; }
+.pp-rep-row-lbl { font-size: 11px; color: var(--text2); width: 60px; flex-shrink: 0; }
+.pp-rep-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.pp-rep-fill { height: 100%; border-radius: 2px; background: var(--green); }
+.pp-rep-val { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); width: 32px; text-align: right; flex-shrink: 0; }
+.pp-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
+.pp-stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 12px; text-align: center; }
+.pp-stat-n { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--text); line-height: 1; }
+.pp-stat-l { font-size: 10px; color: var(--text3); margin-top: 4px; letter-spacing: .04em; }
+.pp-section-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin: 20px 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.pp-history { display: flex; flex-direction: column; gap: 8px; }
+.pp-hist-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r);
+}
+.pp-hist-type { padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .06em; flex-shrink: 0; }
+.pp-hist-type.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.pp-hist-type.orange { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+.pp-hist-title { font-size: 12px; color: var(--text); flex: 1; }
+.pp-hist-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text4); flex-shrink: 0; }
+.pp-hist-status { font-size: 10px; font-weight: 600; flex-shrink: 0; }
+.pp-hist-status.ok { color: var(--green); }
+.pp-hist-status.pending { color: var(--gold); }
+
+/* ─── Approval board in Room Modal ────────── */
+.approval-board { display: flex; flex-direction: column; gap: 6px; }
+.pending-req {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--r);
+  background: var(--bg); border: 1px solid var(--border);
+}
+.pending-req .pr-avatar {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--text2); flex-shrink: 0;
+}
+.pending-req .pr-info { flex: 1; min-width: 0; }
+.pending-req .pr-name { font-size: 12px; font-weight: 700; color: var(--text); }
+.pending-req .pr-item { font-size: 11px; color: var(--text2); }
+.pending-req .pr-price { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); flex-shrink: 0; }
+.pending-req .pr-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.btn-approve {
+  padding: 5px 12px; border-radius: 6px;
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid var(--green-bd);
+  font-size: 11px; font-weight: 700;
+  transition: all .15s;
+}
+.btn-approve:hover { background: var(--green); color: #fff; }
+.btn-reject {
+  padding: 5px 12px; border-radius: 6px;
+  background: var(--orange-bg); color: var(--orange);
+  border: 1px solid var(--orange-bd);
+  font-size: 11px; font-weight: 700;
+  transition: all .15s;
+}
+.btn-reject:hover { background: var(--orange); color: #fff; }
+.pending-req.approved { border-color: var(--green-bd); background: var(--green-bg); }
+.pending-req.approved .pr-name::after { content: ' — 已同意'; font-size: 10px; color: var(--green); font-weight: 400; }
+.pending-req.rejected { opacity: .45; }
+.pending-req.rejected .pr-name::after { content: ' — 已婉拒'; font-size: 10px; color: var(--text3); font-weight: 400; }
+.req-submit-row { display: flex; gap: 8px; margin-top: 10px; }
+.req-submit-row .form-input { flex: 1; }
+.empty-approval { font-size: 12px; color: var(--text3); text-align: center; padding: 16px 0; }
+
+/* Nav profile button */
+.nav-profile {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 700;
+  color: #fff; background: var(--green);
+  cursor: pointer; transition: background .15s; flex-shrink: 0;
+}
+.nav-profile:hover { background: var(--green-l); }
+
+    /* ─── Room Modal ─────────────────────────────── */
+    .modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(28,23,16,.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+    .modal-overlay.open{opacity:1;pointer-events:auto}
+    .modal{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--sh-lg);width:100%;max-width:540px;max-height:88vh;overflow-y:auto;transform:translateY(12px);transition:transform .2s}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal-header{padding:18px 22px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;background:var(--card);z-index:2}
+    .modal-title{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+    .modal-sub{font-size:11px;color:var(--text3);margin-top:3px}
+    .modal-close{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--bg2);color:var(--text3);font-size:14px;transition:all .15s;flex-shrink:0}
+    .modal-close:hover{background:var(--border);color:var(--text)}
+    .modal-body{padding:0 22px}
+    .modal-section{padding:18px 0;border-bottom:1px solid var(--border)}
+    .modal-section:last-child{border-bottom:none}
+    .modal-sect-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}
+    .room-status{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .room-stat{background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border)}
+    .room-stat-val{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;color:var(--text);line-height:1}
+    .room-stat-lbl{font-size:10px;color:var(--text3);margin-top:3px}
+    .room-members{display:flex;flex-direction:column;gap:2px}
+    .room-member{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--border)}
+    .rm-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text2);flex-shrink:0}
+    .rm-name{font-size:12px;font-weight:600;color:var(--text);flex:1}
+    .rm-item{font-size:11px;color:var(--text2)}
+    .rm-price{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text);flex-shrink:0}
+    .rm-badge{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--gold-bg);color:var(--gold);font-weight:700;margin-left:5px}
+    .cost-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed var(--border)}
+    .cost-row:last-child{border-bottom:none}
+    .cost-label{font-size:12px;color:var(--text2)}
+    .cost-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text)}
+    .cost-row.total .cost-label{font-weight:700;color:var(--text)}
+    .cost-row.total .cost-val{font-size:16px;color:var(--green)}
+    .join-form{display:flex;flex-direction:column;gap:8px}
+    .form-row{display:flex;gap:8px}
+    .form-input{flex:1;padding:10px 12px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg);font-size:13px;color:var(--text);outline:none;font-family:'Noto Sans TC',sans-serif;transition:border-color .15s}
+    .form-input:focus{border-color:var(--green)}
+    .form-input::placeholder{color:var(--text4)}
+    .btn-join-room{padding:10px 22px;border-radius:var(--r);background:var(--green);color:#fff;font-size:13px;font-weight:700;letter-spacing:.03em;font-family:'Noto Sans TC',sans-serif;transition:background .15s;flex-shrink:0}
+    .btn-join-room:hover{background:var(--green-l)}
+    .modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .modal-footer-info{font-size:11px;color:var(--text3)}
+
+    /* ─── Animations ─────────────────────────────── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+    /* ─── Responsive ─────────────────────────────── */
+    @media(max-width:960px){
+      nav{padding:0 24px}
+      .nav-links{display:none}
+      #hero{padding:88px 24px 0}
+      .panel-overview{grid-template-columns:1fr;gap:32px}
+      .cards-row{grid-template-columns:1fr 1fr}
+      #stats{padding:0 24px}
+      .stats-row{grid-template-columns:repeat(2,1fr)}
+      .stat-cell:nth-child(2)::before{display:none}
+      #cta{padding:56px 24px}
+      .cta-form{flex-direction:column}
+      footer{padding:36px 24px 24px}
+      .footer-top{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      /* Compact sliding toggle — no subtitle, pill slides underneath */
+      .hero-tabs{
+        background:var(--bg2);padding:4px;gap:0;
+        position:relative;
+      }
+      .hero-tab{
+        background:transparent!important;
+        color:var(--text3)!important;
+        box-shadow:none!important;
+        border-right:none!important;
+        padding:13px 12px;
+        align-items:center;justify-content:center;
+        position:relative;z-index:1;
+      }
+      .hero-tab.active-green,.hero-tab.active-orange{color:#fff!important}
+      .tab-sub{display:none}
+      .tab-label{justify-content:center}
+      .tab-label::before{display:none}
+      /* Sliding pill */
+      .hero-tabs::before{
+        content:'';
+        position:absolute;top:4px;bottom:4px;
+        left:4px;width:calc(50% - 4px);
+        border-radius:12px;
+        pointer-events:none;
+        transition:transform .26s cubic-bezier(.4,0,.2,1),background .22s;
+      }
+      .hero-tabs.slide-gb::before{background:var(--green);transform:translateX(0)}
+      .hero-tabs.slide-fs::before{background:var(--orange);transform:translateX(calc(100% + 4px))}
+      .cards-row{grid-template-columns:1fr}
+      .footer-top{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ Nav ══ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">食</div>
+    <div>
+      <span class="logo-name">惜食揪團</span>
+      <span class="logo-sub">NCHU · FoodWeb</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero">揪團外送</a></li>
+    <li><a href="#stats">社群數據</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-ghost">登入</button>
+    <button class="btn-solid">立即加入</button>
+    <button class="nav-profile" onclick="openProfile('我的帳號')" title="我的帳號">葉</button>
+  </div>
+</nav>
+
+<!-- ══ Hero + Tabs ══ -->
+<section id="hero">
+  <div class="hero-top">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>國立中興大學 · 校園飲食平台</div>
+    <h1>揪團省運費，<em>Split fees,</em><br>外送更輕鬆。</h1>
+    <p class="hero-sub">專為中興大學設計的即時校園外送揪團平台。共享外送、分攤運費、私人房間。</p>
+  </div>
+
+  <!-- ── Panel: 揪團外送 ── -->
+  <div class="hero-panel active" id="hpanel-gb">
+    <div class="panel-inner">
+
+      <!-- 模組說明 + 流程 -->
+      <div class="panel-overview">
+        <div class="panel-module">
+          <span class="pm-badge green">揪團外送 · Group Buy</span>
+          <h3 class="pm-title">一起揪，省更多</h3>
+          <p class="pm-en">Split delivery fees, order together</p>
+          <p class="pm-desc">外送費用高、單人難達免運門檻？在此開團邀請同學加入，系統自動計算每人分攤金額，取餐地點一次搞定。</p>
+          <ul class="pm-features">
+            <li><span class="feat-chip green">私人房間</span><span>每個揪單開設獨立房間，成員清單與點餐內容透明可見</span></li>
+            <li><span class="feat-chip green">自動分算</span><span>運費與折扣依金額比例精準分攤，浮點數處理正確</span></li>
+            <li><span class="feat-chip green">即時同步</span><span>加入後人數與金額進度立即更新</span></li>
+            <li><span class="feat-chip green">誠信積分</span><span>履約紀錄影響積分，建立社群信任機制</span></li>
+          </ul>
+        </div>
+
+        <div class="panel-steps">
+          <div class="ps-title">使用流程 <span style="color:var(--border-s);font-weight:400">3 步驟</span></div>
+          <div class="step-list">
+            <div class="step-row">
+              <div class="step-left"><div class="step-n green">01</div><div class="step-connector"></div></div>
+              <div class="step-body">
+                <div class="step-ttl">開團設定</div>
+                <div class="step-dsc">選擇餐廳、設定結單時間與取餐地點。填入最低金額門檻，系統自動建立私人揪團房間。</div>
+              </div>
+            </div>
+            <div class="step-row">
+              <div class="step-left"><div class="step-n green">02</div><div class="step-connector"></div></div>
+              <div class="step-body">
+                <div class="step-ttl">揪人進房間</div>
+                <div class="step-dsc">分享連結至系所群組，成員在房間內填寫點餐與金額，人數即時同步。</div>
+              </div>
+            </div>
+            <div class="step-row">
+              <div class="step-left"><div class="step-n green">03</div><div class="step-connector"></div></div>
+              <div class="step-body">
+                <div class="step-ttl">自動結算取餐</div>
+                <div class="step-dsc">結單後系統產生費用明細，取餐後回報完成，誠信積分自動累積。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 發布揪團 -->
+      <div class="publish-bar">
+        <div class="publish-bar-text">
+          <div class="publish-bar-title">想發起一個新揪團？</div>
+          <div class="publish-bar-sub">填寫餐廳、地點與結單時間，系統自動建立私人房間</div>
+        </div>
+        <button class="btn-publish green" onclick="openCreateGB()">
+          <span class="btn-publish-icon">+</span>發布新揪團
+        </button>
+      </div>
+
+      <!-- 即時揪單 -->
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div class="panel-listings-title" style="margin-bottom:0">
+          <span class="live-dot green"></span>
+          即時揪單列表
+        </div>
+        <div class="gb-filter" id="gb-filter">
+          <span class="gb-filter-lbl">篩選</span>
+          <button class="filt-btn active" data-cat="全部" onclick="filterGB(this)">全部<span class="filt-count">7</span></button>
+          <button class="filt-btn" data-cat="速食" onclick="filterGB(this)">速食<span class="filt-count">2</span></button>
+          <button class="filt-btn" data-cat="中式" onclick="filterGB(this)">中式<span class="filt-count">2</span></button>
+          <button class="filt-btn" data-cat="飲料" onclick="filterGB(this)">飲料<span class="filt-count">1</span></button>
+          <button class="filt-btn" data-cat="日式" onclick="filterGB(this)">日式<span class="filt-count">1</span></button>
+          <button class="filt-btn" data-cat="其他" onclick="filterGB(this)">其他<span class="filt-count">1</span></button>
+        </div>
+      </div>
+      <div class="cards-row" id="gb-cards-row">
+
+        <div class="gb-card" data-category="速食">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">麥當勞 興大店</div><span class="gb-cat">速食</span></div>
+            <div class="gb-host">團主：林小明 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：理學院一樓大廳</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span id="gb1-amt">342</span> / 400</span></div>
+              <div class="bar"><div class="bar-fill" id="gb1-bar" style="width:85%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown urgent" data-sec="1140"><span class="cd-dot"></span><span class="tm">19:00</span></div>
+              <div class="member-ct">已有 <strong id="gb1-cnt">6</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members" id="gb1-members">
+            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林小明 <span class="m-badge">團主</span></div><div class="m-item">大麥克套餐</div></div>
+            <div class="member-row"><div class="m-avatar">陳</div><div class="m-name">陳佳慧</div><div class="m-item">雙層牛堡</div></div>
+            <div class="member-row"><div class="m-avatar">王</div><div class="m-name">王雨柔</div><div class="m-item">麥辣雞腿堡套餐</div></div>
+            <div class="member-row"><div class="m-avatar">張</div><div class="m-name">張博文</div><div class="m-item">麥香魚 × 2</div></div>
+            <div class="member-row"><div class="m-avatar">李</div><div class="m-name">李欣怡</div><div class="m-item">麥脆雞套餐</div></div>
+            <div class="member-row"><div class="m-avatar">吳</div><div class="m-name">吳建廷</div><div class="m-item">大麥克 + 可樂</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room" onclick="openRoom(1)">進入揪團房間 →</button></div>
+        </div>
+
+        <div class="gb-card" data-category="中式">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">胡椒廚房</div><span class="gb-cat">中式</span></div>
+            <div class="gb-host">團主：陳佳慧 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：農學院圖書館門口</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span id="gb2-amt">580</span> / 600</span></div>
+              <div class="bar"><div class="bar-fill" id="gb2-bar" style="width:97%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown" data-sec="3600"><span class="cd-dot"></span><span class="tm">01:00:00</span></div>
+              <div class="member-ct">已有 <strong id="gb2-cnt">9</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members" id="gb2-members">
+            <div class="member-row"><div class="m-avatar">陳</div><div class="m-name">陳佳慧 <span class="m-badge">團主</span></div><div class="m-item">招牌胡椒豬排飯</div></div>
+            <div class="member-row"><div class="m-avatar">黃</div><div class="m-name">黃志偉</div><div class="m-item">嫩煎雞排飯</div></div>
+            <div class="member-row"><div class="m-avatar">劉</div><div class="m-name">劉美玲</div><div class="m-item">蔬食咖哩飯</div></div>
+            <div class="member-row"><div class="m-avatar">蔡</div><div class="m-name">蔡宗翰</div><div class="m-item">招牌胡椒豬排飯</div></div>
+            <div class="member-row"><div class="m-avatar">許</div><div class="m-name">許雅婷</div><div class="m-item">日式炸雞便當</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room" onclick="openRoom(2)">進入揪團房間 →</button></div>
+        </div>
+
+        <div class="gb-card" data-category="飲料">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">五十嵐 外送</div><span class="gb-cat">飲料</span></div>
+            <div class="gb-host">團主：王雨柔 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：工學院二館 B101</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span id="gb3-amt">210</span> / 500</span></div>
+              <div class="bar"><div class="bar-fill" id="gb3-bar" style="width:42%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown" data-sec="5400"><span class="cd-dot"></span><span class="tm">01:30:00</span></div>
+              <div class="member-ct">已有 <strong id="gb3-cnt">3</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members" id="gb3-members">
+            <div class="member-row"><div class="m-avatar">王</div><div class="m-name">王雨柔 <span class="m-badge">團主</span></div><div class="m-item">四季春茶拿鐵 L</div></div>
+            <div class="member-row"><div class="m-avatar">鄭</div><div class="m-name">鄭凱文</div><div class="m-item">珍珠奶茶 L</div></div>
+            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林怡君</div><div class="m-item">抹茶拿鐵 M</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room" onclick="openRoom(3)">進入揪團房間 →</button></div>
+        </div>
+
+        <div class="gb-card" data-category="日式">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">壽司郎外送</div><span class="gb-cat">日式</span></div>
+            <div class="gb-host">團主：黃志偉 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：管理學院一館 M204</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$440 / 600</span></div>
+              <div class="bar"><div class="bar-fill" style="width:73%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown" data-sec="4500"><span class="cd-dot"></span><span class="tm">01:15:00</span></div>
+              <div class="member-ct">已有 <strong>4</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members">
+            <div class="member-row"><div class="m-avatar">黃</div><div class="m-name">黃志偉 <span class="m-badge">團主</span></div><div class="m-item">鮭魚握壽司組合</div></div>
+            <div class="member-row"><div class="m-avatar">蔡</div><div class="m-name">蔡宗翰</div><div class="m-item">生魚片丼飯</div></div>
+            <div class="member-row"><div class="m-avatar">許</div><div class="m-name">許雅婷</div><div class="m-item">明蝦握壽司</div></div>
+            <div class="member-row"><div class="m-avatar">鄭</div><div class="m-name">鄭凱文</div><div class="m-item">炙燒牛肉握壽司</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room" onclick="openRoom(4)">進入揪團房間 →</button></div>
+        </div>
+
+        <div class="gb-card" data-category="速食">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">丹丹漢堡</div><span class="gb-cat">速食</span></div>
+            <div class="gb-host">團主：劉美玲 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：圖書館一樓門口</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$185 / 350</span></div>
+              <div class="bar"><div class="bar-fill" style="width:53%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown" data-sec="6300"><span class="cd-dot"></span><span class="tm">01:45:00</span></div>
+              <div class="member-ct">已有 <strong>3</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members">
+            <div class="member-row"><div class="m-avatar">劉</div><div class="m-name">劉美玲 <span class="m-badge">團主</span></div><div class="m-item">招牌漢堡套餐</div></div>
+            <div class="member-row"><div class="m-avatar">吳</div><div class="m-name">吳建廷</div><div class="m-item">辣味雞腿堡</div></div>
+            <div class="member-row"><div class="m-avatar">張</div><div class="m-name">張博文</div><div class="m-item">丹丹牛肉麵</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room">進入揪團房間 →</button></div>
+        </div>
+
+        <div class="gb-card" data-category="中式">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">老四川麻辣燙</div><span class="gb-cat">中式</span></div>
+            <div class="gb-host">團主：許雅婷 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：法商學院 B棟入口</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$320 / 500</span></div>
+              <div class="bar"><div class="bar-fill" style="width:64%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown" data-sec="2700"><span class="cd-dot"></span><span class="tm">45:00</span></div>
+              <div class="member-ct">已有 <strong>4</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members">
+            <div class="member-row"><div class="m-avatar">許</div><div class="m-name">許雅婷 <span class="m-badge">團主</span></div><div class="m-item">麻辣鴛鴦鍋底</div></div>
+            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林怡君</div><div class="m-item">清湯牛肉麵</div></div>
+            <div class="member-row"><div class="m-avatar">李</div><div class="m-name">李欣怡</div><div class="m-item">麻辣燙套餐</div></div>
+            <div class="member-row"><div class="m-avatar">黃</div><div class="m-name">黃志偉</div><div class="m-item">川味紅油抄手</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room">進入揪團房間 →</button></div>
+        </div>
+
+        <div class="gb-card" data-category="其他">
+          <div class="gb-head">
+            <div class="gb-top"><div class="gb-name">拿坡里披薩外送</div><span class="gb-cat">其他</span></div>
+            <div class="gb-host">團主：蔡宗翰 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
+          </div>
+          <div class="gb-meta">
+            <div class="gb-loc"><span class="loc-dot"></span>取餐：獸醫學院 V棟交誼廳</div>
+            <div class="gb-prog-wrap">
+              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$460 / 800</span></div>
+              <div class="bar"><div class="bar-fill" style="width:58%"></div></div>
+            </div>
+            <div class="gb-status">
+              <div class="countdown" data-sec="7200"><span class="cd-dot"></span><span class="tm">02:00:00</span></div>
+              <div class="member-ct">已有 <strong>4</strong> 人</div>
+            </div>
+          </div>
+          <div class="gb-members">
+            <div class="member-row"><div class="m-avatar">蔡</div><div class="m-name">蔡宗翰 <span class="m-badge">團主</span></div><div class="m-item">瑪格麗特 12吋</div></div>
+            <div class="member-row"><div class="m-avatar">王</div><div class="m-name">王雨柔</div><div class="m-item">BBQ 雞肉披薩</div></div>
+            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林怡君</div><div class="m-item">海鮮總匯披薩</div></div>
+            <div class="member-row"><div class="m-avatar">張</div><div class="m-name">張博文</div><div class="m-item">四季披薩 9吋</div></div>
+          </div>
+          <div class="gb-footer"><button class="btn-room">進入揪團房間 →</button></div>
+        </div>
+
+      </div><!-- /cards-row -->
+    </div><!-- /panel-inner -->
+  </div><!-- /hpanel-gb -->
+
+</section>
+
+<!-- ══ Create GB Modal ══ -->
+<div class="modal-overlay" id="create-gb-modal" onclick="closeCreateOnBg(event,'create-gb-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">發布新揪團</div>
+        <div class="modal-sub">填寫資訊後系統自動建立私人揪團房間</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('create-gb-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Success state -->
+      <div class="submit-success" id="gb-success">
+        <div class="submit-success-icon green">✓</div>
+        <div class="submit-success-title">揪團已成功建立！</div>
+        <div class="submit-success-sub">房間連結已複製，快分享給同學吧</div>
+      </div>
+      <!-- Form -->
+      <div id="gb-form-body">
+        <div class="modal-section">
+          <div class="modal-sect-title">基本資訊</div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label">餐廳名稱 <span class="req">*</span></label>
+              <input class="form-ctrl" type="text" placeholder="例：麥當勞興大店" id="gbf-name">
+            </div>
+            <div class="form-field">
+              <label class="form-label">餐廳類別 <span class="req">*</span></label>
+              <select class="form-ctrl" id="gbf-cat">
+                <option value="">請選擇</option>
+                <option>速食</option>
+                <option>中式</option>
+                <option>日式</option>
+                <option>飲料</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="form-field" style="grid-column:1/-1">
+              <label class="form-label">取餐地點 <span class="req">*</span></label>
+              <input class="form-ctrl" type="text" placeholder="例：理學院一樓大廳" id="gbf-loc">
+            </div>
+          </div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-sect-title">金額與時間設定</div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label">外送費 <span class="req">*</span></label>
+              <div class="form-row-inline">
+                <span style="padding:10px 4px 10px 12px;border:1px solid var(--border);border-right:none;border-radius:var(--r) 0 0 var(--r);background:var(--bg2);font-size:13px;color:var(--text3);white-space:nowrap">NT$</span>
+                <input class="form-ctrl" type="number" placeholder="60" id="gbf-delivery" style="border-radius:0 var(--r) var(--r) 0;border-left:none">
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">最低金額門檻</label>
+              <div class="form-row-inline">
+                <span style="padding:10px 4px 10px 12px;border:1px solid var(--border);border-right:none;border-radius:var(--r) 0 0 var(--r);background:var(--bg2);font-size:13px;color:var(--text3);white-space:nowrap">NT$</span>
+                <input class="form-ctrl" type="number" placeholder="400" id="gbf-min" style="border-radius:0 var(--r) var(--r) 0;border-left:none">
+              </div>
+              <span class="form-hint">不填則無門檻限制</span>
+            </div>
+            <div class="form-field" style="grid-column:1/-1">
+              <label class="form-label">結單時間 <span class="req">*</span></label>
+              <select class="form-ctrl" id="gbf-deadline">
+                <option value="">請選擇</option>
+                <option value="30">30 分鐘後</option>
+                <option value="60">1 小時後</option>
+                <option value="90">1.5 小時後</option>
+                <option value="120">2 小時後</option>
+                <option value="custom">自訂時間</option>
+              </select>
+            </div>
+            <div class="form-field" id="gbf-custom-time-wrap" style="display:none;grid-column:1/-1">
+              <label class="form-label">指定結單時刻</label>
+              <input class="form-ctrl" type="time" id="gbf-custom-time">
+            </div>
+          </div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-sect-title">備註（選填）</div>
+          <div class="form-grid full">
+            <div class="form-field">
+              <textarea class="form-ctrl" placeholder="例：只接受 Foodpanda、請準時取餐…" id="gbf-note"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-section" style="border:none;padding-top:0">
+          <button class="modal-submit green" onclick="submitCreateGB()">建立揪團房間</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Profile Side Panel ══ -->
+<div class="profile-overlay" id="profile-overlay" onclick="closeProfile()"></div>
+<div class="profile-panel" id="profile-panel">
+  <div class="pp-header">
+    <span style="font-size:13px;font-weight:700;color:var(--text)" id="pp-header-title">個人頁面</span>
+    <button class="pp-close" onclick="closeProfile()">✕</button>
+  </div>
+  <div class="pp-body" id="pp-body">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<!-- ══ Room Modal ══ -->
+<div class="modal-overlay" id="room-modal" onclick="closeRoomOnBg(event)">
+  <div class="modal" id="room-modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="room-title"></div>
+        <div class="modal-sub" id="room-sub"></div>
+      </div>
+      <button class="modal-close" onclick="closeRoom()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-sect-title">揪團概況</div>
+        <div class="room-status">
+          <div class="room-stat"><div class="room-stat-val" id="room-member-n">—</div><div class="room-stat-lbl">目前人數</div></div>
+          <div class="room-stat"><div class="room-stat-val" id="room-total-amt">—</div><div class="room-stat-lbl">目前總金額</div></div>
+          <div class="room-stat"><div class="room-stat-val" id="room-timer-display">—</div><div class="room-stat-lbl">結單倒數</div></div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-sect-title">成員與點餐清單</div>
+        <div class="room-members" id="room-members-list"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-sect-title">費用試算</div>
+        <div id="room-cost-breakdown"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-sect-title">待審核申請</div>
+        <div class="approval-board" id="approval-board">
+          <div class="pending-req" id="req-1">
+            <div class="pr-avatar">周</div>
+            <div class="pr-info"><div class="pr-name">周雅文</div><div class="pr-item">雙層牛堡套餐</div></div>
+            <div class="pr-price">NT$139</div>
+            <div class="pr-actions">
+              <button class="btn-approve" onclick="approveReq('req-1')">同意</button>
+              <button class="btn-reject" onclick="rejectReq('req-1')">婉拒</button>
+            </div>
+          </div>
+          <div class="pending-req" id="req-2">
+            <div class="pr-avatar">范</div>
+            <div class="pr-info"><div class="pr-name">范俊宇</div><div class="pr-item">麥辣雞腿堡</div></div>
+            <div class="pr-price">NT$129</div>
+            <div class="pr-actions">
+              <button class="btn-approve" onclick="approveReq('req-2')">同意</button>
+              <button class="btn-reject" onclick="rejectReq('req-2')">婉拒</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-sect-title">申請加入此團</div>
+        <div class="join-form">
+          <div class="form-row">
+            <input class="form-input" type="text" placeholder="您的姓名" id="room-join-name">
+            <input class="form-input" type="text" placeholder="想點的餐點" id="room-join-item">
+            <input class="form-input" type="number" placeholder="金額" id="room-join-price" style="width:80px;flex:none">
+          </div>
+          <div class="form-row">
+            <button class="btn-join-room" id="room-join-btn" onclick="joinRoom()" style="background:var(--bg2);color:var(--text2);border:1px solid var(--border)">送出申請</button>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">申請送出後需等待團主審核同意後才正式加入</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-info" id="room-delivery-note"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)" id="room-per-person"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Stats ══ -->
+<section id="stats">
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-n"><span class="count" data-t="38">0</span><sub> 團</sub></div><div class="stat-lbl">本週活躍揪團</div></div>
+    <div class="stat-cell"><div class="stat-n"><span class="count" data-t="8560">0</span><sub> 元</sub></div><div class="stat-lbl">累計省下運費</div></div>
+    <div class="stat-cell"><div class="stat-n"><span class="count" data-t="1240">0</span><sub>+</sub></div><div class="stat-lbl">社群成員</div></div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="cta-kicker">立即加入</div>
+    <h2 class="cta-h">加入興大外送揪團，<br>從今天開始。</h2>
+    <p class="cta-p">用學校信箱註冊，取得 JWT 會員資格，開始揪團、分享、累積誠信積分。</p>
+    <div class="cta-form">
+      <input type="email" class="cta-in" placeholder="your@nchu.edu.tw" id="cta-email">
+      <button class="cta-btn" onclick="handleSignup()">立即加入</button>
+    </div>
+    <p class="cta-note">僅限中興大學 @nchu.edu.tw 信箱 · JWT 安全認證保護</p>
+  </div>
+</section>
+
+<!-- ══ Footer ══ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="ft-logo"><div class="ft-logo-mark">食</div><div class="ft-logo-name">惜食揪團 FoodWeb</div></div>
+      <p class="ft-tagline">讓每一頓飯都物盡其用，讓每一次外送都節省開支。中興大學校園永續飲食平台。</p>
+      <span class="ft-nchu">國立中興大學</span>
+    </div>
+    <div>
+      <div class="ft-col-t">平台功能</div>
+      <ul class="ft-links"><li><a href="#">揪團外送</a></li><li><a href="#">會員系統</a></li><li><a href="#">誠信積分</a></li></ul>
+    </div>
+    <div>
+      <div class="ft-col-t">技術規格</div>
+      <ul class="ft-links"><li><a href="#">FastAPI 後端</a></li><li><a href="#">SQLAlchemy ORM</a></li><li><a href="#">JWT 身份驗證</a></li><li><a href="#">Pydantic 驗證</a></li></ul>
+    </div>
+    <div>
+      <div class="ft-col-t">關於專案</div>
+      <ul class="ft-links"><li><a href="#">專案企劃書</a></li><li><a href="#">API 文件</a></li><li><a href="#">使用條款</a></li><li><a href="#">聯絡我們</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <div class="footer-copy">© 2024 惜食揪團 FoodWeb · 國立中興大學 網際網路系統設計課程</div>
+    <div class="footer-team">指導教授：<strong>黃仲誼 博士</strong> · 專案成員：<strong>葉潔頤、賴姿妍</strong></div>
+  </div>
+</footer>
+
+<script>
+/* ── Nav scroll ── */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', scrollY > 30));
+
+
+/* ── Counter animation ── */
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.t, dur = 1600, t0 = performance.now();
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(ease * target).toLocaleString('zh-TW');
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    countObs.unobserve(el);
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('.count').forEach(c => countObs.observe(c));
+
+/* ── Countdown timers ── */
+function fmt(s) {
+  if (s <= 0) return '已截止';
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  return h ? `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+           : `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+const allTimers = [];
+document.querySelectorAll('[data-sec]').forEach(el => allTimers.push({ el, sec: +el.dataset.sec }));
+setInterval(() => {
+  allTimers.forEach(t => {
+    if (t.sec <= 0) return; t.sec--;
+    const tgt = t.el.querySelector('.tm');
+    if (tgt) tgt.textContent = fmt(t.sec);
+    if (t.sec < 600) { const p = t.el.closest('.countdown'); if (p) p.classList.add('urgent'); }
+  });
+}, 1000);
+
+/* ── Create GB Modal ── */
+function openCreateGB() {
+  document.getElementById('gb-success').classList.remove('show');
+  document.getElementById('gb-form-body').style.display = '';
+  document.getElementById('create-gb-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeCreateOnBg(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+// Show/hide custom time input
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('gbf-deadline').addEventListener('change', function() {
+    document.getElementById('gbf-custom-time-wrap').style.display =
+      this.value === 'custom' ? '' : 'none';
+  });
+});
+
+function submitCreateGB() {
+  const name = document.getElementById('gbf-name').value.trim();
+  const cat  = document.getElementById('gbf-cat').value;
+  const loc  = document.getElementById('gbf-loc').value.trim();
+  const dl   = document.getElementById('gbf-deadline').value;
+  // Basic validation
+  const fields = [
+    { el: document.getElementById('gbf-name'), val: name },
+    { el: document.getElementById('gbf-cat'),  val: cat },
+    { el: document.getElementById('gbf-loc'),  val: loc },
+    { el: document.getElementById('gbf-deadline'), val: dl },
+  ];
+  let valid = true;
+  fields.forEach(f => {
+    if (!f.val) { f.el.style.borderColor = 'var(--orange)'; valid = false; }
+    else f.el.style.borderColor = '';
+  });
+  if (!valid) return;
+
+  console.log('[API] POST /api/group-buy/create →', {
+    name, cat, loc,
+    delivery: document.getElementById('gbf-delivery').value,
+    min_amount: document.getElementById('gbf-min').value,
+    deadline_minutes: dl,
+    note: document.getElementById('gbf-note').value,
+  });
+
+  document.getElementById('gb-form-body').style.display = 'none';
+  document.getElementById('gb-success').classList.add('show');
+  setTimeout(() => closeModal('create-gb-modal'), 2200);
+}
+
+/* ── GB Category Filter ── */
+function filterGB(btn) {
+  const cat = btn.dataset.cat;
+  document.querySelectorAll('#gb-filter .filt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#gb-cards-row .gb-card').forEach(card => {
+    const match = cat === '全部' || card.dataset.category === cat;
+    card.classList.toggle('hidden', !match);
+  });
+}
+
+/* ── Room Modal ── */
+const roomData = {
+  1: { name:'麥當勞 興大店', host:'林小明', location:'理學院一樓大廳', deadline:'19:00', delivery:60,
+       members:[{name:'林小明',item:'大麥克套餐',price:149,isHost:true},{name:'陳佳慧',item:'雙層牛堡',price:139},{name:'王雨柔',item:'麥辣雞腿堡套餐',price:169},{name:'張博文',item:'麥香魚 × 2',price:118},{name:'李欣怡',item:'麥脆雞套餐',price:119},{name:'吳建廷',item:'大麥克 + 可樂',price:149}]},
+  2: { name:'胡椒廚房', host:'陳佳慧', location:'農學院圖書館門口', deadline:'12:30', delivery:40,
+       members:[{name:'陳佳慧',item:'招牌胡椒豬排飯',price:120,isHost:true},{name:'黃志偉',item:'嫩煎雞排飯',price:110},{name:'劉美玲',item:'蔬食咖哩飯',price:100},{name:'蔡宗翰',item:'招牌胡椒豬排飯',price:120},{name:'許雅婷',item:'日式炸雞便當',price:130}]},
+  3: { name:'五十嵐 外送', host:'王雨柔', location:'工學院二館 B101', deadline:'14:00', delivery:30,
+       members:[{name:'王雨柔',item:'四季春茶拿鐵 L',price:75,isHost:true},{name:'鄭凱文',item:'珍珠奶茶 L',price:75},{name:'林怡君',item:'抹茶拿鐵 M',price:60}]},
+};
+let currentRoom = null;
+function openRoom(id) {
+  currentRoom = id; renderRoom(roomData[id]);
+  document.getElementById('room-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function renderRoom(d) {
+  document.getElementById('room-title').textContent = d.name;
+  document.getElementById('room-sub').textContent = `團主：${d.host} · 取餐：${d.location} · 結單 ${d.deadline}`;
+  const food = d.members.reduce((s,m)=>s+m.price,0), perPerson = Math.ceil(d.delivery/d.members.length);
+  document.getElementById('room-member-n').textContent = d.members.length;
+  document.getElementById('room-total-amt').textContent = `NT$${food+d.delivery}`;
+  document.getElementById('room-per-person').textContent = `每人分攤運費：NT$${perPerson}`;
+  document.getElementById('room-delivery-note').textContent = `外送費 NT$${d.delivery} 依人數平均分攤`;
+  document.getElementById('room-timer-display').textContent = d.deadline;
+  document.getElementById('room-members-list').innerHTML = d.members.map(m=>
+    `<div class="room-member"><div class="rm-avatar">${m.name[0]}</div><div class="rm-name">${m.name}${m.isHost?'<span class="rm-badge">團主</span>':''}</div><div class="rm-item">${m.item}</div><div class="rm-price">NT$${m.price}</div></div>`
+  ).join('');
+  document.getElementById('room-cost-breakdown').innerHTML =
+    `<div class="cost-row"><span class="cost-label">餐點小計</span><span class="cost-val">NT$${food}</span></div>
+     <div class="cost-row"><span class="cost-label">外送費</span><span class="cost-val">NT$${d.delivery}</span></div>
+     <div class="cost-row"><span class="cost-label">每人分攤運費</span><span class="cost-val">≈ NT$${perPerson}</span></div>
+     <div class="cost-row total"><span class="cost-label">總計</span><span class="cost-val">NT$${food+d.delivery}</span></div>`;
+}
+function closeRoom() { document.getElementById('room-modal').classList.remove('open'); document.body.style.overflow=''; ['room-join-name','room-join-item','room-join-price'].forEach(id=>document.getElementById(id).value=''); }
+function closeRoomOnBg(e) { if (e.target===document.getElementById('room-modal')) closeRoom(); }
+function joinRoom() {
+  const name=document.getElementById('room-join-name').value.trim(), item=document.getElementById('room-join-item').value.trim(), price=parseInt(document.getElementById('room-join-price').value)||0;
+  if (!name||!item||!price) return;
+  const d=roomData[currentRoom]; d.members.push({name,item,price}); renderRoom(d);
+  const cnt=document.getElementById(`gb${currentRoom}-cnt`); if(cnt) cnt.textContent=d.members.length;
+  const ml=document.getElementById(`gb${currentRoom}-members`);
+  if(ml){ const row=document.createElement('div'); row.className='member-row'; row.innerHTML=`<div class="m-avatar">${name[0]}</div><div class="m-name">${name}</div><div class="m-item">${item}</div>`; ml.appendChild(row); }
+  ['room-join-name','room-join-item','room-join-price'].forEach(id=>document.getElementById(id).value='');
+  const btn=document.getElementById('room-join-btn'); btn.textContent='✓ 已加入！'; btn.style.background='var(--green-l)';
+  setTimeout(()=>{ btn.textContent='加入揪團'; btn.style.background=''; },2500);
+}
+
+/* ── Email signup ── */
+function handleSignup() {
+  const input=document.getElementById('cta-email'), val=input.value.trim();
+  if (!val.endsWith('@nchu.edu.tw')) { input.value=''; input.placeholder='請使用 @nchu.edu.tw 信箱'; setTimeout(()=>input.placeholder='your@nchu.edu.tw',3000); return; }
+  input.value=''; input.placeholder='已發送確認信，請查收！';
+}
+
+/* ── Scroll reveal ── */
+const revObs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}}),{threshold:.08});
+document.querySelectorAll('.gb-card,.stat-cell').forEach(el=>{
+  el.style.cssText+='opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .4s ease;';
+  revObs.observe(el);
+});
+
+/* ── User data ── */
+const userData = {
+  '林小明': { dept:'資訊工程學系 三年級', since:'2023-09', score:4.9, compliance:97, gb:23, fs:8,
+    history:[
+      {type:'gb',title:'麥當勞揪團 × 8人',date:'04/15',ok:true},
+      {type:'fs',title:'發布：系辦便當 6份',date:'04/12',ok:true},
+      {type:'gb',title:'胡椒廚房揪團 × 5人',date:'04/08',ok:true},
+      {type:'gb',title:'五十嵐外送揪團',date:'04/01',ok:true},
+    ]},
+  '陳佳慧': { dept:'生物科技學系 四年級', since:'2023-03', score:4.7, compliance:92, gb:14, fs:19,
+    history:[
+      {type:'fs',title:'發布：生日蛋糕 8片',date:'04/16',ok:true},
+      {type:'gb',title:'胡椒廚房揪團 × 9人',date:'04/14',ok:true},
+      {type:'fs',title:'發布：研討會飲料 12瓶',date:'04/10',ok:true},
+    ]},
+  '王雨柔': { dept:'外國語文學系 二年級', since:'2024-02', score:4.5, compliance:88, gb:9, fs:6,
+    history:[
+      {type:'gb',title:'五十嵐外送揪團',date:'04/17',ok:false},
+      {type:'fs',title:'認領：系辦便當 1份',date:'04/15',ok:true},
+    ]},
+  '黃志偉': { dept:'管理學院 企業管理系', since:'2023-09', score:4.8, compliance:95, gb:18, fs:3,
+    history:[
+      {type:'gb',title:'壽司郎揪團 × 4人',date:'04/17',ok:true},
+      {type:'gb',title:'麥當勞揪團 × 6人',date:'04/11',ok:true},
+    ]},
+  '我的帳號': { dept:'電機工程學系 三年級', since:'2023-09', score:4.6, compliance:91, gb:12, fs:5,
+    history:[
+      {type:'gb',title:'參與：麥當勞揪團',date:'04/17',ok:true},
+      {type:'fs',title:'認領：研討會飲料 2瓶',date:'04/15',ok:true},
+      {type:'gb',title:'發布：胡椒廚房揪團',date:'04/10',ok:true},
+      {type:'fs',title:'發布：零食分享 3包',date:'04/05',ok:true},
+    ]},
+};
+
+const avatarColors = {
+  '林':'#2a6e3c','陳':'#b53a18','王':'#a07828','黃':'#3a5a8e','劉':'#7a3a8e',
+  '蔡':'#2a7a6e','許':'#8e3a3a','鄭':'#4a7a2a','吳':'#6e4a2a','張':'#2a4a8e',
+  '我':'#2a6e3c',
+};
+function avatarColor(name) { return avatarColors[name[0]] || '#5a5040'; }
+
+/* ── Profile panel ── */
+function openProfile(name) {
+  const u = userData[name] || { dept:'中興大學', since:'2024-01', score:4.0, compliance:80, gb:1, fs:1, history:[] };
+  const initial = name === '我的帳號' ? '葉' : name[0];
+  document.getElementById('pp-header-title').textContent = name === '我的帳號' ? '我的個人頁面' : `${name} 的頁面`;
+
+  const starsFilled = Math.round(u.score);
+  const starsHTML = [1,2,3,4,5].map(i =>
+    `<div class="pp-star"><div class="pp-star-fill" style="width:${i<=starsFilled?100:i-1<u.score?(u.score%1)*100:0}%"></div></div>`
+  ).join('');
+
+  const histHTML = u.history.filter(h => h.type === 'gb').map(h =>
+    `<div class="pp-hist-row">
+      <span class="pp-hist-type gb">揪團</span>
+      <span class="pp-hist-title">${h.title}</span>
+      <span class="pp-hist-date">${h.date}</span>
+      <span class="pp-hist-status ${h.ok?'ok':'pending'}">${h.ok?'完成':'進行中'}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('pp-body').innerHTML = `
+    <div class="pp-avatar-wrap">
+      <div class="pp-avatar" style="background:${avatarColor(initial)};color:#fff">${initial}</div>
+      <div>
+        <div class="pp-name">${name === '我的帳號' ? '葉潔頤' : name}</div>
+        <div class="pp-dept">${u.dept}</div>
+        <div class="pp-since">加入於 ${u.since}</div>
+      </div>
+    </div>
+    <div class="pp-rep-card">
+      <div class="pp-rep-top">
+        <span class="pp-rep-label">信譽積分</span>
+        <div class="pp-score-wrap"><span class="pp-score">${u.score.toFixed(1)}</span><span class="pp-score-max">/ 5.0</span></div>
+      </div>
+      <div class="pp-score-stars">${starsHTML}</div>
+      <div class="pp-rep-bars">
+        <div class="pp-rep-row"><span class="pp-rep-row-lbl">履約率</span><div class="pp-rep-track"><div class="pp-rep-fill" style="width:${u.compliance}%"></div></div><span class="pp-rep-val">${u.compliance}%</span></div>
+        <div class="pp-rep-row"><span class="pp-rep-row-lbl">準時率</span><div class="pp-rep-track"><div class="pp-rep-fill" style="width:${Math.min(u.compliance+4,100)}%;background:var(--gold)"></div></div><span class="pp-rep-val">${Math.min(u.compliance+4,100)}%</span></div>
+        <div class="pp-rep-row"><span class="pp-rep-row-lbl">評價數</span><div class="pp-rep-track"><div class="pp-rep-fill" style="width:${Math.min(u.gb*3,100)}%;background:var(--orange)"></div></div><span class="pp-rep-val">${u.gb}</span></div>
+      </div>
+    </div>
+    <div class="pp-stats">
+      <div class="pp-stat"><div class="pp-stat-n">${u.gb}</div><div class="pp-stat-l">揪團次數</div></div>
+      <div class="pp-stat"><div class="pp-stat-n">${u.compliance}%</div><div class="pp-stat-l">履約率</div></div>
+    </div>
+    ${u.history.length ? `<div class="pp-section-title">近期活動</div><div class="pp-history">${histHTML}</div>` : ''}
+  `;
+  document.getElementById('profile-panel').classList.add('open');
+  document.getElementById('profile-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProfile() {
+  document.getElementById('profile-panel').classList.remove('open');
+  document.getElementById('profile-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── Approval board ── */
+function approveReq(reqId) {
+  const el = document.getElementById(reqId);
+  if (!el) return;
+  el.classList.add('approved');
+  el.querySelector('.pr-actions').innerHTML = '<span style="font-size:11px;color:var(--green);font-weight:700">✓ 已同意</span>';
+  // Add to member list
+  const name = el.querySelector('.pr-name').textContent;
+  const item = el.querySelector('.pr-item').textContent;
+  const price = el.querySelector('.pr-price').textContent;
+  const ml = document.getElementById('room-members-list');
+  if (ml) {
+    const row = document.createElement('div'); row.className = 'room-member';
+    row.innerHTML = `<div class="rm-avatar">${name[0]}</div><div class="rm-name">${name} <span style="font-size:9px;padding:1px 5px;border-radius:3px;background:var(--green-bg);color:var(--green);font-weight:700;margin-left:4px">新加入</span></div><div class="rm-item">${item}</div><div class="rm-price">${price}</div>`;
+    ml.appendChild(row);
+  }
+}
+function rejectReq(reqId) {
+  const el = document.getElementById(reqId);
+  if (!el) return;
+  el.classList.add('rejected');
+  el.querySelector('.pr-actions').innerHTML = '<span style="font-size:11px;color:var(--text3);font-weight:700">已婉拒</span>';
+}
+
+// Override joinRoom to submit request instead
+const _origJoinRoom = joinRoom;
+joinRoom = function() {
+  const name  = document.getElementById('room-join-name').value.trim();
+  const item  = document.getElementById('room-join-item').value.trim();
+  const price = parseInt(document.getElementById('room-join-price').value) || 0;
+  if (!name || !item || !price) return;
+
+  const board = document.getElementById('approval-board');
+  const reqId = 'req-' + Date.now();
+  const row = document.createElement('div'); row.className = 'pending-req'; row.id = reqId;
+  row.innerHTML = `
+    <div class="pr-avatar">${name[0]}</div>
+    <div class="pr-info"><div class="pr-name">${name}</div><div class="pr-item">${item}</div></div>
+    <div class="pr-price">NT$${price}</div>
+    <div class="pr-actions">
+      <button class="btn-approve" onclick="approveReq('${reqId}')">同意</button>
+      <button class="btn-reject" onclick="rejectReq('${reqId}')">婉拒</button>
+    </div>`;
+  if (board) board.appendChild(row);
+
+  ['room-join-name','room-join-item','room-join-price'].forEach(id => document.getElementById(id).value = '');
+  const btn = document.getElementById('room-join-btn');
+  btn.textContent = '✓ 申請已送出'; btn.style.background = 'var(--green)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--green)';
+  setTimeout(() => { btn.textContent = '送出申請'; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 2500);
+  console.log('[API] POST /api/group-buy/join-request →', { name, item, price });
+};
+</script>
+</body>
+</html>

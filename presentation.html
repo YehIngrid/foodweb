@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>惜食揪團 FoodWeb — 口頭報告簡報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f2ece0;
+  --bg2:      #e9e2d3;
+  --bg3:      #ede7da;
+  --surface:  #f8f5ee;
+  --card:     #ffffff;
+  --border:   #ddd6c6;
+  --border-s: #ccc4b0;
+  --text:     #1c1710;
+  --text2:    #5c5040;
+  --text3:    #8a7d68;
+  --text4:    #b0a488;
+  --green:    #2a6e3c;
+  --green-l:  #3d9452;
+  --green-bg: rgba(42,110,60,.10);
+  --green-bd: rgba(42,110,60,.25);
+  --orange:   #b53a18;
+  --orange-l: #d44e28;
+  --orange-bg:rgba(181,58,24,.10);
+  --orange-bd:rgba(181,58,24,.25);
+  --gold:     #a07828;
+  --gold-bg:  rgba(160,120,40,.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--text);
+}
+
+/* ─── Deck ─────────────────────────────────── */
+.deck {
+  width: 100%; height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity .45s ease, transform .45s ease;
+  transform: translateX(40px);
+  background: var(--bg);
+  overflow: hidden;
+}
+.slide.active {
+  opacity: 1; pointer-events: all;
+  transform: translateX(0);
+}
+.slide.out {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+/* ─── Nav Bar ───────────────────────────────── */
+.snav {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  z-index: 999;
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(28,23,16,.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 40px;
+  padding: 8px 20px;
+}
+.snav-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.08); border: none; cursor: pointer;
+  color: rgba(255,255,255,.7); font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+}
+.snav-btn:hover { background: rgba(255,255,255,.18); color: #fff; }
+.snav-counter {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: rgba(255,255,255,.5); letter-spacing: .08em;
+  min-width: 52px; text-align: center;
+}
+.snav-dots {
+  display: flex; gap: 5px; align-items: center;
+}
+.snav-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  transition: background .2s, transform .2s;
+  cursor: pointer;
+}
+.snav-dot.on { background: #fff; transform: scale(1.3); }
+
+/* ─── Shared Layout Atoms ───────────────────── */
+.slide-inner {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 56px 72px 80px;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+}
+
+.slide-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; margin-bottom: 20px;
+  padding: 4px 12px; border-radius: 20px;
+  width: fit-content;
+}
+.badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.badge-orange { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+.badge-gold { background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(160,120,40,.3); }
+.badge-neutral { background: rgba(28,23,16,.06); color: var(--text3); border: 1px solid var(--border); }
+
+.slide-num {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; color: var(--text4);
+  margin-bottom: 32px;
+}
+
+h2.slide-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -.025em;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h2.slide-title em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--green);
+  font-size: 1.05em;
+}
+.slide-subtitle {
+  font-size: 15px; font-weight: 300;
+  color: var(--text2); line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.rule { height: 1px; background: var(--border); margin: 32px 0; }
+
+/* ─── Slide 1 – Title ───────────────────────── */
+#s1 {
+  background: var(--text);
+}
+#s1 .slide-inner {
+  justify-content: center;
+  padding: 80px 96px;
+}
+.title-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--green-l);
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 10px;
+}
+.title-eyebrow::before {
+  content: '';
+  display: block; width: 32px; height: 1px;
+  background: var(--green-l);
+}
+#s1 h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 900; line-height: 1.05;
+  letter-spacing: -.03em;
+  color: var(--bg);
+  margin-bottom: 16px;
+}
+#s1 h1 em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--green-l);
+  font-size: .85em;
+}
+#s1 .title-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px, 2.5vw, 32px); font-style: italic;
+  color: rgba(242,236,224,.45); margin-bottom: 40px;
+  letter-spacing: .02em;
+}
+.title-meta {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.title-meta-item {
+  display: flex; flex-direction: column; gap: 3px;
+}
+.meta-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: rgba(242,236,224,.35);
+}
+.meta-value {
+  font-size: 13px; font-weight: 500;
+  color: rgba(242,236,224,.7);
+}
+.title-deco {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 42%;
+  background: linear-gradient(135deg, var(--green) 0%, #1a4526 100%);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.title-deco-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  opacity: .8;
+}
+.deco-icon {
+  width: 72px; height: 72px; border-radius: 16px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+}
+.deco-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.deco-tags {
+  display: flex; flex-direction: column; gap: 10px; align-items: center;
+}
+.deco-tag {
+  padding: 6px 18px; border-radius: 20px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.85);
+  font-family: 'Noto Serif TC', serif;
+}
+
+/* ─── Slide 2 – 系統目的 ────────────────────── */
+.problem-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-bottom: 32px;
+}
+.problem-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  position: relative; overflow: hidden;
+}
+.problem-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.problem-card.p-orange::before { background: var(--orange); }
+.problem-card.p-green::before { background: var(--green); }
+.pc-icon { font-size: 28px; margin-bottom: 12px; }
+.pc-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 10px; color: var(--text);
+}
+.pc-body { font-size: 13px; color: var(--text2); line-height: 1.85; }
+.solution-banner {
+  background: var(--green);
+  border-radius: 14px;
+  padding: 24px 32px;
+  display: flex; align-items: center; gap: 20px;
+}
+.sb-arrow {
+  font-size: 28px; color: rgba(255,255,255,.5);
+  flex-shrink: 0;
+}
+.sb-text {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px; font-weight: 600;
+  color: #fff; line-height: 1.6;
+}
+.sb-text span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.1em;
+  opacity: .85;
+}
+
+/* ─── Slide 3 – 使用情境 ────────────────────── */
+.scenario-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  flex: 1;
+}
+.scenario-card {
+  border-radius: 16px;
+  padding: 32px;
+  display: flex; flex-direction: column; gap: 20px;
+  position: relative; overflow: hidden;
+}
+.scenario-card.sc-green {
+  background: var(--green);
+  color: #fff;
+}
+.scenario-card.sc-orange {
+  background: #c4421c;
+  color: #fff;
+}
+.sc-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px; font-weight: 300; font-style: italic;
+  line-height: 1; opacity: .2;
+  position: absolute; top: 16px; right: 24px;
+}
+.sc-badge {
+  display: inline-block;
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.9);
+  width: fit-content;
+}
+.sc-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px; font-weight: 700;
+  color: #fff;
+}
+.sc-body { font-size: 13px; line-height: 1.85; color: rgba(255,255,255,.8); }
+.sc-who {
+  margin-top: auto;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.sc-who strong { color: rgba(255,255,255,.85); }
+
+/* ─── Slide 4 – 功能規劃 ────────────────────── */
+.feat-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
+  flex: 1;
+}
+.feat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: box-shadow .2s;
+}
+.feat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+.feat-no {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: .1em;
+  color: var(--text4);
+}
+.feat-icon-wrap {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.feat-icon-wrap.g { background: var(--green-bg); border: 1px solid var(--green-bd); }
+.feat-icon-wrap.o { background: var(--orange-bg); border: 1px solid var(--orange-bd); }
+.feat-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 700; color: var(--text);
+}
+.feat-desc { font-size: 12px; color: var(--text2); line-height: 1.75; }
+.feat-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; width: fit-content; margin-top: auto;
+}
+.ft-g { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.ft-o { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+.ft-both {
+  background: linear-gradient(90deg,var(--green-bg),var(--orange-bg));
+  color: var(--text2); border: 1px solid var(--border);
+}
+
+/* ─── Slide 5 – 頁面規劃 ────────────────────── */
+.pages-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  flex: 1;
+}
+.page-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.page-thumb {
+  height: 140px; position: relative;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  padding: 12px;
+  gap: 6px;
+}
+.page-thumb.thumb-green { background: linear-gradient(135deg, var(--green) 0%, #1e5a2c 100%); }
+.page-thumb.thumb-orange { background: linear-gradient(135deg, var(--orange) 0%, #8a2a10 100%); }
+.page-thumb.thumb-gold { background: linear-gradient(135deg, var(--gold) 0%, #7a5a18 100%); }
+.page-thumb.thumb-neutral { background: linear-gradient(135deg, #4a4030 0%, #2a2018 100%); }
+
+/* Mini wireframe elements */
+.wf-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.25); }
+.wf-bar.short { width: 40%; }
+.wf-bar.med { width: 65%; }
+.wf-bar.long { width: 90%; }
+.wf-tabs {
+  display: flex; gap: 4px; margin: 4px 0;
+}
+.wf-tab {
+  height: 18px; border-radius: 4px 4px 0 0;
+  background: rgba(255,255,255,.15);
+  flex: 1;
+}
+.wf-tab.active { background: rgba(255,255,255,.45); }
+.wf-cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4px; flex: 1;
+}
+.wf-card {
+  background: rgba(255,255,255,.12);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,.15);
+}
+.wf-form {
+  display: flex; flex-direction: column; gap: 5px; flex: 1;
+}
+.wf-input {
+  height: 12px; border-radius: 3px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+}
+.wf-btn {
+  height: 18px; border-radius: 4px;
+  background: rgba(255,255,255,.5);
+  margin-top: 4px;
+}
+.wf-list {
+  display: flex; flex-direction: column; gap: 5px; flex: 1;
+}
+.wf-list-item {
+  height: 22px; border-radius: 4px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.15);
+}
+.wf-room {
+  flex: 1; display: flex; flex-direction: column; gap: 4px;
+}
+.wf-progress {
+  height: 8px; border-radius: 4px;
+  background: rgba(255,255,255,.15);
+  position: relative; overflow: hidden;
+}
+.wf-progress-fill {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  border-radius: 4px;
+  background: rgba(255,255,255,.6);
+}
+
+.page-info { padding: 16px; flex: 1; }
+.page-no {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: .12em; color: var(--text4); margin-bottom: 6px;
+}
+.page-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 700; color: var(--text);
+  margin-bottom: 8px;
+}
+.page-desc { font-size: 11px; color: var(--text2); line-height: 1.75; }
+.page-features {
+  margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px;
+}
+.pf-chip {
+  padding: 2px 7px; border-radius: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: .06em;
+  background: var(--bg2); color: var(--text3);
+  border: 1px solid var(--border);
+}
+
+/* ─── Slide 6 – 操作流程 ────────────────────── */
+.flow-container {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  gap: 12px;
+}
+.flow-row {
+  display: flex; align-items: center; gap: 0;
+}
+.flow-node {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  flex: 1;
+}
+.fn-box {
+  width: 100%; max-width: 140px;
+  padding: 12px 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12px; font-weight: 600;
+  line-height: 1.4;
+}
+.fn-box.start {
+  background: var(--text); color: var(--bg);
+  border-radius: 24px;
+}
+.fn-box.neutral {
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text);
+}
+.fn-box.green {
+  background: var(--green-bg); border: 1px solid var(--green-bd);
+  color: var(--green);
+}
+.fn-box.orange {
+  background: var(--orange-bg); border: 1px solid var(--orange-bd);
+  color: var(--orange);
+}
+.fn-box.end-g {
+  background: var(--green); color: #fff;
+  border-radius: 24px;
+}
+.fn-box.end-o {
+  background: var(--orange); color: #fff;
+  border-radius: 24px;
+}
+.fn-label {
+  font-size: 10px; color: var(--text4);
+  font-family: 'DM Mono', monospace; letter-spacing: .08em;
+}
+.flow-arrow {
+  width: 28px; flex-shrink: 0;
+  color: var(--text4); font-size: 16px;
+  text-align: center; position: relative;
+}
+.flow-arrow::before {
+  content: '→';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.flow-split {
+  display: flex; gap: 20px;
+  align-items: stretch;
+}
+.flow-branch {
+  flex: 1;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.flow-branch.gb { border-top: 3px solid var(--green); }
+.flow-branch.fs { border-top: 3px solid var(--orange); }
+.fb-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.fb-title.g { color: var(--green); }
+.fb-title.o { color: var(--orange); }
+.fb-steps {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.fb-step {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+}
+.fb-step-n {
+  width: 20px; height: 20px; border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500;
+}
+.fb-step-n.g { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.fb-step-n.o { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+
+/* ─── Slide 7 – 資料規劃 ────────────────────── */
+.data-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  flex: 1;
+}
+.data-module {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.dm-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.dm-header.green { background: var(--green-bg); }
+.dm-header.orange { background: var(--orange-bg); }
+.dm-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.dm-icon.g { background: var(--green); }
+.dm-icon.o { background: var(--orange); }
+.dm-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px; font-weight: 700; color: var(--text);
+}
+.dm-sub { font-size: 11px; color: var(--text3); }
+.dm-fields {
+  padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.dm-field {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bg2);
+}
+.dm-field:last-child { border-bottom: none; }
+.df-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.df-dot.g { background: var(--green); }
+.df-dot.o { background: var(--orange); }
+.df-name {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  flex: 0 0 120px;
+}
+.df-type {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--text4); flex: 0 0 60px;
+}
+.df-example {
+  font-size: 11px; color: var(--text3);
+  background: var(--bg2); padding: 2px 8px;
+  border-radius: 4px; flex: 1;
+}
+
+/* ─── Slide 8 – 介面草圖 ────────────────────── */
+.wireframe-section {
+  flex: 1; display: flex; flex-direction: column; gap: 16px;
+}
+.wf-browser {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  flex: 1;
+  display: flex; flex-direction: column;
+}
+.wf-browser-bar {
+  padding: 10px 14px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.wf-dot { width: 8px; height: 8px; border-radius: 50%; }
+.wf-dot.r { background: #ff5f57; }
+.wf-dot.y { background: #febc2e; }
+.wf-dot.g { background: #28c840; }
+.wf-url {
+  flex: 1; height: 20px; border-radius: 4px;
+  background: var(--bg); border: 1px solid var(--border);
+  margin: 0 8px;
+  display: flex; align-items: center; padding: 0 10px;
+  font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3);
+}
+.wf-page {
+  flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 8px;
+  background: var(--bg);
+}
+/* Wireframe nav */
+.wfp-nav {
+  height: 28px; border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 12px;
+  gap: 8px;
+}
+.wfp-logo { height: 12px; width: 60px; border-radius: 2px; background: var(--green); opacity: .6; }
+.wfp-links { display: flex; gap: 6px; margin-left: auto; }
+.wfp-link { height: 6px; width: 30px; border-radius: 2px; background: var(--text4); }
+.wfp-btn { height: 14px; width: 40px; border-radius: 3px; background: var(--green); opacity: .5; }
+/* Hero area */
+.wfp-hero {
+  border-radius: 8px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.wfp-h1 { height: 12px; width: 55%; border-radius: 3px; background: var(--text2); opacity: .5; }
+.wfp-h2 { height: 8px; width: 38%; border-radius: 3px; background: var(--text4); }
+.wfp-tabs-row { display: flex; gap: 6px; }
+.wfp-tab {
+  flex: 1; height: 24px; border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+}
+.wfp-tab.active { background: var(--green); border-color: var(--green); }
+/* Cards */
+.wfp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.wfp-card {
+  border-radius: 6px; padding: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.wfp-cbar { height: 6px; border-radius: 2px; background: var(--text4); opacity: .4; }
+.wfp-cbar.short { width: 55%; }
+.wfp-cbar.med { width: 75%; }
+.wfp-progress {
+  height: 5px; border-radius: 3px;
+  background: var(--border); overflow: hidden;
+}
+.wfp-prog-fill {
+  height: 100%; border-radius: 3px;
+  background: var(--green);
+}
+.wfp-cbtn {
+  height: 12px; border-radius: 3px;
+  background: var(--green); opacity: .5;
+  margin-top: 4px;
+}
+/* Annotation arrows */
+.wf-annotations {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.wf-ann {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--text2);
+}
+.wf-ann-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Slide 9 – 分工表 ───────────────────────── */
+.team-table-wrap {
+  flex: 1; display: flex; flex-direction: column; gap: 20px;
+}
+.team-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--card);
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.team-table thead tr {
+  background: var(--text);
+}
+.team-table thead th {
+  padding: 14px 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(242,236,224,.6);
+  text-align: left;
+}
+.team-table tbody tr { border-bottom: 1px solid var(--bg2); }
+.team-table tbody tr:last-child { border-bottom: none; }
+.team-table tbody tr:hover { background: var(--bg); }
+.team-table tbody td {
+  padding: 18px 20px;
+  font-size: 13px; color: var(--text2);
+  vertical-align: top;
+}
+.td-name {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700; color: var(--text);
+  font-size: 15px !important;
+}
+.td-role {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px !important; font-weight: 700;
+  width: fit-content;
+}
+.role-g { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.role-o { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+.role-gold { background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(160,120,40,.3); }
+.role-n { background: rgba(28,23,16,.06); color: var(--text3); border: 1px solid var(--border); }
+.td-tasks { font-size: 12px !important; color: var(--text2); }
+.td-tasks ul { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.td-tasks li::before { content: '— '; color: var(--text4); }
+.grade-row {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 24px;
+  display: flex; align-items: center; gap: 24px;
+}
+.grade-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text3);
+  flex-shrink: 0;
+}
+.grade-items { display: flex; gap: 16px; flex-wrap: wrap; }
+.grade-item {
+  display: flex; align-items: center; gap: 8px;
+}
+.gi-label { font-size: 12px; color: var(--text2); }
+.gi-score {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  font-weight: 700; color: var(--green);
+  background: var(--green-bg); border: 1px solid var(--green-bd);
+  padding: 1px 8px; border-radius: 4px;
+}
+
+/* ─── Animations ─────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide.active .slide-badge,
+.slide.active .slide-num,
+.slide.active h2.slide-title,
+.slide.active .slide-subtitle {
+  animation: fadeUp .5s ease both;
+}
+.slide.active .slide-subtitle { animation-delay: .05s; }
+.slide.active .problem-grid,
+.slide.active .scenario-split,
+.slide.active .feat-grid,
+.slide.active .pages-grid,
+.slide.active .flow-container,
+.slide.active .data-split,
+.slide.active .wireframe-section,
+.slide.active .team-table-wrap {
+  animation: fadeUp .5s .1s ease both;
+}
+
+/* Title slide special */
+#s1 .title-eyebrow { animation: fadeUp .6s ease both; }
+#s1 h1            { animation: fadeUp .6s .07s ease both; }
+#s1 .title-en     { animation: fadeUp .6s .14s ease both; }
+#s1 .title-meta   { animation: fadeUp .6s .21s ease both; }
+
+/* ─── Decorative elements ─────────────────────── */
+.grain {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* Progress bar on title */
+.slide-progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; background: var(--green);
+  z-index: 1000; transition: width .4s ease;
+}
+</style>
+</head>
+<body>
+
+<div class="slide-progress" id="prog"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 1 — TITLE
+  ══════════════════════════════════════════ -->
+  <div class="slide active" id="s1">
+    <div class="title-deco">
+      <div class="deco-grid"></div>
+      <div class="title-deco-inner">
+        <div class="deco-icon">🍱</div>
+        <div class="deco-tags">
+          <div class="deco-tag">揪團外送</div>
+          <div class="deco-tag">惜食分享</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-inner" style="padding-right:calc(42% + 72px);">
+      <div class="title-eyebrow">National Chung Hsing University · 2026</div>
+      <h1>惜食揪團<br><em>FoodWeb</em></h1>
+      <div class="title-en">Share food, share cost, share campus.</div>
+      <div class="title-meta">
+        <div class="title-meta-item">
+          <span class="meta-label">課程</span>
+          <span class="meta-value">網頁程式設計</span>
+        </div>
+        <div class="title-meta-item">
+          <span class="meta-label">學校</span>
+          <span class="meta-value">國立中興大學</span>
+        </div>
+        <div class="title-meta-item">
+          <span class="meta-label">報告時間</span>
+          <span class="meta-value">5 分鐘口頭簡報</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 2 — 主題名稱與系統目的
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">01 · 主題名稱與系統目的</div>
+      <h2 class="slide-title">我們要解決的<br>兩個校園問題</h2>
+      <div class="slide-subtitle">校園裡每天都有兩件事同時發生：食物被浪費、外送費被重複付。<em>FoodWeb</em> 要一次解決它們。</div>
+
+      <div class="problem-grid">
+        <div class="problem-card p-orange">
+          <div class="pc-icon">📦</div>
+          <div class="pc-title">外送費太貴，一個人點不划算</div>
+          <div class="pc-body">
+            系辦、實驗室、宿舍各自訂餐，同一棟大樓多次外送，
+            每人額外負擔 40–80 元運費，長期累積浪費可觀。
+          </div>
+        </div>
+        <div class="problem-card p-green">
+          <div class="pc-icon">🥡</div>
+          <div class="pc-title">活動剩食無人認領，直接丟棄</div>
+          <div class="pc-body">
+            系所活動、教授開會後剩餘的便當與茶點，
+            因缺乏公開平台通報，往往在賞味期限前進入垃圾桶。
+          </div>
+        </div>
+      </div>
+
+      <div class="solution-banner">
+        <div class="sb-arrow">→</div>
+        <div class="sb-text">
+          FoodWeb 提供即時校園平台，整合
+          <span>揪團外送</span> 與 <span>惜食分享</span> 兩大模組，
+          讓中興大學師生分攤運費、零浪費享用剩餘食物。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 3 — 使用情境說明
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">02 · 使用情境說明</div>
+      <h2 class="slide-title">誰會在什麼時候<br>使用 <em>FoodWeb</em>？</h2>
+      <div class="slide-subtitle">兩種最常見的校園情境，對應兩個功能模組。</div>
+
+      <div class="scenario-split" style="flex:1;">
+        <div class="scenario-card sc-green">
+          <div class="sc-number">01</div>
+          <div class="sc-badge">揪團外送</div>
+          <div class="sc-title">午餐時間，實驗室成員想一起訂外送</div>
+          <div class="sc-body">
+            12:00，5 位同學各自想點不同餐廳的餐點，
+            但單獨下單每人都要付 60 元運費。
+            透過 FoodWeb，一人發起揪團、填入餐廳和結單時間，
+            其他人加入後系統自動追蹤進度，
+            達到最低金額門檻才統一下單，<strong style="color:#fff">平均每人省下 45 元</strong>。
+          </div>
+          <div class="sc-who">使用者：<strong>在校學生 / 研究生 / 教職員</strong></div>
+        </div>
+        <div class="scenario-card sc-orange">
+          <div class="sc-number">02</div>
+          <div class="sc-badge">惜食分享</div>
+          <div class="sc-title">系辦活動結束，剩下 10 個便當沒人吃</div>
+          <div class="sc-body">
+            下午 3:00，系辦助理發現會議剩下大量食物。
+            打開 FoodWeb 上傳品項、數量、存放地點與賞味期限，
+            15 分鐘內附近同學收到通知前來認領，
+            系統記錄認領人防止重複，<strong style="color:#fff">食物在 40 分鐘內全數被取走</strong>。
+          </div>
+          <div class="sc-who">使用者：<strong>系辦人員 / 教授 / 學生社團</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 4 — 主要功能規劃
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">03 · 主要功能規劃</div>
+      <h2 class="slide-title">六大核心功能</h2>
+      <div class="slide-subtitle">涵蓋揪團外送與惜食分享全流程，共 6 個功能模組。</div>
+
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-no">F-01</div>
+          <div class="feat-icon-wrap g">🍜</div>
+          <div class="feat-name">揪團外送發布</div>
+          <div class="feat-desc">任何人可發起揪團，填入餐廳名稱、結單時間、取餐地點與最低金額門檻，系統自動建立揪團房間並開放加入。</div>
+          <div class="feat-tag ft-g">揪團外送</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-02</div>
+          <div class="feat-icon-wrap o">🥡</div>
+          <div class="feat-name">惜食上傳分享</div>
+          <div class="feat-desc">填寫食物品項、份數、存放地點與賞味期限，快速發布惜食資訊，到期自動下架，保持清單有效性。</div>
+          <div class="feat-tag ft-o">惜食分享</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-03</div>
+          <div class="feat-icon-wrap g">🔍</div>
+          <div class="feat-name">分類篩選查詢</div>
+          <div class="feat-desc">揪團列表支援依餐廳類型篩選（中式、西式、飲料等）；惜食列表可依食物類別分類瀏覽，快速找到需求。</div>
+          <div class="feat-tag ft-both">雙模組</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-04</div>
+          <div class="feat-icon-wrap o">🔎</div>
+          <div class="feat-name">關鍵字搜尋</div>
+          <div class="feat-desc">輸入餐廳名稱、食物名稱或地點關鍵字，即時過濾列表結果，快速定位目標揪團或惜食資訊。</div>
+          <div class="feat-tag ft-both">雙模組</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-05</div>
+          <div class="feat-icon-wrap g">📊</div>
+          <div class="feat-name">即時揪單進度</div>
+          <div class="feat-desc">揪團房間顯示目前累積金額與進度條，列出已加入成員，結單倒數計時器實時更新，讓所有人掌握狀態。</div>
+          <div class="feat-tag ft-g">揪團外送</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-06</div>
+          <div class="feat-icon-wrap o">✅</div>
+          <div class="feat-name">認領記錄系統</div>
+          <div class="feat-desc">惜食資訊記錄每筆認領的時間與人員，剩餘數量即時更新，防止重複領取，公開透明保障公平性。</div>
+          <div class="feat-tag ft-o">惜食分享</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 5 — 網站頁面規劃
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">04 · 網站頁面規劃</div>
+      <h2 class="slide-title">四大頁面設計</h2>
+      <div class="slide-subtitle">以單頁架構為主，搭配動態切換模組，涵蓋完整使用流程。</div>
+
+      <div class="pages-grid">
+        <!-- Page 1 -->
+        <div class="page-card">
+          <div class="page-thumb thumb-green">
+            <div class="wf-bar short"></div>
+            <div class="wf-tabs">
+              <div class="wf-tab active"></div>
+              <div class="wf-tab"></div>
+            </div>
+            <div class="wf-cards">
+              <div class="wf-card"></div>
+              <div class="wf-card"></div>
+              <div class="wf-card"></div>
+              <div class="wf-card"></div>
+            </div>
+          </div>
+          <div class="page-info">
+            <div class="page-no">PAGE 01</div>
+            <div class="page-name">首頁（雙模組）</div>
+            <div class="page-desc">Hero 區切換揪團／惜食兩個分頁，各顯示即時列表卡片與發布入口。</div>
+            <div class="page-features">
+              <span class="pf-chip">模組切換</span>
+              <span class="pf-chip">即時列表</span>
+              <span class="pf-chip">篩選搜尋</span>
+            </div>
+          </div>
+        </div>
+        <!-- Page 2 -->
+        <div class="page-card">
+          <div class="page-thumb thumb-neutral">
+            <div class="wf-bar short"></div>
+            <div class="wf-room">
+              <div class="wf-bar med"></div>
+              <div class="wf-progress"><div class="wf-progress-fill" style="width:85%"></div></div>
+              <div class="wf-bar short"></div>
+              <div class="wf-bar long"></div>
+              <div class="wf-bar med"></div>
+            </div>
+          </div>
+          <div class="page-info">
+            <div class="page-no">PAGE 02</div>
+            <div class="page-name">揪團房間頁</div>
+            <div class="page-desc">顯示揪單進度條、成員列表、倒數結單時間，支援新增個人訂單。</div>
+            <div class="page-features">
+              <span class="pf-chip">進度條</span>
+              <span class="pf-chip">成員列表</span>
+              <span class="pf-chip">倒數計時</span>
+            </div>
+          </div>
+        </div>
+        <!-- Page 3 -->
+        <div class="page-card">
+          <div class="page-thumb thumb-orange">
+            <div class="wf-bar short"></div>
+            <div class="wf-list">
+              <div class="wf-list-item"></div>
+              <div class="wf-list-item"></div>
+              <div class="wf-list-item"></div>
+              <div class="wf-list-item"></div>
+            </div>
+          </div>
+          <div class="page-info">
+            <div class="page-no">PAGE 03</div>
+            <div class="page-name">惜食列表頁</div>
+            <div class="page-desc">列出目前有效的惜食資訊，含剩餘數量、地點與賞味期限，點擊可認領。</div>
+            <div class="page-features">
+              <span class="pf-chip">剩餘數量</span>
+              <span class="pf-chip">認領按鈕</span>
+              <span class="pf-chip">自動到期</span>
+            </div>
+          </div>
+        </div>
+        <!-- Page 4 -->
+        <div class="page-card">
+          <div class="page-thumb thumb-gold">
+            <div class="wf-bar short"></div>
+            <div class="wf-form">
+              <div class="wf-input"></div>
+              <div class="wf-input"></div>
+              <div class="wf-input"></div>
+              <div class="wf-input"></div>
+              <div class="wf-btn"></div>
+            </div>
+          </div>
+          <div class="page-info">
+            <div class="page-no">PAGE 04</div>
+            <div class="page-name">發布表單頁</div>
+            <div class="page-desc">通用表單頁，依模式切換揪團／惜食欄位，送出後自動顯示於對應列表。</div>
+            <div class="page-features">
+              <span class="pf-chip">表單驗證</span>
+              <span class="pf-chip">即時預覽</span>
+              <span class="pf-chip">送出通知</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 6 — 操作流程圖
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">05 · 操作流程圖</div>
+      <h2 class="slide-title">使用者操作流程</h2>
+      <div class="slide-subtitle">從進入網站到完成主要任務的完整路徑。</div>
+
+      <div class="flow-container">
+        <!-- Row 1: Entry -->
+        <div class="flow-row" style="justify-content:center;">
+          <div class="flow-node" style="max-width:180px;">
+            <div class="fn-box start">🌐 進入 FoodWeb<br><span style="font-size:10px;font-weight:400;opacity:.7">foodweb.nchu.edu.tw</span></div>
+          </div>
+        </div>
+
+        <!-- Arrow down -->
+        <div style="text-align:center;color:var(--text4);font-size:20px;line-height:1;">↓</div>
+
+        <!-- Row 2: Choose module -->
+        <div class="flow-row" style="justify-content:center;">
+          <div class="flow-node" style="max-width:240px;">
+            <div class="fn-box neutral" style="text-align:center;">選擇功能模組<br><span style="font-size:11px;color:var(--text3)">Hero 區點選 Tab</span></div>
+          </div>
+        </div>
+
+        <!-- Arrow down + split -->
+        <div style="text-align:center;color:var(--text4);font-size:20px;line-height:1;">↓</div>
+
+        <!-- Row 3: Two branches -->
+        <div class="flow-split">
+          <!-- Group Buy branch -->
+          <div class="flow-branch gb">
+            <div class="fb-title g">🍜 揪團外送路徑</div>
+            <div class="fb-steps">
+              <div class="fb-step">
+                <div class="fb-step-n g">1</div>
+                <div>瀏覽揪團列表，依餐廳分類篩選</div>
+              </div>
+              <div class="fb-step">
+                <div class="fb-step-n g">2</div>
+                <div>選擇加入現有揪團 <em>或</em> 發布新揪團</div>
+              </div>
+              <div class="fb-step">
+                <div class="fb-step-n g">3</div>
+                <div>進入揪團房間，填寫個人訂單內容</div>
+              </div>
+              <div class="fb-step">
+                <div class="fb-step-n g">4</div>
+                <div>等待結單，進度條達標後統一下單</div>
+              </div>
+            </div>
+            <div class="fn-box end-g" style="text-align:center;margin-top:8px;">✓ 完成揪團，省下運費</div>
+          </div>
+
+          <!-- Food Share branch -->
+          <div class="flow-branch fs">
+            <div class="fb-title o">🥡 惜食分享路徑</div>
+            <div class="fb-steps">
+              <div class="fb-step">
+                <div class="fb-step-n o">1</div>
+                <div>瀏覽惜食列表，確認地點與剩餘數量</div>
+              </div>
+              <div class="fb-step">
+                <div class="fb-step-n o">2</div>
+                <div>點擊認領，系統記錄並扣除份數</div>
+              </div>
+              <div class="fb-step">
+                <div class="fb-step-n o">3</div>
+                <div><em>或</em>：發布惜食，填寫品項與有效時間</div>
+              </div>
+              <div class="fb-step">
+                <div class="fb-step-n o">4</div>
+                <div>到期自動下架，認領記錄公開查閱</div>
+              </div>
+            </div>
+            <div class="fn-box end-o" style="text-align:center;margin-top:8px;">✓ 食物找到歸宿，零浪費</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 7 — 資料內容規劃
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">06 · 資料內容規劃</div>
+      <h2 class="slide-title">系統需要呈現的資料</h2>
+      <div class="slide-subtitle">兩個模組各有獨立資料結構，共享部分欄位（地點、時間）。</div>
+
+      <div class="data-split">
+        <!-- Group Buy -->
+        <div class="data-module">
+          <div class="dm-header green">
+            <div class="dm-icon g">🍜</div>
+            <div>
+              <div class="dm-title">揪團外送</div>
+              <div class="dm-sub">Group Buy Module</div>
+            </div>
+          </div>
+          <div class="dm-fields">
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">餐廳名稱</div>
+              <div class="df-type">text</div>
+              <div class="df-example">王子麵食館</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">取餐地點</div>
+              <div class="df-type">text</div>
+              <div class="df-example">農資院 1F 大廳</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">結單時間</div>
+              <div class="df-type">datetime</div>
+              <div class="df-example">12:30</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">最低金額門檻</div>
+              <div class="df-type">number</div>
+              <div class="df-example">NT$ 400</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">累積訂單金額</div>
+              <div class="df-type">number</div>
+              <div class="df-example">NT$ 342</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">成員列表</div>
+              <div class="df-type">array</div>
+              <div class="df-example">林小明、陳佳慧…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food Share -->
+        <div class="data-module">
+          <div class="dm-header orange">
+            <div class="dm-icon o">🥡</div>
+            <div>
+              <div class="dm-title">惜食分享</div>
+              <div class="dm-sub">Food Sharing Module</div>
+            </div>
+          </div>
+          <div class="dm-fields">
+            <div class="dm-field">
+              <div class="df-dot o"></div>
+              <div class="df-name">食物名稱</div>
+              <div class="df-type">text</div>
+              <div class="df-example">排骨便當</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot o"></div>
+              <div class="df-name">剩餘數量</div>
+              <div class="df-type">number</div>
+              <div class="df-example">8 份</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot o"></div>
+              <div class="df-name">存放地點</div>
+              <div class="df-type">text</div>
+              <div class="df-example">理學院 301 辦公室</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot o"></div>
+              <div class="df-name">賞味期限</div>
+              <div class="df-type">datetime</div>
+              <div class="df-example">今日 18:00 前</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot o"></div>
+              <div class="df-name">食物類別</div>
+              <div class="df-type">enum</div>
+              <div class="df-example">便當 / 點心 / 飲料</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot o"></div>
+              <div class="df-name">認領記錄</div>
+              <div class="df-type">array</div>
+              <div class="df-example">時間 + 認領人</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 8 — 介面草圖
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s8">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">07 · 介面草圖</div>
+      <h2 class="slide-title">主頁面線框草圖</h2>
+      <div class="slide-subtitle">以 CSS 線框圖呈現首頁雙模組版型，包含導覽列、Hero 區塊與卡片列表。</div>
+
+      <div class="wireframe-section">
+        <div class="wf-browser">
+          <div class="wf-browser-bar">
+            <div class="wf-dot r"></div>
+            <div class="wf-dot y"></div>
+            <div class="wf-dot g"></div>
+            <div class="wf-url">https://foodweb.nchu.edu.tw</div>
+          </div>
+          <div class="wf-page">
+            <!-- Nav -->
+            <div class="wfp-nav">
+              <div class="wfp-logo"></div>
+              <div class="wfp-links">
+                <div class="wfp-link"></div>
+                <div class="wfp-link"></div>
+                <div class="wfp-link"></div>
+              </div>
+              <div class="wfp-btn"></div>
+            </div>
+            <!-- Hero -->
+            <div class="wfp-hero">
+              <div class="wfp-h1"></div>
+              <div class="wfp-h2"></div>
+              <div class="wfp-tabs-row">
+                <div class="wfp-tab active"></div>
+                <div class="wfp-tab"></div>
+              </div>
+            </div>
+            <!-- Cards -->
+            <div class="wfp-cards">
+              <div class="wfp-card">
+                <div class="wfp-cbar short"></div>
+                <div class="wfp-cbar med"></div>
+                <div class="wfp-progress"><div class="wfp-prog-fill" style="width:85%"></div></div>
+                <div class="wfp-cbtn"></div>
+              </div>
+              <div class="wfp-card">
+                <div class="wfp-cbar short"></div>
+                <div class="wfp-cbar med"></div>
+                <div class="wfp-progress"><div class="wfp-prog-fill" style="width:60%"></div></div>
+                <div class="wfp-cbtn"></div>
+              </div>
+              <div class="wfp-card">
+                <div class="wfp-cbar short"></div>
+                <div class="wfp-cbar med"></div>
+                <div class="wfp-progress"><div class="wfp-prog-fill" style="width:40%"></div></div>
+                <div class="wfp-cbtn"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annotations -->
+        <div class="wf-annotations">
+          <div class="wf-ann">
+            <div class="wf-ann-dot" style="background:var(--green)"></div>
+            固定導覽列（Sticky Nav）
+          </div>
+          <div class="wf-ann">
+            <div class="wf-ann-dot" style="background:var(--green)"></div>
+            Hero 雙 Tab 切換揪團 ／ 惜食
+          </div>
+          <div class="wf-ann">
+            <div class="wf-ann-dot" style="background:var(--text3)"></div>
+            即時卡片列表（3欄 Grid）
+          </div>
+          <div class="wf-ann">
+            <div class="wf-ann-dot" style="background:var(--gold)"></div>
+            進度條顯示揪單累積金額
+          </div>
+          <div class="wf-ann">
+            <div class="wf-ann-dot" style="background:var(--text4)"></div>
+            RWD 響應式排版（Mobile 單欄）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 9 — 小組分工表
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s9">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">08 · 小組分工表</div>
+      <h2 class="slide-title">組員分工與職責</h2>
+      <div class="slide-subtitle">二位組員各司其職，確保功能、設計與報告全面覆蓋。</div>
+
+      <div class="team-table-wrap">
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th>組員</th>
+              <th>角色</th>
+              <th>負責工作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-name">葉潔頤</td>
+              <td>
+                <div class="td-role role-g">前端開發 ／ 文件</div>
+              </td>
+              <td class="td-tasks">
+                <ul>
+                  <li>HTML / CSS 頁面架構與版型設計</li>
+                  <li>揪團外送模組 UI 實作</li>
+                  <li>響應式排版（RWD）</li>
+                  <li>色彩系統與設計規範制定</li>
+                  <li>系統規劃文件撰寫</li>
+                  <li>口頭報告稿準備與彩排</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td class="td-name">賴姿妍</td>
+              <td>
+                <div class="td-role role-o">功能開發 ／ 設計</div>
+              </td>
+              <td class="td-tasks">
+                <ul>
+                  <li>JavaScript 互動邏輯（篩選、搜尋）</li>
+                  <li>揪團房間進度條與倒數計時器</li>
+                  <li>惜食認領記錄系統</li>
+                  <li>惜食分享模組 UI 實作</li>
+                  <li>介面草圖與 Wireframe 繪製</li>
+                  <li>資料內容規劃與測試資料建置</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Grade criteria summary -->
+        <div class="grade-row">
+          <div class="grade-title">評分項目</div>
+          <div class="grade-items">
+            <div class="grade-item">
+              <div class="gi-label">主題說明</div>
+              <div class="gi-score">15 分</div>
+            </div>
+            <div class="grade-item">
+              <div class="gi-label">使用情境</div>
+              <div class="gi-score">15 分</div>
+            </div>
+            <div class="grade-item">
+              <div class="gi-label">功能規劃</div>
+              <div class="gi-score">20 分</div>
+            </div>
+            <div class="grade-item">
+              <div class="gi-label">頁面與流程</div>
+              <div class="gi-score">20 分</div>
+            </div>
+            <div class="grade-item">
+              <div class="gi-label">介面草圖</div>
+              <div class="gi-score">15 分</div>
+            </div>
+            <div class="grade-item">
+              <div class="gi-label">口頭分工</div>
+              <div class="gi-score">15 分</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ─── Navigation ──────────────────────────── -->
+<nav class="snav" id="snav">
+  <button class="snav-btn" id="prev" title="上一頁">‹</button>
+  <div class="snav-dots" id="dots"></div>
+  <span class="snav-counter" id="counter">1 / 9</span>
+  <button class="snav-btn" id="next" title="下一頁">›</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let cur = 0;
+
+const dotsEl    = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
+const progEl    = document.getElementById('prog');
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'snav-dot' + (i === 0 ? ' on' : '');
+  d.addEventListener('click', () => go(i));
+  dotsEl.appendChild(d);
+});
+
+function go(n) {
+  if (n < 0 || n >= total) return;
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('out');
+  setTimeout(() => slides[cur < n ? cur : n].classList.remove('out'), 450);
+
+  const prev = cur;
+  cur = n;
+
+  slides[cur].classList.add('active');
+  // Remove out from previous after transition
+  setTimeout(() => slides[prev].classList.remove('out'), 450);
+
+  // Update dots
+  document.querySelectorAll('.snav-dot').forEach((d, i) => {
+    d.classList.toggle('on', i === cur);
+  });
+
+  counterEl.textContent = `${cur + 1} / ${total}`;
+  progEl.style.width = `${((cur + 1) / total) * 100}%`;
+}
+
+document.getElementById('prev').addEventListener('click', () => go(cur - 1));
+document.getElementById('next').addEventListener('click', () => go(cur + 1));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ')  { e.preventDefault(); go(cur + 1); }
+  if (e.key === 'ArrowLeft')                     { e.preventDefault(); go(cur - 1); }
+  if (e.key === 'ArrowDown')                     { e.preventDefault(); go(cur + 1); }
+  if (e.key === 'ArrowUp')                       { e.preventDefault(); go(cur - 1); }
+});
+
+// Touch swipe
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend',   e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) go(dx > 0 ? cur + 1 : cur - 1);
+});
+
+// Init progress
+progEl.style.width = `${(1 / total) * 100}%`;
+</script>
+</body>
+</html>
