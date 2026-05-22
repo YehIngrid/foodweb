@@ -5,4 +5,4 @@ app = FastAPI()
 #login, signup
 @app.get("/account")
 def getAccount(email, password, name):
-    return
+    return {"email": email, "password": password, "name": name}
