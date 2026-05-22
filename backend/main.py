@@ -2,7 +2,12 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-#login, signup
-@app.get("/account")
+#sign up = add user
+@app.post("/api/sighnup")
+def getAccount(email, password, name):
+    return {"email": email, "password": password, "name": name}
+
+#log in
+@app.post("/api/login")
 def getAccount(email, password, name):
     return {"email": email, "password": password, "name": name}
