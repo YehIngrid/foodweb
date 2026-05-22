@@ -1,0 +1,11 @@
+body {
+    background: #1a4526;
+}
+.greet {
+    color: blue;
+    cursor: pointer;
+    background: white;
+}
+.greet:hover {
+    color: green !important;
+}
