@@ -3,7 +3,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 #sign up = add user
-@app.post("/api/sighnup")
+@app.post("/api/signup")
 def getAccount(email, password, name):
     return {"email": email, "password": password, "name": name}
 
