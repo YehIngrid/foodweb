@@ -8,6 +8,9 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/venv/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/venv/include" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/venv/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
