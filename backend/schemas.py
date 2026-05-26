@@ -80,7 +80,6 @@ class TeamResponse(BaseModel):
 # --- JoinTeam ---
 # join
 class JoinTeamCreate(BaseModel):
-    orderId: str
     foodName: str
     price: int
 
