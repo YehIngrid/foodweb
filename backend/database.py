@@ -21,6 +21,5 @@ engine = create_engine(database_url)
 # autocommit=False: 確保每次操作都要明確 commit，交由業務邏輯控制
 # autoflush=False: 防止在查詢前自動將未提交的變更同步到資料庫
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 # 4. 建立 ORM 模型基底
 Base = declarative_base()

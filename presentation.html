@@ -795,6 +795,64 @@ h2.slide-title em {
   padding: 1px 8px; border-radius: 4px;
 }
 
+/* ─── Slide 10 – 後端技術架構 ───────────────── */
+.arch-stack {
+  display: flex; align-items: center; gap: 0;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 24px;
+  margin-bottom: 20px; flex-wrap: wrap;
+}
+.stack-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  flex: 1; min-width: 80px;
+  padding: 8px 4px;
+}
+.stack-icon { font-size: 22px; }
+.stack-name {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+  color: var(--text); letter-spacing: -.01em;
+}
+.stack-desc { font-size: 10px; color: var(--text4); }
+.stack-sep {
+  font-size: 16px; color: var(--border-s);
+  padding: 0 4px; flex-shrink: 0;
+}
+.arch-files {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  flex: 1;
+}
+.arch-file {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 6px;
+  position: relative; overflow: hidden;
+}
+.arch-file::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--green);
+}
+.af-filename {
+  font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
+  color: var(--green); letter-spacing: -.01em;
+}
+.af-role {
+  font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 700;
+  color: var(--text);
+}
+.af-desc { font-size: 11px; color: var(--text2); line-height: 1.75; flex: 1; }
+.af-apis {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
+}
+.api-chip {
+  padding: 2px 7px; border-radius: 4px;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500;
+  letter-spacing: .03em;
+}
+.api-chip.post { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.api-chip.get  { background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(160,120,40,.3); }
+.api-chip.patch { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+
 /* ─── Animations ─────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -815,7 +873,9 @@ h2.slide-title em {
 .slide.active .flow-container,
 .slide.active .data-split,
 .slide.active .wireframe-section,
-.slide.active .team-table-wrap {
+.slide.active .team-table-wrap,
+.slide.active .arch-stack,
+.slide.active .arch-files {
   animation: fadeUp .5s .1s ease both;
 }
 
@@ -857,7 +917,7 @@ h2.slide-title em {
         <div class="deco-icon">🍱</div>
         <div class="deco-tags">
           <div class="deco-tag">揪團外送</div>
-          <div class="deco-tag">惜食分享</div>
+          <div class="deco-tag">私人房間</div>
         </div>
       </div>
     </div>
@@ -890,8 +950,8 @@ h2.slide-title em {
     <div class="grain"></div>
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">01 · 主題名稱與系統目的</div>
-      <h2 class="slide-title">我們要解決的<br>兩個校園問題</h2>
-      <div class="slide-subtitle">校園裡每天都有兩件事同時發生：食物被浪費、外送費被重複付。<em>FoodWeb</em> 要一次解決它們。</div>
+      <h2 class="slide-title">我們要解決的<br>兩個揪團痛點</h2>
+      <div class="slide-subtitle">校園外送費高、揪團過程混亂——<em>FoodWeb</em> 用私人揪團房間與透明申請機制，一次解決。</div>
 
       <div class="problem-grid">
         <div class="problem-card p-orange">
@@ -903,11 +963,11 @@ h2.slide-title em {
           </div>
         </div>
         <div class="problem-card p-green">
-          <div class="pc-icon">🥡</div>
-          <div class="pc-title">活動剩食無人認領，直接丟棄</div>
+          <div class="pc-icon">🤝</div>
+          <div class="pc-title">揪團流程不透明，房主難以彙整</div>
           <div class="pc-body">
-            系所活動、教授開會後剩餘的便當與茶點，
-            因缺乏公開平台通報，往往在賞味期限前進入垃圾桶。
+            以往透過通訊軟體揪團，點餐資訊散落各處，
+            房主難以彙整訂單，成員無法即時掌握累積金額與結單進度。
           </div>
         </div>
       </div>
@@ -915,9 +975,9 @@ h2.slide-title em {
       <div class="solution-banner">
         <div class="sb-arrow">→</div>
         <div class="sb-text">
-          FoodWeb 提供即時校園平台，整合
-          <span>揪團外送</span> 與 <span>惜食分享</span> 兩大模組，
-          讓中興大學師生分攤運費、零浪費享用剩餘食物。
+          FoodWeb 提供即時校園揪團平台，以
+          <span>私人揪團房間</span> 與 <span>申請加入審核</span> 機制，
+          讓中興大學師生透明分攤運費、輕鬆統一外送。
         </div>
       </div>
     </div>
@@ -931,33 +991,33 @@ h2.slide-title em {
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">02 · 使用情境說明</div>
       <h2 class="slide-title">誰會在什麼時候<br>使用 <em>FoodWeb</em>？</h2>
-      <div class="slide-subtitle">兩種最常見的校園情境，對應兩個功能模組。</div>
+      <div class="slide-subtitle">兩種最常見的校園情境，對應「發起揪團」與「加入揪團」兩條路徑。</div>
 
       <div class="scenario-split" style="flex:1;">
         <div class="scenario-card sc-green">
           <div class="sc-number">01</div>
-          <div class="sc-badge">揪團外送</div>
-          <div class="sc-title">午餐時間，實驗室成員想一起訂外送</div>
+          <div class="sc-badge">發起揪團</div>
+          <div class="sc-title">午餐時間，實驗室同學想一起訂外送</div>
           <div class="sc-body">
-            12:00，5 位同學各自想點不同餐廳的餐點，
-            但單獨下單每人都要付 60 元運費。
-            透過 FoodWeb，一人發起揪團、填入餐廳和結單時間，
-            其他人加入後系統自動追蹤進度，
-            達到最低金額門檻才統一下單，<strong style="color:#fff">平均每人省下 45 元</strong>。
+            12:00，研究生小明想揪人訂麥當勞，
+            填入餐廳連結、取餐地點、外送運費與結單時間，
+            系統自動建立私人揪團房間，
+            分享連結給同學加入，房主逐一審核申請，
+            <strong style="color:#fff">金額累積達標後統一下單，省下人均 45 元運費</strong>。
           </div>
-          <div class="sc-who">使用者：<strong>在校學生 / 研究生 / 教職員</strong></div>
+          <div class="sc-who">使用者：<strong>在校學生 / 研究生 / 教職員（房主）</strong></div>
         </div>
         <div class="scenario-card sc-orange">
           <div class="sc-number">02</div>
-          <div class="sc-badge">惜食分享</div>
-          <div class="sc-title">系辦活動結束，剩下 10 個便當沒人吃</div>
+          <div class="sc-badge">加入揪團</div>
+          <div class="sc-title">看到揪團通知，想加入並填寫點餐</div>
           <div class="sc-body">
-            下午 3:00，系辦助理發現會議剩下大量食物。
-            打開 FoodWeb 上傳品項、數量、存放地點與賞味期限，
-            15 分鐘內附近同學收到通知前來認領，
-            系統記錄認領人防止重複，<strong style="color:#fff">食物在 40 分鐘內全數被取走</strong>。
+            12:05，佳慧在首頁看到「胡椒廚房」揪團正在進行，
+            點擊進入揪團房間，填寫點餐內容與金額後送出申請，
+            系統顯示目前累積金額進度條與成員清單，
+            <strong style="color:#fff">房主接受後申請即確認，等待結單取餐</strong>。
           </div>
-          <div class="sc-who">使用者：<strong>系辦人員 / 教授 / 學生社團</strong></div>
+          <div class="sc-who">使用者：<strong>在校學生 / 研究生 / 教職員（成員）</strong></div>
         </div>
       </div>
     </div>
@@ -971,50 +1031,50 @@ h2.slide-title em {
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">03 · 主要功能規劃</div>
       <h2 class="slide-title">六大核心功能</h2>
-      <div class="slide-subtitle">涵蓋揪團外送與惜食分享全流程，共 6 個功能模組。</div>
+      <div class="slide-subtitle">涵蓋帳號管理、揪團全流程與即時追蹤，共 6 個已實作功能模組。</div>
 
       <div class="feat-grid">
         <div class="feat-card">
           <div class="feat-no">F-01</div>
-          <div class="feat-icon-wrap g">🍜</div>
-          <div class="feat-name">揪團外送發布</div>
-          <div class="feat-desc">任何人可發起揪團，填入餐廳名稱、結單時間、取餐地點與最低金額門檻，系統自動建立揪團房間並開放加入。</div>
-          <div class="feat-tag ft-g">揪團外送</div>
+          <div class="feat-icon-wrap g">👤</div>
+          <div class="feat-name">會員帳號系統</div>
+          <div class="feat-desc">支援註冊、登入、登出，個人頁面可修改姓名、Email、大頭照，並提供刪除帳號功能。帳號資料以 UUID 管理。</div>
+          <div class="feat-tag ft-g">帳號管理</div>
         </div>
         <div class="feat-card">
           <div class="feat-no">F-02</div>
-          <div class="feat-icon-wrap o">🥡</div>
-          <div class="feat-name">惜食上傳分享</div>
-          <div class="feat-desc">填寫食物品項、份數、存放地點與賞味期限，快速發布惜食資訊，到期自動下架，保持清單有效性。</div>
-          <div class="feat-tag ft-o">惜食分享</div>
+          <div class="feat-icon-wrap g">🍜</div>
+          <div class="feat-name">揪團外送發布</div>
+          <div class="feat-desc">填入揪團名稱、外送連結、取餐地點、外送運費與結單時間，系統自動建立獨立揪團房間並開放申請加入。</div>
+          <div class="feat-tag ft-g">揪團外送</div>
         </div>
         <div class="feat-card">
           <div class="feat-no">F-03</div>
           <div class="feat-icon-wrap g">🔍</div>
-          <div class="feat-name">分類篩選查詢</div>
-          <div class="feat-desc">揪團列表支援依餐廳類型篩選（中式、西式、飲料等）；惜食列表可依食物類別分類瀏覽，快速找到需求。</div>
-          <div class="feat-tag ft-both">雙模組</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-no">F-04</div>
-          <div class="feat-icon-wrap o">🔎</div>
-          <div class="feat-name">關鍵字搜尋</div>
-          <div class="feat-desc">輸入餐廳名稱、食物名稱或地點關鍵字，即時過濾列表結果，快速定位目標揪團或惜食資訊。</div>
-          <div class="feat-tag ft-both">雙模組</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-no">F-05</div>
-          <div class="feat-icon-wrap g">📊</div>
-          <div class="feat-name">即時揪單進度</div>
-          <div class="feat-desc">揪團房間顯示目前累積金額與進度條，列出已加入成員，結單倒數計時器實時更新，讓所有人掌握狀態。</div>
+          <div class="feat-name">列表瀏覽與篩選</div>
+          <div class="feat-desc">首頁即時顯示所有揪團，支援依餐廳類別（速食、中式、飲料、日式、其他）篩選，快速找到目標揪團。</div>
           <div class="feat-tag ft-g">揪團外送</div>
         </div>
         <div class="feat-card">
-          <div class="feat-no">F-06</div>
+          <div class="feat-no">F-04</div>
+          <div class="feat-icon-wrap g">📊</div>
+          <div class="feat-name">揪團房間進度追蹤</div>
+          <div class="feat-desc">揪團房間顯示目前累積金額進度條、已接受成員清單與倒數結單計時器，所有人即時掌握揪單狀態。</div>
+          <div class="feat-tag ft-g">揪團外送</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-05</div>
           <div class="feat-icon-wrap o">✅</div>
-          <div class="feat-name">認領記錄系統</div>
-          <div class="feat-desc">惜食資訊記錄每筆認領的時間與人員，剩餘數量即時更新，防止重複領取，公開透明保障公平性。</div>
-          <div class="feat-tag ft-o">惜食分享</div>
+          <div class="feat-name">申請加入審核</div>
+          <div class="feat-desc">成員填寫點餐內容與金額後送出申請（status=0），房主可接受（1）或婉拒（2），成員也可自行取消（3）。</div>
+          <div class="feat-tag ft-o">加入管理</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-no">F-06</div>
+          <div class="feat-icon-wrap o">📋</div>
+          <div class="feat-name">個人資料管理</div>
+          <div class="feat-desc">個人頁面顯示揪團參與紀錄與誠信積分，可修改暱稱、大頭照與密碼，所有變更即時同步至資料庫。</div>
+          <div class="feat-tag ft-o">帳號管理</div>
         </div>
       </div>
     </div>
@@ -1027,8 +1087,8 @@ h2.slide-title em {
     <div class="grain"></div>
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">04 · 網站頁面規劃</div>
-      <h2 class="slide-title">四大頁面設計</h2>
-      <div class="slide-subtitle">以單頁架構為主，搭配動態切換模組，涵蓋完整使用流程。</div>
+      <h2 class="slide-title">單頁 ＋ 三個 Overlay</h2>
+      <div class="slide-subtitle">以單頁架構（index.html）為主體，功能細節透過 Overlay 彈窗呈現，無須跳頁即可完成所有操作。</div>
 
       <div class="pages-grid">
         <!-- Page 1 -->
@@ -1048,12 +1108,12 @@ h2.slide-title em {
           </div>
           <div class="page-info">
             <div class="page-no">PAGE 01</div>
-            <div class="page-name">首頁（雙模組）</div>
-            <div class="page-desc">Hero 區切換揪團／惜食兩個分頁，各顯示即時列表卡片與發布入口。</div>
+            <div class="page-name">首頁（揪團列表）</div>
+            <div class="page-desc">Hero 展示揪團外送功能說明，下方為即時揪單卡片列表，含分類篩選按鈕與社群統計數據。</div>
             <div class="page-features">
-              <span class="pf-chip">模組切換</span>
-              <span class="pf-chip">即時列表</span>
-              <span class="pf-chip">篩選搜尋</span>
+              <span class="pf-chip">揪單列表</span>
+              <span class="pf-chip">分類篩選</span>
+              <span class="pf-chip">社群統計</span>
             </div>
           </div>
         </div>
@@ -1071,8 +1131,8 @@ h2.slide-title em {
           </div>
           <div class="page-info">
             <div class="page-no">PAGE 02</div>
-            <div class="page-name">揪團房間頁</div>
-            <div class="page-desc">顯示揪單進度條、成員列表、倒數結單時間，支援新增個人訂單。</div>
+            <div class="page-name">揪團房間（Overlay）</div>
+            <div class="page-desc">彈出式房間介面：顯示金額進度條、倒數結單計時、已接受成員清單，可填寫點餐送出加入申請。</div>
             <div class="page-features">
               <span class="pf-chip">進度條</span>
               <span class="pf-chip">成員列表</span>
@@ -1084,28 +1144,6 @@ h2.slide-title em {
         <div class="page-card">
           <div class="page-thumb thumb-orange">
             <div class="wf-bar short"></div>
-            <div class="wf-list">
-              <div class="wf-list-item"></div>
-              <div class="wf-list-item"></div>
-              <div class="wf-list-item"></div>
-              <div class="wf-list-item"></div>
-            </div>
-          </div>
-          <div class="page-info">
-            <div class="page-no">PAGE 03</div>
-            <div class="page-name">惜食列表頁</div>
-            <div class="page-desc">列出目前有效的惜食資訊，含剩餘數量、地點與賞味期限，點擊可認領。</div>
-            <div class="page-features">
-              <span class="pf-chip">剩餘數量</span>
-              <span class="pf-chip">認領按鈕</span>
-              <span class="pf-chip">自動到期</span>
-            </div>
-          </div>
-        </div>
-        <!-- Page 4 -->
-        <div class="page-card">
-          <div class="page-thumb thumb-gold">
-            <div class="wf-bar short"></div>
             <div class="wf-form">
               <div class="wf-input"></div>
               <div class="wf-input"></div>
@@ -1115,13 +1153,35 @@ h2.slide-title em {
             </div>
           </div>
           <div class="page-info">
-            <div class="page-no">PAGE 04</div>
-            <div class="page-name">發布表單頁</div>
-            <div class="page-desc">通用表單頁，依模式切換揪團／惜食欄位，送出後自動顯示於對應列表。</div>
+            <div class="page-no">PAGE 03</div>
+            <div class="page-name">發布揪團（Overlay）</div>
+            <div class="page-desc">彈出式發布表單：填入揪團名稱、外送連結、取餐地點、外送運費與結單時間，送出後自動列入首頁。</div>
             <div class="page-features">
               <span class="pf-chip">表單驗證</span>
-              <span class="pf-chip">即時預覽</span>
-              <span class="pf-chip">送出通知</span>
+              <span class="pf-chip">即時新增</span>
+              <span class="pf-chip">API 串接</span>
+            </div>
+          </div>
+        </div>
+        <!-- Page 4 -->
+        <div class="page-card">
+          <div class="page-thumb thumb-gold">
+            <div class="wf-bar short"></div>
+            <div class="wf-list">
+              <div class="wf-list-item"></div>
+              <div class="wf-list-item"></div>
+              <div class="wf-list-item"></div>
+            </div>
+            <div class="wf-btn" style="margin-top:4px"></div>
+          </div>
+          <div class="page-info">
+            <div class="page-no">PAGE 04</div>
+            <div class="page-name">個人資料（Overlay）</div>
+            <div class="page-desc">彈出式個人頁面：顯示參與揪團紀錄與誠信積分，可修改暱稱、Email、大頭照與密碼。</div>
+            <div class="page-features">
+              <span class="pf-chip">參與紀錄</span>
+              <span class="pf-chip">資料編輯</span>
+              <span class="pf-chip">誠信積分</span>
             </div>
           </div>
         </div>
@@ -1164,50 +1224,50 @@ h2.slide-title em {
         <div class="flow-split">
           <!-- Group Buy branch -->
           <div class="flow-branch gb">
-            <div class="fb-title g">🍜 揪團外送路徑</div>
+            <div class="fb-title g">🍜 發起揪團路徑</div>
             <div class="fb-steps">
               <div class="fb-step">
                 <div class="fb-step-n g">1</div>
-                <div>瀏覽揪團列表，依餐廳分類篩選</div>
+                <div>點擊「發布新揪團」，填寫揪團名稱、外送連結、地點與運費</div>
               </div>
               <div class="fb-step">
                 <div class="fb-step-n g">2</div>
-                <div>選擇加入現有揪團 <em>或</em> 發布新揪團</div>
+                <div>送出後 API 建立揪團房間（POST /api/team），首頁即時列出</div>
               </div>
               <div class="fb-step">
                 <div class="fb-step-n g">3</div>
-                <div>進入揪團房間，填寫個人訂單內容</div>
+                <div>等待成員送出加入申請，在房間內逐一接受（status=1）或婉拒（status=2）</div>
               </div>
               <div class="fb-step">
                 <div class="fb-step-n g">4</div>
-                <div>等待結單，進度條達標後統一下單</div>
+                <div>結單時間到，房主彙整訂單統一下單取餐</div>
               </div>
             </div>
             <div class="fn-box end-g" style="text-align:center;margin-top:8px;">✓ 完成揪團，省下運費</div>
           </div>
 
-          <!-- Food Share branch -->
+          <!-- Join branch -->
           <div class="flow-branch fs">
-            <div class="fb-title o">🥡 惜食分享路徑</div>
+            <div class="fb-title o">🚀 加入揪團路徑</div>
             <div class="fb-steps">
               <div class="fb-step">
                 <div class="fb-step-n o">1</div>
-                <div>瀏覽惜食列表，確認地點與剩餘數量</div>
+                <div>首頁瀏覽揪單列表，依分類篩選或直接查看進度條</div>
               </div>
               <div class="fb-step">
                 <div class="fb-step-n o">2</div>
-                <div>點擊認領，系統記錄並扣除份數</div>
+                <div>點擊「進入揪團房間」，填寫點餐內容與金額送出申請（POST /api/team/{id}/join）</div>
               </div>
               <div class="fb-step">
                 <div class="fb-step-n o">3</div>
-                <div><em>或</em>：發布惜食，填寫品項與有效時間</div>
+                <div>等待房主審核，確認後 status 更新為 1（已接受），加入成員清單</div>
               </div>
               <div class="fb-step">
                 <div class="fb-step-n o">4</div>
-                <div>到期自動下架，認領記錄公開查閱</div>
+                <div>若需取消可自行撤回申請（PATCH status=3），結單前均可操作</div>
               </div>
             </div>
-            <div class="fn-box end-o" style="text-align:center;margin-top:8px;">✓ 食物找到歸宿，零浪費</div>
+            <div class="fn-box end-o" style="text-align:center;margin-top:8px;">✓ 申請通過，等待結單取餐</div>
           </div>
         </div>
       </div>
@@ -1222,103 +1282,97 @@ h2.slide-title em {
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">06 · 資料內容規劃</div>
       <h2 class="slide-title">系統需要呈現的資料</h2>
-      <div class="slide-subtitle">兩個模組各有獨立資料結構，共享部分欄位（地點、時間）。</div>
+      <div class="slide-subtitle">揪團（Team）與加入申請（JoinTeam）兩張資料表，共享 orderId 關聯，另有 User 帳號資料表。</div>
 
       <div class="data-split">
-        <!-- Group Buy -->
+        <!-- Team -->
         <div class="data-module">
           <div class="dm-header green">
             <div class="dm-icon g">🍜</div>
             <div>
-              <div class="dm-title">揪團外送</div>
-              <div class="dm-sub">Group Buy Module</div>
+              <div class="dm-title">揪團資料（Team）</div>
+              <div class="dm-sub">SQLAlchemy Model · team</div>
             </div>
           </div>
           <div class="dm-fields">
             <div class="dm-field">
               <div class="df-dot g"></div>
-              <div class="df-name">餐廳名稱</div>
-              <div class="df-type">text</div>
-              <div class="df-example">王子麵食館</div>
+              <div class="df-name">orderId</div>
+              <div class="df-type">uuid</div>
+              <div class="df-example">PK · 自動產生</div>
             </div>
             <div class="dm-field">
               <div class="df-dot g"></div>
-              <div class="df-name">取餐地點</div>
-              <div class="df-type">text</div>
+              <div class="df-name">title</div>
+              <div class="df-type">String</div>
+              <div class="df-example">胡椒廚房外送揪團</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">url</div>
+              <div class="df-type">String</div>
+              <div class="df-example">foodpanda.tw/…</div>
+            </div>
+            <div class="dm-field">
+              <div class="df-dot g"></div>
+              <div class="df-name">location</div>
+              <div class="df-type">String</div>
               <div class="df-example">農資院 1F 大廳</div>
             </div>
             <div class="dm-field">
               <div class="df-dot g"></div>
-              <div class="df-name">結單時間</div>
-              <div class="df-type">datetime</div>
-              <div class="df-example">12:30</div>
+              <div class="df-name">deliverFee</div>
+              <div class="df-type">Integer</div>
+              <div class="df-example">NT$ 60</div>
             </div>
             <div class="dm-field">
               <div class="df-dot g"></div>
-              <div class="df-name">最低金額門檻</div>
-              <div class="df-type">number</div>
-              <div class="df-example">NT$ 400</div>
-            </div>
-            <div class="dm-field">
-              <div class="df-dot g"></div>
-              <div class="df-name">累積訂單金額</div>
-              <div class="df-type">number</div>
-              <div class="df-example">NT$ 342</div>
-            </div>
-            <div class="dm-field">
-              <div class="df-dot g"></div>
-              <div class="df-name">成員列表</div>
-              <div class="df-type">array</div>
-              <div class="df-example">林小明、陳佳慧…</div>
+              <div class="df-name">endAt</div>
+              <div class="df-type">DateTime</div>
+              <div class="df-example">2026-05-27 12:30</div>
             </div>
           </div>
         </div>
 
-        <!-- Food Share -->
+        <!-- JoinTeam -->
         <div class="data-module">
           <div class="dm-header orange">
-            <div class="dm-icon o">🥡</div>
+            <div class="dm-icon o">📋</div>
             <div>
-              <div class="dm-title">惜食分享</div>
-              <div class="dm-sub">Food Sharing Module</div>
+              <div class="dm-title">加入申請（JoinTeam）</div>
+              <div class="dm-sub">SQLAlchemy Model · joinTeam</div>
             </div>
           </div>
           <div class="dm-fields">
             <div class="dm-field">
               <div class="df-dot o"></div>
-              <div class="df-name">食物名稱</div>
-              <div class="df-type">text</div>
-              <div class="df-example">排骨便當</div>
+              <div class="df-name">orderId</div>
+              <div class="df-type">uuid</div>
+              <div class="df-example">PK · FK → Team</div>
             </div>
             <div class="dm-field">
               <div class="df-dot o"></div>
-              <div class="df-name">剩餘數量</div>
-              <div class="df-type">number</div>
-              <div class="df-example">8 份</div>
+              <div class="df-name">uid</div>
+              <div class="df-type">uuid</div>
+              <div class="df-example">PK · FK → User</div>
             </div>
             <div class="dm-field">
               <div class="df-dot o"></div>
-              <div class="df-name">存放地點</div>
-              <div class="df-type">text</div>
-              <div class="df-example">理學院 301 辦公室</div>
+              <div class="df-name">foodName</div>
+              <div class="df-type">String</div>
+              <div class="df-example">招牌胡椒豬排飯</div>
             </div>
             <div class="dm-field">
               <div class="df-dot o"></div>
-              <div class="df-name">賞味期限</div>
-              <div class="df-type">datetime</div>
-              <div class="df-example">今日 18:00 前</div>
+              <div class="df-name">price</div>
+              <div class="df-type">Integer</div>
+              <div class="df-example">NT$ 120</div>
             </div>
             <div class="dm-field">
               <div class="df-dot o"></div>
-              <div class="df-name">食物類別</div>
+              <div class="df-name">status</div>
               <div class="df-type">enum</div>
-              <div class="df-example">便當 / 點心 / 飲料</div>
-            </div>
-            <div class="dm-field">
-              <div class="df-dot o"></div>
-              <div class="df-name">認領記錄</div>
-              <div class="df-type">array</div>
-              <div class="df-example">時間 + 認領人</div>
+              <div class="df-example">0待審 / 1接受 / 2婉拒 / 3取消</div>
             </div>
           </div>
         </div>
@@ -1334,7 +1388,7 @@ h2.slide-title em {
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">07 · 介面草圖</div>
       <h2 class="slide-title">主頁面線框草圖</h2>
-      <div class="slide-subtitle">以 CSS 線框圖呈現首頁雙模組版型，包含導覽列、Hero 區塊與卡片列表。</div>
+      <div class="slide-subtitle">以 CSS 線框圖呈現首頁版型，包含固定導覽列、Hero 區塊、分類篩選列與揪團卡片列表。</div>
 
       <div class="wireframe-section">
         <div class="wf-browser">
@@ -1392,19 +1446,19 @@ h2.slide-title em {
         <div class="wf-annotations">
           <div class="wf-ann">
             <div class="wf-ann-dot" style="background:var(--green)"></div>
-            固定導覽列（Sticky Nav）
+            固定導覽列（Sticky Nav）含登入、立即加入、個人資料
           </div>
           <div class="wf-ann">
             <div class="wf-ann-dot" style="background:var(--green)"></div>
-            Hero 雙 Tab 切換揪團 ／ 惜食
+            Hero 模組說明 + 使用步驟（3 步驟）+ 發布揪團入口
           </div>
           <div class="wf-ann">
             <div class="wf-ann-dot" style="background:var(--text3)"></div>
-            即時卡片列表（3欄 Grid）
+            即時揪單卡片列表（3 欄 Grid）+ 分類篩選按鈕
           </div>
           <div class="wf-ann">
             <div class="wf-ann-dot" style="background:var(--gold)"></div>
-            進度條顯示揪單累積金額
+            進度條顯示累積金額 / 成員數 / 倒數結單計時
           </div>
           <div class="wf-ann">
             <div class="wf-ann-dot" style="background:var(--text4)"></div>
@@ -1423,7 +1477,7 @@ h2.slide-title em {
     <div class="slide-inner">
       <div class="slide-badge badge-neutral">08 · 小組分工表</div>
       <h2 class="slide-title">組員分工與職責</h2>
-      <div class="slide-subtitle">二位組員各司其職，確保功能、設計與報告全面覆蓋。</div>
+      <div class="slide-subtitle">二位組員各司其職，確保前後端實作與報告全面覆蓋。</div>
 
       <div class="team-table-wrap">
         <table class="team-table">
@@ -1438,32 +1492,32 @@ h2.slide-title em {
             <tr>
               <td class="td-name">葉潔頤</td>
               <td>
-                <div class="td-role role-g">前端開發 ／ 文件</div>
+                <div class="td-role role-g">後端開發 ／ 文件</div>
               </td>
               <td class="td-tasks">
                 <ul>
-                  <li>HTML / CSS 頁面架構與版型設計</li>
-                  <li>揪團外送模組 UI 實作</li>
-                  <li>響應式排版（RWD）</li>
-                  <li>色彩系統與設計規範制定</li>
-                  <li>系統規劃文件撰寫</li>
-                  <li>口頭報告稿準備與彩排</li>
+                  <li>FastAPI 後端架構與路由規劃</li>
+                  <li>SQLAlchemy 資料庫模型（User / Team / JoinTeam）</li>
+                  <li>Pydantic 資料驗證 Schemas</li>
+                  <li>帳號 API（註冊 / 登入 / 修改 / 刪除）</li>
+                  <li>揪團 API（建立 / 列表 / 加入 / 審核）</li>
+                  <li>系統規劃文件與口頭報告稿</li>
                 </ul>
               </td>
             </tr>
             <tr>
               <td class="td-name">賴姿妍</td>
               <td>
-                <div class="td-role role-o">功能開發 ／ 設計</div>
+                <div class="td-role role-o">前端開發 ／ 設計</div>
               </td>
               <td class="td-tasks">
                 <ul>
-                  <li>JavaScript 互動邏輯（篩選、搜尋）</li>
-                  <li>揪團房間進度條與倒數計時器</li>
-                  <li>惜食認領記錄系統</li>
-                  <li>惜食分享模組 UI 實作</li>
-                  <li>介面草圖與 Wireframe 繪製</li>
-                  <li>資料內容規劃與測試資料建置</li>
+                  <li>HTML / CSS 頁面架構與視覺設計</li>
+                  <li>揪團列表卡片 UI 與分類篩選功能</li>
+                  <li>揪團房間 Overlay（進度條 / 成員 / 倒數計時）</li>
+                  <li>發布揪團表單 Overlay</li>
+                  <li>個人資料 Overlay（紀錄 / 積分 / 編輯）</li>
+                  <li>響應式排版（RWD）與測試資料建置</li>
                 </ul>
               </td>
             </tr>
@@ -1504,13 +1558,124 @@ h2.slide-title em {
     </div>
   </div>
 
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 10 — 後端技術架構
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s10">
+    <div class="grain"></div>
+    <div class="slide-inner">
+      <div class="slide-badge badge-neutral">09 · 後端技術架構</div>
+      <h2 class="slide-title">後端技術架構<br>與<em>檔案職責</em></h2>
+      <div class="slide-subtitle">以 FastAPI + Uvicorn 為核心，SQLAlchemy 接 PostgreSQL，Pydantic 負責資料驗證，共四個主要模組檔案。</div>
+
+      <!-- Tech Stack Bar -->
+      <div class="arch-stack">
+        <div class="stack-item">
+          <div class="stack-icon">⚡</div>
+          <div class="stack-name">FastAPI</div>
+          <div class="stack-desc">後端框架</div>
+        </div>
+        <div class="stack-sep">+</div>
+        <div class="stack-item">
+          <div class="stack-icon">🚀</div>
+          <div class="stack-name">Uvicorn</div>
+          <div class="stack-desc">ASGI 伺服器</div>
+        </div>
+        <div class="stack-sep">+</div>
+        <div class="stack-item">
+          <div class="stack-icon">🗄️</div>
+          <div class="stack-name">SQLAlchemy</div>
+          <div class="stack-desc">ORM</div>
+        </div>
+        <div class="stack-sep">+</div>
+        <div class="stack-item">
+          <div class="stack-icon">✅</div>
+          <div class="stack-name">Pydantic</div>
+          <div class="stack-desc">資料驗證</div>
+        </div>
+        <div class="stack-sep">+</div>
+        <div class="stack-item">
+          <div class="stack-icon">🐘</div>
+          <div class="stack-name">PostgreSQL</div>
+          <div class="stack-desc">關聯式資料庫</div>
+        </div>
+        <div class="stack-sep">+</div>
+        <div class="stack-item">
+          <div class="stack-icon">🔑</div>
+          <div class="stack-name">python-dotenv</div>
+          <div class="stack-desc">環境變數管理</div>
+        </div>
+      </div>
+
+      <!-- File Cards -->
+      <div class="arch-files">
+        <!-- main.py -->
+        <div class="arch-file">
+          <div class="af-filename">main.py</div>
+          <div class="af-role">FastAPI App 入口 ＋ Uvicorn 啟動</div>
+          <div class="af-desc">
+            建立 FastAPI app 實例，透過 uvicorn 以 ASGI 方式啟動伺服器。
+            定義所有 RESTful API 路由，依資源分為帳號（signup / login / logout / 查詢 / 修改 / 刪除）、揪團（建立 / 列表）、加入申請（提交 / 審核）。
+            使用 <code style="font-family:'DM Mono',monospace;font-size:10px;background:var(--bg2);padding:1px 5px;border-radius:3px;">Depends(get_db)</code> 注入資料庫 Session。
+          </div>
+          <div class="af-apis">
+            <span class="api-chip post">POST /api/account/signup</span>
+            <span class="api-chip post">POST /api/account/login</span>
+            <span class="api-chip get">GET /api/team</span>
+            <span class="api-chip post">POST /api/team</span>
+            <span class="api-chip post">POST /api/team/{id}/join</span>
+            <span class="api-chip patch">PATCH /api/team/{id}/join/{uid}</span>
+          </div>
+        </div>
+
+        <!-- database.py -->
+        <div class="arch-file" style="border-top-color: var(--gold);">
+          <div class="af-filename" style="color:var(--gold);">database.py</div>
+          <div class="af-role">資料庫連線設定</div>
+          <div class="af-desc">
+            以 python-dotenv 從 <code style="font-family:'DM Mono',monospace;font-size:10px;background:var(--bg2);padding:1px 5px;border-radius:3px;">.env</code> 讀取 <code style="font-family:'DM Mono',monospace;font-size:10px;background:var(--bg2);padding:1px 5px;border-radius:3px;">DATABASE_URL</code>，
+            使用 SQLAlchemy <code style="font-family:'DM Mono',monospace;font-size:10px;background:var(--bg2);padding:1px 5px;border-radius:3px;">create_engine</code> 建立 PostgreSQL 連線引擎，
+            配置 SessionLocal（autocommit=False, autoflush=False）確保手動 commit 控制，
+            並輸出 <code style="font-family:'DM Mono',monospace;font-size:10px;background:var(--bg2);padding:1px 5px;border-radius:3px;">Base</code> 供所有 ORM 模型繼承。
+          </div>
+        </div>
+
+        <!-- models.py -->
+        <div class="arch-file" style="border-top-color: var(--orange);">
+          <div class="af-filename" style="color:var(--orange);">models.py</div>
+          <div class="af-role">SQLAlchemy ORM 資料表模型</div>
+          <div class="af-desc">
+            定義三張資料表的 Python 類別，對應資料庫實際欄位：<br>
+            <strong>User</strong>（uid PK, name, mail unique, hashed_password, mainImage）<br>
+            <strong>Team</strong>（orderId PK, title, url, location, deliverFee, endAt, ownerId FK→User）<br>
+            <strong>JoinTeam</strong>（orderId+uid 複合 PK, foodName, price, status 預設 0）
+          </div>
+        </div>
+
+        <!-- schemas.py -->
+        <div class="arch-file" style="border-top-color: var(--text3);">
+          <div class="af-filename" style="color:var(--text3);">schemas.py</div>
+          <div class="af-role">Pydantic 資料驗證 Schema</div>
+          <div class="af-desc">
+            定義每個 API 端點的 Request Body 與 Response Model，
+            確保型別安全並自動生成 Swagger 文件。共 10 個 Schema 類別，包含：
+            UserSignupCreate / UserLoginResponse / GetUser / UserChange、
+            TeamCreate / TeamResponse（含 member 清單與 totalPrice）、
+            JoinTeamCreate / HandleJoinTeam 等。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /deck -->
 
 <!-- ─── Navigation ──────────────────────────── -->
 <nav class="snav" id="snav">
   <button class="snav-btn" id="prev" title="上一頁">‹</button>
   <div class="snav-dots" id="dots"></div>
-  <span class="snav-counter" id="counter">1 / 9</span>
+  <span class="snav-counter" id="counter">1 / 10</span>
   <button class="snav-btn" id="next" title="下一頁">›</button>
 </nav>
 
