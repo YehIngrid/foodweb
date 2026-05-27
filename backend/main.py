@@ -1,12 +1,18 @@
 import uuid
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Cookie
+import os
+import secrets
+from datetime import datetime, timedelta
+import jwt
 from sqlalchemy.orm import Session
 from schemas import (UserSignupCreate, UserSignupResponse, UserLogin, UserLoginResponse
 , GetUser, UserChange, DeleteUser, TeamCreate, TeamResponse, JoinTeamCreate
 , JoinTeamResponse, HandleJoinTeam, HandleResponse, MemberInfo)
 from database import SessionLocal, Base, engine
-from models import User, Team, JoinTeam
+from models import User, Team, JoinTeam, RefreshToken
+from fastapi.responses import JSONResponse
 from typing import List
+from fastapi.staticfiles import StaticFiles
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,6 +24,21 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# JWT / token settings
+JWT_SECRET = os.getenv("JWT_SECRET", "dev_secret_change_me")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_EXPIRE_DAYS", "7"))
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm="HS256")
+    return encoded_jwt
 
 # sign up = add user
 @app.post("/api/account/signup", response_model=UserSignupResponse)
@@ -37,12 +58,48 @@ def loginAccount(user: UserLogin, db: Session = Depends(get_db)):
     if user.password != db_user.hashed_password:
         raise HTTPException(status_code=401, detail="帳號密碼錯誤")
     else:
-        return {"uid": db_user.uid, "name": db_user.name}
+        # 成功登入：產生 access token 與 refresh token，並把 refresh token 存入 DB
+        access_token = create_access_token({"sub": db_user.uid, "name": db_user.name})
+        refresh_token = secrets.token_urlsafe(32)
+        expires_at = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+        db_refresh = RefreshToken(token=refresh_token, uid=db_user.uid, expires_at=expires_at)
+        db.add(db_refresh)
+        db.commit()
+
+        resp = JSONResponse(content={"access_token": access_token, "token_type": "bearer", "uid": db_user.uid, "name": db_user.name})
+        resp.set_cookie("refresh_token", refresh_token, httponly=True, samesite="lax", max_age=REFRESH_TOKEN_EXPIRE_DAYS*24*3600, path="/")
+        return resp
 
 @app.post("/api/account/logout")
-def logout():
-    return {
-    }
+def logout(refresh_token: str = Cookie(None), db: Session = Depends(get_db)):
+    # 刪除儲存在資料庫中的 refresh token（如果有）並清除 cookie
+    if refresh_token:
+        db_token = db.query(RefreshToken).filter(RefreshToken.token == refresh_token).first()
+        if db_token:
+            db.delete(db_token)
+            db.commit()
+    resp = JSONResponse(content={})
+    resp.delete_cookie("refresh_token", path="/")
+    return resp
+
+
+@app.post("/api/account/refresh")
+def refresh_access_token(refresh_token: str = Cookie(None), db: Session = Depends(get_db)):
+    if not refresh_token:
+        raise HTTPException(status_code=401, detail="缺少 refresh token")
+    db_token = db.query(RefreshToken).filter(RefreshToken.token == refresh_token).first()
+    if not db_token:
+        raise HTTPException(status_code=401, detail="無效的 refresh token")
+    if db_token.expires_at and db_token.expires_at < datetime.utcnow():
+        # expired: 移除並拒絕
+        db.delete(db_token)
+        db.commit()
+        raise HTTPException(status_code=401, detail="refresh token 已過期")
+    db_user = db.query(User).filter(User.uid == db_token.uid).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="使用者不存在")
+    access_token = create_access_token({"sub": db_user.uid, "name": db_user.name})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/api/account/{uid}", response_model=GetUser)
 def getUserData(uid: str, db: Session = Depends(get_db)):
@@ -179,3 +236,8 @@ def changeStatus(orderId: str, uid: str, caller_uid: str, jointeam: HandleJoinTe
         "uid": db_join.uid,
         "status": db_join.status
     }
+import os
+
+# 靜態檔案目錄（相對於 backend 資料夾的上層 front）
+front_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "front")
+app.mount("/", StaticFiles(directory=front_dir, html=True), name="front")

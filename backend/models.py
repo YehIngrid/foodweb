@@ -32,3 +32,12 @@ class JoinTeam(Base):
     foodName = Column(String(20))
     status = Column(Integer, default=0)
     price = Column(Integer)
+
+
+class RefreshToken(Base):
+    __tablename__ = 'refresh_token'
+
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String, unique=True, index=True, nullable=False)
+    uid = Column(String, ForeignKey("user.uid"), nullable=False)
+    expires_at = Column(DateTime, nullable=True)
