@@ -441,6 +441,13 @@
     .submit-success-icon.orange{background:var(--orange-bg);color:var(--orange)}
     .submit-success-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
     .submit-success-sub{font-size:13px;color:var(--text2)}
+    .page-toast{
+      background: rgba(35, 88, 52, 0.5);
+      border: 1px solid rgba(35, 88, 52, 0.24);
+      border-radius: 18px;
+      padding: 14px 16px 16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.08);
+    }
 
     /* ─── Profile side panel ──────────────────── */
 .profile-panel {
@@ -685,11 +692,16 @@
     <li><a href="#stats">社群數據</a></li>
   </ul>
   <div class="nav-actions">
-    <button class="btn-ghost">登入</button>
-    <button class="btn-solid">立即加入</button>
-    <button class="nav-profile" onclick="openProfile('我的帳號')" title="我的帳號">葉</button>
+    <button class="btn-ghost" id="login-btn" onclick="loginPrompt()">登入</button>
+    <button class="btn-solid" id="signup-btn" onclick="openSignupPrompt()">立即加入</button>
+    <button class="nav-profile" id="profile-btn" onclick="openProfile('我的帳號')" title="我的帳號" style="display:none">葉</button>
   </div>
 </nav>
+<div id="page-toast" class="submit-success page-toast" style="position:fixed;top:86px;left:50%;transform:translateX(-50%);width:min(90%,360px);z-index:900;display:none;pointer-events:none;">
+  <div class="submit-success-icon green">✓</div>
+  <div class="submit-success-title" id="page-toast-title"></div>
+  <div class="submit-success-sub" id="page-toast-sub"></div>
+</div>
 
 <!-- ══ Hero + Tabs ══ -->
 <section id="hero">
@@ -714,7 +726,6 @@
             <li><span class="feat-chip green">私人房間</span><span>每個揪單開設獨立房間，成員清單與點餐內容透明可見</span></li>
             <li><span class="feat-chip green">自動分算</span><span>運費與折扣依金額比例精準分攤，浮點數處理正確</span></li>
             <li><span class="feat-chip green">即時同步</span><span>加入後人數與金額進度立即更新</span></li>
-            <li><span class="feat-chip green">誠信積分</span><span>履約紀錄影響積分，建立社群信任機制</span></li>
           </ul>
         </div>
 
@@ -758,200 +769,20 @@
       </div>
 
       <!-- 即時揪單 -->
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div style="margin-bottom:16px;">
         <div class="panel-listings-title" style="margin-bottom:0">
           <span class="live-dot green"></span>
           即時揪單列表
         </div>
-        <div class="gb-filter" id="gb-filter">
-          <span class="gb-filter-lbl">篩選</span>
-          <button class="filt-btn active" data-cat="全部" onclick="filterGB(this)">全部<span class="filt-count">7</span></button>
-          <button class="filt-btn" data-cat="速食" onclick="filterGB(this)">速食<span class="filt-count">2</span></button>
-          <button class="filt-btn" data-cat="中式" onclick="filterGB(this)">中式<span class="filt-count">2</span></button>
-          <button class="filt-btn" data-cat="飲料" onclick="filterGB(this)">飲料<span class="filt-count">1</span></button>
-          <button class="filt-btn" data-cat="日式" onclick="filterGB(this)">日式<span class="filt-count">1</span></button>
-          <button class="filt-btn" data-cat="其他" onclick="filterGB(this)">其他<span class="filt-count">1</span></button>
+      </div>
+      <div class="cards-row" id="gb-active-cards-row"></div><!-- /cards-row -->
+      <div style="margin:28px 0 16px;">
+        <div class="panel-listings-title" style="margin-bottom:0">
+          <span class="live-dot"></span>
+          已結束的訂單
         </div>
       </div>
-      <div class="cards-row" id="gb-cards-row">
-
-        <div class="gb-card" data-category="速食">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">麥當勞 興大店</div><span class="gb-cat">速食</span></div>
-            <div class="gb-host">團主：林小明 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：理學院一樓大廳</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span id="gb1-amt">342</span> / 400</span></div>
-              <div class="bar"><div class="bar-fill" id="gb1-bar" style="width:85%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown urgent" data-sec="1140"><span class="cd-dot"></span><span class="tm">19:00</span></div>
-              <div class="member-ct">已有 <strong id="gb1-cnt">6</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members" id="gb1-members">
-            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林小明 <span class="m-badge">團主</span></div><div class="m-item">大麥克套餐</div></div>
-            <div class="member-row"><div class="m-avatar">陳</div><div class="m-name">陳佳慧</div><div class="m-item">雙層牛堡</div></div>
-            <div class="member-row"><div class="m-avatar">王</div><div class="m-name">王雨柔</div><div class="m-item">麥辣雞腿堡套餐</div></div>
-            <div class="member-row"><div class="m-avatar">張</div><div class="m-name">張博文</div><div class="m-item">麥香魚 × 2</div></div>
-            <div class="member-row"><div class="m-avatar">李</div><div class="m-name">李欣怡</div><div class="m-item">麥脆雞套餐</div></div>
-            <div class="member-row"><div class="m-avatar">吳</div><div class="m-name">吳建廷</div><div class="m-item">大麥克 + 可樂</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room" onclick="openRoom(1)">進入揪團房間 →</button></div>
-        </div>
-
-        <div class="gb-card" data-category="中式">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">胡椒廚房</div><span class="gb-cat">中式</span></div>
-            <div class="gb-host">團主：陳佳慧 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：農學院圖書館門口</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span id="gb2-amt">580</span> / 600</span></div>
-              <div class="bar"><div class="bar-fill" id="gb2-bar" style="width:97%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown" data-sec="3600"><span class="cd-dot"></span><span class="tm">01:00:00</span></div>
-              <div class="member-ct">已有 <strong id="gb2-cnt">9</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members" id="gb2-members">
-            <div class="member-row"><div class="m-avatar">陳</div><div class="m-name">陳佳慧 <span class="m-badge">團主</span></div><div class="m-item">招牌胡椒豬排飯</div></div>
-            <div class="member-row"><div class="m-avatar">黃</div><div class="m-name">黃志偉</div><div class="m-item">嫩煎雞排飯</div></div>
-            <div class="member-row"><div class="m-avatar">劉</div><div class="m-name">劉美玲</div><div class="m-item">蔬食咖哩飯</div></div>
-            <div class="member-row"><div class="m-avatar">蔡</div><div class="m-name">蔡宗翰</div><div class="m-item">招牌胡椒豬排飯</div></div>
-            <div class="member-row"><div class="m-avatar">許</div><div class="m-name">許雅婷</div><div class="m-item">日式炸雞便當</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room" onclick="openRoom(2)">進入揪團房間 →</button></div>
-        </div>
-
-        <div class="gb-card" data-category="飲料">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">五十嵐 外送</div><span class="gb-cat">飲料</span></div>
-            <div class="gb-host">團主：王雨柔 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：工學院二館 B101</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span id="gb3-amt">210</span> / 500</span></div>
-              <div class="bar"><div class="bar-fill" id="gb3-bar" style="width:42%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown" data-sec="5400"><span class="cd-dot"></span><span class="tm">01:30:00</span></div>
-              <div class="member-ct">已有 <strong id="gb3-cnt">3</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members" id="gb3-members">
-            <div class="member-row"><div class="m-avatar">王</div><div class="m-name">王雨柔 <span class="m-badge">團主</span></div><div class="m-item">四季春茶拿鐵 L</div></div>
-            <div class="member-row"><div class="m-avatar">鄭</div><div class="m-name">鄭凱文</div><div class="m-item">珍珠奶茶 L</div></div>
-            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林怡君</div><div class="m-item">抹茶拿鐵 M</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room" onclick="openRoom(3)">進入揪團房間 →</button></div>
-        </div>
-
-        <div class="gb-card" data-category="日式">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">壽司郎外送</div><span class="gb-cat">日式</span></div>
-            <div class="gb-host">團主：黃志偉 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：管理學院一館 M204</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$440 / 600</span></div>
-              <div class="bar"><div class="bar-fill" style="width:73%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown" data-sec="4500"><span class="cd-dot"></span><span class="tm">01:15:00</span></div>
-              <div class="member-ct">已有 <strong>4</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members">
-            <div class="member-row"><div class="m-avatar">黃</div><div class="m-name">黃志偉 <span class="m-badge">團主</span></div><div class="m-item">鮭魚握壽司組合</div></div>
-            <div class="member-row"><div class="m-avatar">蔡</div><div class="m-name">蔡宗翰</div><div class="m-item">生魚片丼飯</div></div>
-            <div class="member-row"><div class="m-avatar">許</div><div class="m-name">許雅婷</div><div class="m-item">明蝦握壽司</div></div>
-            <div class="member-row"><div class="m-avatar">鄭</div><div class="m-name">鄭凱文</div><div class="m-item">炙燒牛肉握壽司</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room" onclick="openRoom(4)">進入揪團房間 →</button></div>
-        </div>
-
-        <div class="gb-card" data-category="速食">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">丹丹漢堡</div><span class="gb-cat">速食</span></div>
-            <div class="gb-host">團主：劉美玲 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：圖書館一樓門口</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$185 / 350</span></div>
-              <div class="bar"><div class="bar-fill" style="width:53%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown" data-sec="6300"><span class="cd-dot"></span><span class="tm">01:45:00</span></div>
-              <div class="member-ct">已有 <strong>3</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members">
-            <div class="member-row"><div class="m-avatar">劉</div><div class="m-name">劉美玲 <span class="m-badge">團主</span></div><div class="m-item">招牌漢堡套餐</div></div>
-            <div class="member-row"><div class="m-avatar">吳</div><div class="m-name">吳建廷</div><div class="m-item">辣味雞腿堡</div></div>
-            <div class="member-row"><div class="m-avatar">張</div><div class="m-name">張博文</div><div class="m-item">丹丹牛肉麵</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room">進入揪團房間 →</button></div>
-        </div>
-
-        <div class="gb-card" data-category="中式">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">老四川麻辣燙</div><span class="gb-cat">中式</span></div>
-            <div class="gb-host">團主：許雅婷 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：法商學院 B棟入口</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$320 / 500</span></div>
-              <div class="bar"><div class="bar-fill" style="width:64%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown" data-sec="2700"><span class="cd-dot"></span><span class="tm">45:00</span></div>
-              <div class="member-ct">已有 <strong>4</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members">
-            <div class="member-row"><div class="m-avatar">許</div><div class="m-name">許雅婷 <span class="m-badge">團主</span></div><div class="m-item">麻辣鴛鴦鍋底</div></div>
-            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林怡君</div><div class="m-item">清湯牛肉麵</div></div>
-            <div class="member-row"><div class="m-avatar">李</div><div class="m-name">李欣怡</div><div class="m-item">麻辣燙套餐</div></div>
-            <div class="member-row"><div class="m-avatar">黃</div><div class="m-name">黃志偉</div><div class="m-item">川味紅油抄手</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room">進入揪團房間 →</button></div>
-        </div>
-
-        <div class="gb-card" data-category="其他">
-          <div class="gb-head">
-            <div class="gb-top"><div class="gb-name">拿坡里披薩外送</div><span class="gb-cat">其他</span></div>
-            <div class="gb-host">團主：蔡宗翰 · <span class="gb-tag" style="font-size:10px;padding:1px 6px">揪團中</span></div>
-          </div>
-          <div class="gb-meta">
-            <div class="gb-loc"><span class="loc-dot"></span>取餐：獸醫學院 V棟交誼廳</div>
-            <div class="gb-prog-wrap">
-              <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$460 / 800</span></div>
-              <div class="bar"><div class="bar-fill" style="width:58%"></div></div>
-            </div>
-            <div class="gb-status">
-              <div class="countdown" data-sec="7200"><span class="cd-dot"></span><span class="tm">02:00:00</span></div>
-              <div class="member-ct">已有 <strong>4</strong> 人</div>
-            </div>
-          </div>
-          <div class="gb-members">
-            <div class="member-row"><div class="m-avatar">蔡</div><div class="m-name">蔡宗翰 <span class="m-badge">團主</span></div><div class="m-item">瑪格麗特 12吋</div></div>
-            <div class="member-row"><div class="m-avatar">王</div><div class="m-name">王雨柔</div><div class="m-item">BBQ 雞肉披薩</div></div>
-            <div class="member-row"><div class="m-avatar">林</div><div class="m-name">林怡君</div><div class="m-item">海鮮總匯披薩</div></div>
-            <div class="member-row"><div class="m-avatar">張</div><div class="m-name">張博文</div><div class="m-item">四季披薩 9吋</div></div>
-          </div>
-          <div class="gb-footer"><button class="btn-room">進入揪團房間 →</button></div>
-        </div>
-
-      </div><!-- /cards-row -->
+      <div class="cards-row" id="gb-ended-cards-row"></div><!-- /cards-row -->
     </div><!-- /panel-inner -->
   </div><!-- /hpanel-gb -->
 
@@ -983,20 +814,13 @@
               <label class="form-label">餐廳名稱 <span class="req">*</span></label>
               <input class="form-ctrl" type="text" placeholder="例：麥當勞興大店" id="gbf-name">
             </div>
-            <div class="form-field">
-              <label class="form-label">餐廳類別 <span class="req">*</span></label>
-              <select class="form-ctrl" id="gbf-cat">
-                <option value="">請選擇</option>
-                <option>速食</option>
-                <option>中式</option>
-                <option>日式</option>
-                <option>飲料</option>
-                <option>其他</option>
-              </select>
-            </div>
             <div class="form-field" style="grid-column:1/-1">
               <label class="form-label">取餐地點 <span class="req">*</span></label>
               <input class="form-ctrl" type="text" placeholder="例：理學院一樓大廳" id="gbf-loc">
+            </div>
+            <div class="form-field" style="grid-column:1/-1">
+              <label class="form-label">外送平台連結 <span class="req">*</span></label>
+              <input class="form-ctrl" type="url" placeholder="https://www.foodpanda.com/tw/..." id="gbf-url">
             </div>
           </div>
         </div>
@@ -1051,6 +875,50 @@
   </div>
 </div>
 
+<!-- ══ Auth Modal ══ -->
+<div class="modal-overlay" id="auth-modal" onclick="closeModalOnBg(event, 'auth-modal')">
+  <div class="modal" id="auth-modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="auth-modal-title">登入帳號</div>
+        <div class="modal-sub">請使用電子郵件與密碼登入或註冊</div>
+      </div>
+      <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid full">
+        <div class="form-field" id="auth-name-row" style="display:none">
+          <label class="form-label">姓名 <span class="req">*</span></label>
+          <input class="form-ctrl" type="text" id="auth-name" placeholder="你的姓名">
+        </div>
+        <div class="form-field">
+          <label class="form-label">電子郵件 <span class="req">*</span></label>
+          <input class="form-ctrl" type="email" id="auth-email" placeholder="your@nchu.edu.tw">
+        </div>
+        <div class="form-field">
+          <label class="form-label">密碼 <span class="req">*</span></label>
+          <input class="form-ctrl" type="password" id="auth-password" placeholder="至少 8 碼">
+        </div>
+      </div>
+      <div class="form-field" style="padding-top:0">
+        <div id="auth-error" style="color:var(--danger);font-size:13px;min-height:20px"></div>
+      </div>
+      <div id="auth-success" class="submit-success">
+        <div class="submit-success-icon green">✓</div>
+        <div class="submit-success-title" id="auth-success-title"></div>
+        <div class="submit-success-sub" id="auth-success-sub"></div>
+      </div>
+      <div class="modal-section" style="border:none;padding-top:0">
+        <button class="modal-submit green" id="auth-submit-btn" onclick="submitAuthForm()">登入</button>
+      </div>
+      <div style="text-align:center;font-size:13px;color:var(--text3);padding-top:8px">
+        <span id="auth-switch-text">還沒有帳號？</span>
+        <button type="button" class="link-btn" id="auth-switch-btn" onclick="openAuthModal(authMode==='login'?'signup':'login')">立即加入</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ Profile Side Panel ══ -->
 <div class="profile-overlay" id="profile-overlay" onclick="closeProfile()"></div>
 <div class="profile-panel" id="profile-panel">
@@ -1083,6 +951,10 @@
         </div>
       </div>
       <div class="modal-section">
+        <div class="modal-sect-title">外送平台連結</div>
+        <div id="room-link"></div>
+      </div>
+      <div class="modal-section">
         <div class="modal-sect-title">成員與點餐清單</div>
         <div class="room-members" id="room-members-list"></div>
       </div>
@@ -1090,28 +962,9 @@
         <div class="modal-sect-title">費用試算</div>
         <div id="room-cost-breakdown"></div>
       </div>
-      <div class="modal-section">
+      <div class="modal-section" id="approval-section" style="display:none">
         <div class="modal-sect-title">待審核申請</div>
-        <div class="approval-board" id="approval-board">
-          <div class="pending-req" id="req-1">
-            <div class="pr-avatar">周</div>
-            <div class="pr-info"><div class="pr-name">周雅文</div><div class="pr-item">雙層牛堡套餐</div></div>
-            <div class="pr-price">NT$139</div>
-            <div class="pr-actions">
-              <button class="btn-approve" onclick="approveReq('req-1')">同意</button>
-              <button class="btn-reject" onclick="rejectReq('req-1')">婉拒</button>
-            </div>
-          </div>
-          <div class="pending-req" id="req-2">
-            <div class="pr-avatar">范</div>
-            <div class="pr-info"><div class="pr-name">范俊宇</div><div class="pr-item">麥辣雞腿堡</div></div>
-            <div class="pr-price">NT$129</div>
-            <div class="pr-actions">
-              <button class="btn-approve" onclick="approveReq('req-2')">同意</button>
-              <button class="btn-reject" onclick="rejectReq('req-2')">婉拒</button>
-            </div>
-          </div>
-        </div>
+        <div class="approval-board" id="approval-board"></div>
       </div>
       <div class="modal-section">
         <div class="modal-sect-title">申請加入此團</div>
@@ -1149,12 +1002,12 @@
   <div class="cta-inner">
     <div class="cta-kicker">立即加入</div>
     <h2 class="cta-h">加入興大外送揪團，<br>從今天開始。</h2>
-    <p class="cta-p">用學校信箱註冊，取得 JWT 會員資格，開始揪團、分享、累積誠信積分。</p>
+    <p class="cta-p">用學校信箱註冊，取得會員資格，開始揪團、分享、累積誠信積分。</p>
     <div class="cta-form">
       <input type="email" class="cta-in" placeholder="your@nchu.edu.tw" id="cta-email">
-      <button class="cta-btn" onclick="handleSignup()">立即加入</button>
+      <button class="cta-btn" onclick="openAuthModal('signup')">立即加入</button>
     </div>
-    <p class="cta-note">僅限中興大學 @nchu.edu.tw 信箱 · JWT 安全認證保護</p>
+    <p class="cta-note">立即註冊帳號，開始使用 FoodWeb 會員系統</p>
   </div>
 </section>
 
@@ -1180,7 +1033,7 @@
     </div>
   </div>
   <div class="footer-bot">
-    <div class="footer-copy">© 2024 惜食揪團 FoodWeb · 國立中興大學 網際網路系統設計課程</div>
+    <div class="footer-copy">© 2026 惜食揪團 FoodWeb · 國立中興大學 網際網路系統設計課程</div>
     <div class="footer-team">指導教授：<strong>黃仲誼 博士</strong> · 專案成員：<strong>葉潔頤、賴姿妍</strong></div>
   </div>
 </footer>
@@ -1239,25 +1092,177 @@ function closeModal(id) {
 function closeCreateOnBg(e, id) {
   if (e.target === document.getElementById(id)) closeModal(id);
 }
+function closeModalOnBg(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
 
 // Show/hide custom time input
+function getAuthData() {
+  return {
+    token: localStorage.getItem('foodweb_token'),
+    uid: localStorage.getItem('foodweb_uid'),
+    name: localStorage.getItem('foodweb_name'),
+  };
+}
+function setAuthData(token, uid, name) {
+  localStorage.setItem('foodweb_token', token);
+  localStorage.setItem('foodweb_uid', uid);
+  localStorage.setItem('foodweb_name', name);
+}
+function clearAuthData() {
+  localStorage.removeItem('foodweb_token');
+  localStorage.removeItem('foodweb_uid');
+  localStorage.removeItem('foodweb_name');
+}
+function authHeaders() {
+  const auth = getAuthData();
+  return auth.token ? { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` } : { 'Content-Type': 'application/json' };
+}
+function updateNavAuth() {
+  const auth = getAuthData();
+  const loginBtn = document.getElementById('login-btn');
+  const signupBtn = document.getElementById('signup-btn');
+  const profileBtn = document.getElementById('profile-btn');
+  if (auth.token) {
+    loginBtn.textContent = '登出';
+    loginBtn.onclick = logout;
+    signupBtn.style.display = 'none';
+    profileBtn.style.display = '';
+    profileBtn.textContent = auth.name ? auth.name[0] : '我';
+    profileBtn.title = auth.name ? auth.name : '我的帳號';
+  } else {
+    loginBtn.textContent = '登入';
+    loginBtn.onclick = loginPrompt;
+    signupBtn.style.display = '';
+    profileBtn.style.display = 'none';
+  }
+}
+let authMode = 'login';
+function openAuthModal(mode) {
+  authMode = mode;
+  document.getElementById('auth-modal-title').textContent = mode === 'login' ? '登入帳號' : '立即加入';
+  document.getElementById('auth-submit-btn').textContent = mode === 'login' ? '登入' : '註冊';
+  document.getElementById('auth-name-row').style.display = mode === 'signup' ? '' : 'none';
+  document.getElementById('auth-email').value = '';
+  document.getElementById('auth-password').value = '';
+  document.getElementById('auth-name').value = '';
+  document.getElementById('auth-error').textContent = '';
+  document.getElementById('auth-success').classList.remove('show');
+  document.getElementById('auth-success-title').textContent = '';
+  document.getElementById('auth-success-sub').textContent = '';
+  document.getElementById('auth-switch-text').textContent = mode === 'login' ? '還沒有帳號？' : '已有帳號？';
+  document.getElementById('auth-switch-btn').textContent = mode === 'login' ? '立即加入' : '登入';
+  document.getElementById('auth-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuthModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function showAuthSuccess(title, sub, callback) {
+  document.getElementById('auth-error').textContent = '';
+  document.getElementById('auth-success-title').textContent = title;
+  document.getElementById('auth-success-sub').textContent = sub;
+  document.getElementById('auth-success').classList.add('show');
+  if (callback) setTimeout(callback, 1000);
+}
+function showPageMessage(title, sub) {
+  const toast = document.getElementById('page-toast');
+  document.getElementById('page-toast-title').textContent = title;
+  document.getElementById('page-toast-sub').textContent = sub;
+  toast.classList.add('show');
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.style.display = 'none';
+  }, 2200);
+}
+function submitAuthForm() {
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value.trim();
+  const name = document.getElementById('auth-name').value.trim();
+  if (!email || !password || (authMode === 'signup' && !name)) {
+    document.getElementById('auth-error').textContent = '請填寫所有必填欄位';
+    return;
+  }
+  const url = authMode === 'login' ? '/api/account/login' : '/api/account/signup';
+  const body = authMode === 'login'
+    ? { mail: email, password }
+    : { mail: email, name, password };
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || '操作失敗');
+      if (authMode === 'login') {
+        setAuthData(data.access_token, data.uid, data.name);
+        updateNavAuth();
+        showAuthSuccess('登入成功', '歡迎回到 FoodWeb。', closeAuthModal);
+      } else {
+        showAuthSuccess('註冊成功', '已建立帳號，請用帳號密碼登入。', () => openAuthModal('login'));
+      }
+    })
+    .catch(err => {
+      document.getElementById('auth-error').textContent = err.message;
+    });
+}
+function loginPrompt() {
+  openAuthModal('login');
+}
+function openSignupPrompt() {
+  openAuthModal('signup');
+}
+function logout() {
+  clearAuthData();
+  updateNavAuth();
+  showPageMessage('已登出', '您已成功登出，歡迎再次回來。');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('gbf-deadline').addEventListener('change', function() {
     document.getElementById('gbf-custom-time-wrap').style.display =
       this.value === 'custom' ? '' : 'none';
   });
+  updateNavAuth();
+  loadGroupBuys();
 });
 
 function submitCreateGB() {
+  const auth = getAuthData();
+  if (!auth.token) {
+    alert('請先登入後再建立揪團');
+    return;
+  }
   const name = document.getElementById('gbf-name').value.trim();
-  const cat  = document.getElementById('gbf-cat').value;
   const loc  = document.getElementById('gbf-loc').value.trim();
+  const url  = document.getElementById('gbf-url').value.trim();
+  const delivery = parseInt(document.getElementById('gbf-delivery').value) || 0;
   const dl   = document.getElementById('gbf-deadline').value;
+  const note = document.getElementById('gbf-note').value.trim();
+
+  let deadline;
+  if (dl === 'custom') {
+    const timeValue = document.getElementById('gbf-custom-time').value;
+    const [hh, mm] = timeValue.split(':').map(v => parseInt(v, 10));
+    const dt = new Date();
+    dt.setHours(hh || 0, mm || 0, 0, 0);
+    if (dt < new Date()) dt.setDate(dt.getDate() + 1);
+    deadline = dt.toISOString();
+  } else {
+    const minutes = parseInt(dl, 10);
+    const dt = new Date();
+    dt.setMinutes(dt.getMinutes() + (isNaN(minutes) ? 0 : minutes));
+    deadline = dt.toISOString();
+  }
+
   // Basic validation
   const fields = [
     { el: document.getElementById('gbf-name'), val: name },
-    { el: document.getElementById('gbf-cat'),  val: cat },
     { el: document.getElementById('gbf-loc'),  val: loc },
+    { el: document.getElementById('gbf-url'),  val: url },
     { el: document.getElementById('gbf-deadline'), val: dl },
   ];
   let valid = true;
@@ -1267,75 +1272,283 @@ function submitCreateGB() {
   });
   if (!valid) return;
 
-  console.log('[API] POST /api/group-buy/create →', {
-    name, cat, loc,
-    delivery: document.getElementById('gbf-delivery').value,
-    min_amount: document.getElementById('gbf-min').value,
-    deadline_minutes: dl,
-    note: document.getElementById('gbf-note').value,
-  });
-
-  document.getElementById('gb-form-body').style.display = 'none';
-  document.getElementById('gb-success').classList.add('show');
-  setTimeout(() => closeModal('create-gb-modal'), 2200);
+  fetch('/api/team', {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({
+      url,
+      title: name,
+      location: loc,
+      deliverFee: delivery,
+      endAt: deadline,
+      description: note,
+    }),
+  })
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || '建立揪團失敗');
+      roomDataByOrderId[data.orderId] = data;
+      updateGroupCard(data);
+      document.getElementById('gb-form-body').style.display = 'none';
+      document.getElementById('gb-success').classList.add('show');
+      const roomLink = `${window.location.origin}/?room=${encodeURIComponent(data.orderId)}`;
+      navigator.clipboard?.writeText(roomLink).catch(() => {});
+      setTimeout(() => {
+        closeModal('create-gb-modal');
+      }, 2200);
+    })
+    .catch(err => alert(err.message));
 }
 
 /* ── GB Category Filter ── */
-function filterGB(btn) {
-  const cat = btn.dataset.cat;
-  document.querySelectorAll('#gb-filter .filt-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('#gb-cards-row .gb-card').forEach(card => {
-    const match = cat === '全部' || card.dataset.category === cat;
-    card.classList.toggle('hidden', !match);
-  });
-}
 
 /* ── Room Modal ── */
-const roomData = {
-  1: { name:'麥當勞 興大店', host:'林小明', location:'理學院一樓大廳', deadline:'19:00', delivery:60,
-       members:[{name:'林小明',item:'大麥克套餐',price:149,isHost:true},{name:'陳佳慧',item:'雙層牛堡',price:139},{name:'王雨柔',item:'麥辣雞腿堡套餐',price:169},{name:'張博文',item:'麥香魚 × 2',price:118},{name:'李欣怡',item:'麥脆雞套餐',price:119},{name:'吳建廷',item:'大麥克 + 可樂',price:149}]},
-  2: { name:'胡椒廚房', host:'陳佳慧', location:'農學院圖書館門口', deadline:'12:30', delivery:40,
-       members:[{name:'陳佳慧',item:'招牌胡椒豬排飯',price:120,isHost:true},{name:'黃志偉',item:'嫩煎雞排飯',price:110},{name:'劉美玲',item:'蔬食咖哩飯',price:100},{name:'蔡宗翰',item:'招牌胡椒豬排飯',price:120},{name:'許雅婷',item:'日式炸雞便當',price:130}]},
-  3: { name:'五十嵐 外送', host:'王雨柔', location:'工學院二館 B101', deadline:'14:00', delivery:30,
-       members:[{name:'王雨柔',item:'四季春茶拿鐵 L',price:75,isHost:true},{name:'鄭凱文',item:'珍珠奶茶 L',price:75},{name:'林怡君',item:'抹茶拿鐵 M',price:60}]},
-};
-let currentRoom = null;
-function openRoom(id) {
-  currentRoom = id; renderRoom(roomData[id]);
+let roomDataByOrderId = {};
+let currentRoomOrderId = null;
+
+function formatTimeString(iso) {
+  const dt = new Date(iso);
+  if (Number.isNaN(dt.getTime())) return iso;
+  return dt.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+}
+function buildGroupCard(team, ended = false) {
+  const deadline = formatTimeString(team.endAt);
+  const total = team.totalPrice || 0;
+  const goal = Math.max(400, total);
+  const progress = goal > 0 ? Math.min(100, Math.round((total / goal) * 100)) : 0;
+  const membersHtml = Array.isArray(team.member) && team.member.length
+    ? team.member.map(m => `
+        <div class="member-row">
+          <div class="m-avatar">${escapeHTML((m.name || '？')[0])}</div>
+          <div class="m-name">${escapeHTML(m.name || '匿名')}${m.uid === team.ownerId ? '<span class="m-badge">團主</span>' : ''}</div>
+          <div class="m-item">${escapeHTML(m.foodName || '無餐點')}</div>
+        </div>`).join('')
+    : `<div class="member-row"><div class="m-avatar">?</div><div class="m-name">目前尚無成員</div></div>`;
+
+  const statusText = ended ? '已結束' : '揪團中';
+  const statusStyle = ended ? 'background:var(--border);color:var(--text2)' : '';
+  const cardClass = ended ? 'gb-card gb-card-ended' : 'gb-card';
+  return `
+    <div class="${cardClass}" id="gb-card-${escapeHTML(team.orderId)}">
+      <div class="gb-head">
+        <div class="gb-top"><div class="gb-name">${escapeHTML(team.title)}</div></div>
+        <div class="gb-host">團主：${escapeHTML(team.ownerName || team.ownerId)} · <span class="gb-tag" style="font-size:10px;padding:1px 6px;${statusStyle}">${statusText}</span></div>
+      </div>
+      <div class="gb-link" style="padding:0 16px 12px;margin-top:-6px;">
+        <a class="btn-room btn-room-link" href="${escapeHTML(team.url || '#')}" target="_blank" rel="noreferrer noopener">外送平台連結</a>
+      </div>
+      <div class="gb-meta">
+        <div class="gb-loc"><span class="loc-dot"></span>取餐：${escapeHTML(team.location)}</div>
+        <div class="gb-prog-wrap">
+          <div class="gb-prog-lbl"><span>訂單金額</span><span>NT$<span class="gb-amt">${total}</span> / ${goal}</span></div>
+          <div class="bar"><div class="bar-fill" style="width:${progress}%"></div></div>
+        </div>
+        <div class="gb-status">
+          <div class="countdown" data-sec="0"><span class="cd-dot"></span><span class="tm">${escapeHTML(deadline)}</span></div>
+          <div class="member-ct">已有 <strong>${team.memberNum || 0}</strong> 人</div>
+        </div>
+      </div>
+      <div class="gb-members">
+        ${membersHtml}
+      </div>
+      <div class="gb-footer"><button class="btn-room" onclick="openRoom('${escapeHTML(team.orderId)}')">進入揪團房間 →</button></div>
+    </div>`;
+}
+function updateGroupCard(team) {
+  const activeRow = document.getElementById('gb-active-cards-row');
+  const endedRow = document.getElementById('gb-ended-cards-row');
+  if (!activeRow || !endedRow || !team || !team.orderId) return;
+  const ended = new Date(team.endAt) <= new Date();
+  const cardHtml = buildGroupCard(team, ended);
+  const existing = document.getElementById(`gb-card-${team.orderId}`);
+  if (existing) {
+    existing.outerHTML = cardHtml;
+    return;
+  }
+  const targetRow = ended ? endedRow : activeRow;
+  const emptyCard = targetRow.querySelector('.gb-empty');
+  if (emptyCard) {
+    targetRow.innerHTML = cardHtml;
+  } else {
+    targetRow.insertAdjacentHTML('beforeend', cardHtml);
+  }
+}
+function loadGroupBuys() {
+  const activeRow = document.getElementById('gb-active-cards-row');
+  const endedRow = document.getElementById('gb-ended-cards-row');
+  if (!activeRow || !endedRow) return;
+  fetch('/api/team')
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || '無法讀取揪團列表');
+      roomDataByOrderId = {};
+      const now = new Date();
+      const active = [];
+      const ended = [];
+      data.forEach(team => {
+        roomDataByOrderId[team.orderId] = team;
+        const endedAt = new Date(team.endAt);
+        if (endedAt.toString() === 'Invalid Date' || endedAt > now) {
+          active.push(team);
+        } else {
+          ended.push(team);
+        }
+      });
+      activeRow.innerHTML = active.length
+        ? active.map(team => buildGroupCard(team, false)).join('')
+        : `<div class="gb-empty" style="padding:28px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);text-align:center;color:var(--text3)">目前尚無即時揪單</div>`;
+      endedRow.innerHTML = ended.length
+        ? ended.map(team => buildGroupCard(team, true)).join('')
+        : `<div class="gb-empty" style="padding:28px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);text-align:center;color:var(--text3)">尚無已結束訂單</div>`;
+    })
+    .catch(err => {
+      console.error(err);
+      const message = `<div class="gb-empty" style="padding:28px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);text-align:center;color:var(--text3)">讀取揪團失敗：${escapeHTML(err.message)}</div>`;
+      activeRow.innerHTML = message;
+      endedRow.innerHTML = message;
+    });
+}
+function openRoom(orderId) {
+  currentRoomOrderId = orderId;
+  const room = roomDataByOrderId[orderId];
+  if (!room) {
+    alert('找不到揪團資料，請重新整理頁面');
+    return;
+  }
+  renderRoom(room);
   document.getElementById('room-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function renderRoom(d) {
-  document.getElementById('room-title').textContent = d.name;
-  document.getElementById('room-sub').textContent = `團主：${d.host} · 取餐：${d.location} · 結單 ${d.deadline}`;
-  const food = d.members.reduce((s,m)=>s+m.price,0), perPerson = Math.ceil(d.delivery/d.members.length);
-  document.getElementById('room-member-n').textContent = d.members.length;
-  document.getElementById('room-total-amt').textContent = `NT$${food+d.delivery}`;
+  const members = Array.isArray(d.member) ? d.member : [];
+  const foodTotal = members.reduce((sum, m) => sum + (m.price || 0), 0);
+  const perPerson = Math.ceil((d.deliverFee || 0) / Math.max(members.length, 1));
+  document.getElementById('room-title').textContent = d.title;
+  document.getElementById('room-sub').textContent = `團主：${d.ownerName || d.ownerId} · 取餐：${d.location} · 結單 ${formatTimeString(d.endAt)}`;
+  document.getElementById('room-link').innerHTML = d.url
+    ? `<a class="btn-room" href="${escapeHTML(d.url)}" target="_blank" rel="noreferrer noopener">前往外送平台</a>`
+    : '<span style="color:var(--text3)">尚無外送平台連結</span>';
+  document.getElementById('room-member-n').textContent = members.length;
+  document.getElementById('room-total-amt').textContent = `NT$${foodTotal + (d.deliverFee || 0)}`;
   document.getElementById('room-per-person').textContent = `每人分攤運費：NT$${perPerson}`;
-  document.getElementById('room-delivery-note').textContent = `外送費 NT$${d.delivery} 依人數平均分攤`;
-  document.getElementById('room-timer-display').textContent = d.deadline;
-  document.getElementById('room-members-list').innerHTML = d.members.map(m=>
-    `<div class="room-member"><div class="rm-avatar">${m.name[0]}</div><div class="rm-name">${m.name}${m.isHost?'<span class="rm-badge">團主</span>':''}</div><div class="rm-item">${m.item}</div><div class="rm-price">NT$${m.price}</div></div>`
-  ).join('');
-  document.getElementById('room-cost-breakdown').innerHTML =
-    `<div class="cost-row"><span class="cost-label">餐點小計</span><span class="cost-val">NT$${food}</span></div>
-     <div class="cost-row"><span class="cost-label">外送費</span><span class="cost-val">NT$${d.delivery}</span></div>
-     <div class="cost-row"><span class="cost-label">每人分攤運費</span><span class="cost-val">≈ NT$${perPerson}</span></div>
-     <div class="cost-row total"><span class="cost-label">總計</span><span class="cost-val">NT$${food+d.delivery}</span></div>`;
+  document.getElementById('room-delivery-note').textContent = `外送費 NT$${d.deliverFee || 0} 依人數平均分攤`;
+  document.getElementById('room-timer-display').textContent = formatTimeString(d.endAt);
+  document.getElementById('room-members-list').innerHTML = members.length
+    ? members.map(m => `
+        <div class="room-member">
+          <div class="rm-avatar">${escapeHTML((m.name || '？')[0])}</div>
+          <div class="rm-name">${escapeHTML(m.name || '匿名')}</div>
+          <div class="rm-item">${escapeHTML(m.foodName || '無餐點')}</div>
+          <div class="rm-price">NT$${m.price || 0}</div>
+        </div>`).join('')
+    : `<div class="room-member"><div class="rm-avatar">?</div><div class="rm-name">尚無成員</div></div>`;
+  document.getElementById('room-cost-breakdown').innerHTML = `
+    <div class="cost-row"><span class="cost-label">餐點小計</span><span class="cost-val">NT$${foodTotal}</span></div>
+    <div class="cost-row"><span class="cost-label">外送費</span><span class="cost-val">NT$${d.deliverFee || 0}</span></div>
+    <div class="cost-row"><span class="cost-label">每人分攤運費</span><span class="cost-val">≈ NT$${perPerson}</span></div>
+    <div class="cost-row total"><span class="cost-label">總計</span><span class="cost-val">NT$${foodTotal + (d.deliverFee || 0)}</span></div>`;
+  renderApprovalBoard(d);
 }
-function closeRoom() { document.getElementById('room-modal').classList.remove('open'); document.body.style.overflow=''; ['room-join-name','room-join-item','room-join-price'].forEach(id=>document.getElementById(id).value=''); }
-function closeRoomOnBg(e) { if (e.target===document.getElementById('room-modal')) closeRoom(); }
+function renderApprovalBoard(room) {
+  const auth = getAuthData();
+  const approvalSection = document.getElementById('approval-section');
+  const board = document.getElementById('approval-board');
+  if (!approvalSection || !board) return;
+  const isOwner = auth.uid && room.ownerId && auth.uid === room.ownerId;
+  const requests = Array.isArray(room.joinRequests) ? room.joinRequests : [];
+  if (!isOwner || requests.length === 0) {
+    approvalSection.style.display = 'none';
+    board.innerHTML = '';
+    return;
+  }
+  approvalSection.style.display = '';
+  board.innerHTML = requests.map(r => `
+      <div class="pending-req" id="req-${escapeHTML(r.uid)}">
+        <div class="pr-avatar">${escapeHTML((r.name || '？')[0])}</div>
+        <div class="pr-info"><div class="pr-name">${escapeHTML(r.name || '匿名')}</div><div class="pr-item">${escapeHTML(r.foodName || '無餐點')}</div></div>
+        <div class="pr-price">NT$${r.price || 0}</div>
+        <div class="pr-actions">
+          <button class="btn-approve" onclick="changeRequestStatus('${escapeHTML(room.orderId)}','${escapeHTML(r.uid)}',1)">同意</button>
+          <button class="btn-reject" onclick="changeRequestStatus('${escapeHTML(room.orderId)}','${escapeHTML(r.uid)}',2)">婉拒</button>
+        </div>
+      </div>`).join('');
+}
+function changeRequestStatus(orderId, uid, status) {
+  const auth = getAuthData();
+  if (!auth.token) {
+    alert('請先登入後再操作');
+    return;
+  }
+  fetch(`/api/team/${encodeURIComponent(orderId)}/join/${encodeURIComponent(uid)}`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ status }),
+  })
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || '更新審核狀態失敗');
+      const room = roomDataByOrderId[orderId];
+      if (!room) return;
+      const requestIndex = (room.joinRequests || []).findIndex(r => r.uid === uid);
+      if (requestIndex !== -1) {
+        const request = room.joinRequests[requestIndex];
+        room.joinRequests.splice(requestIndex, 1);
+        if (status === 1) {
+          room.member = room.member || [];
+          room.member.push({ ...request, status });
+          room.memberNum = (room.memberNum || 0) + 1;
+          room.totalPrice = (room.totalPrice || 0) + (request.price || 0);
+        }
+      }
+      updateGroupCard(room);
+      renderRoom(room);
+      showPageMessage(status === 1 ? '已同意申請' : '已婉拒申請', status === 1 ? '該成員已加入本團' : '該申請已取消');
+    })
+    .catch(err => alert(err.message));
+}
+function closeRoom() { document.getElementById('room-modal').classList.remove('open'); document.body.style.overflow = ''; ['room-join-name','room-join-item','room-join-price'].forEach(id => document.getElementById(id).value = ''); }
+function closeRoomOnBg(e) { if (e.target === document.getElementById('room-modal')) closeRoom(); }
 function joinRoom() {
-  const name=document.getElementById('room-join-name').value.trim(), item=document.getElementById('room-join-item').value.trim(), price=parseInt(document.getElementById('room-join-price').value)||0;
-  if (!name||!item||!price) return;
-  const d=roomData[currentRoom]; d.members.push({name,item,price}); renderRoom(d);
-  const cnt=document.getElementById(`gb${currentRoom}-cnt`); if(cnt) cnt.textContent=d.members.length;
-  const ml=document.getElementById(`gb${currentRoom}-members`);
-  if(ml){ const row=document.createElement('div'); row.className='member-row'; row.innerHTML=`<div class="m-avatar">${name[0]}</div><div class="m-name">${name}</div><div class="m-item">${item}</div>`; ml.appendChild(row); }
-  ['room-join-name','room-join-item','room-join-price'].forEach(id=>document.getElementById(id).value='');
-  const btn=document.getElementById('room-join-btn'); btn.textContent='✓ 已加入！'; btn.style.background='var(--green-l)';
-  setTimeout(()=>{ btn.textContent='加入揪團'; btn.style.background=''; },2500);
+  const item = document.getElementById('room-join-item').value.trim();
+  const price = parseInt(document.getElementById('room-join-price').value) || 0;
+  if (!item || !price) return;
+  const auth = getAuthData();
+  if (!auth.token) {
+    alert('請先登入後再加入揪團');
+    return;
+  }
+  const room = roomDataByOrderId[currentRoomOrderId];
+  if (!room || !room.orderId) {
+    alert('找不到揪團 ID，請重新整理頁面');
+    return;
+  }
+  fetch(`/api/team/${encodeURIComponent(room.orderId)}/join`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({ foodName: item, price }),
+  })
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || '加入揪團失敗');
+      room.member = room.member || [];
+      room.member.push({ uid: auth.uid, name: auth.name || '我', foodName: item, price });
+      room.memberNum = (room.memberNum || 0) + 1;
+      room.totalPrice = (room.totalPrice || 0) + price;
+      renderRoom(room);
+      const btn = document.getElementById('room-join-btn');
+      btn.textContent = '✓ 已送出申請';
+      btn.style.background = 'var(--green-l)';
+      ['room-join-name','room-join-item','room-join-price'].forEach(id => document.getElementById(id).value = '');
+      setTimeout(() => { btn.textContent = '送出申請'; btn.style.background = ''; }, 2500);
+      const card = document.getElementById(`gb-card-${room.orderId}`);
+      if (card) {
+        const countEl = card.querySelector('.member-ct strong');
+        const amountEl = card.querySelector('.gb-amt');
+        if (countEl) countEl.textContent = room.memberNum;
+        if (amountEl) amountEl.textContent = room.totalPrice;
+      }
+    })
+    .catch(err => alert(err.message));
 }
 
 /* ── Email signup ── */
@@ -1353,50 +1566,156 @@ document.querySelectorAll('.gb-card,.stat-cell').forEach(el=>{
 });
 
 /* ── User data ── */
-const userData = {
-  '林小明': { dept:'資訊工程學系 三年級', since:'2023-09', score:4.9, compliance:97, gb:23, fs:8,
-    history:[
-      {type:'gb',title:'麥當勞揪團 × 8人',date:'04/15',ok:true},
-      {type:'fs',title:'發布：系辦便當 6份',date:'04/12',ok:true},
-      {type:'gb',title:'胡椒廚房揪團 × 5人',date:'04/08',ok:true},
-      {type:'gb',title:'五十嵐外送揪團',date:'04/01',ok:true},
-    ]},
-  '陳佳慧': { dept:'生物科技學系 四年級', since:'2023-03', score:4.7, compliance:92, gb:14, fs:19,
-    history:[
-      {type:'fs',title:'發布：生日蛋糕 8片',date:'04/16',ok:true},
-      {type:'gb',title:'胡椒廚房揪團 × 9人',date:'04/14',ok:true},
-      {type:'fs',title:'發布：研討會飲料 12瓶',date:'04/10',ok:true},
-    ]},
-  '王雨柔': { dept:'外國語文學系 二年級', since:'2024-02', score:4.5, compliance:88, gb:9, fs:6,
-    history:[
-      {type:'gb',title:'五十嵐外送揪團',date:'04/17',ok:false},
-      {type:'fs',title:'認領：系辦便當 1份',date:'04/15',ok:true},
-    ]},
-  '黃志偉': { dept:'管理學院 企業管理系', since:'2023-09', score:4.8, compliance:95, gb:18, fs:3,
-    history:[
-      {type:'gb',title:'壽司郎揪團 × 4人',date:'04/17',ok:true},
-      {type:'gb',title:'麥當勞揪團 × 6人',date:'04/11',ok:true},
-    ]},
-  '我的帳號': { dept:'電機工程學系 三年級', since:'2023-09', score:4.6, compliance:91, gb:12, fs:5,
-    history:[
-      {type:'gb',title:'參與：麥當勞揪團',date:'04/17',ok:true},
-      {type:'fs',title:'認領：研討會飲料 2瓶',date:'04/15',ok:true},
-      {type:'gb',title:'發布：胡椒廚房揪團',date:'04/10',ok:true},
-      {type:'fs',title:'發布：零食分享 3包',date:'04/05',ok:true},
-    ]},
-};
 
-const avatarColors = {
-  '林':'#2a6e3c','陳':'#b53a18','王':'#a07828','黃':'#3a5a8e','劉':'#7a3a8e',
-  '蔡':'#2a7a6e','許':'#8e3a3a','鄭':'#4a7a2a','吳':'#6e4a2a','張':'#2a4a8e',
-  '我':'#2a6e3c',
-};
-function avatarColor(name) { return avatarColors[name[0]] || '#5a5040'; }
+function avatarColor(name) {
+  // Generate a consistent deterministic color based on the string.
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const color = Math.floor(Math.abs((Math.sin(hash) * 10000) % 1 * 16777215)).toString(16);
+  return '#' + color.padStart(6, '0');
+}
+
+async function fetchMyProfile() {
+  const auth = getAuthData();
+  if (!auth.token || !auth.uid) throw new Error('請先登入後再查看我的帳號');
+  const res = await fetch(`/api/account/${encodeURIComponent(auth.uid)}`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || '無法取得會員資料');
+  }
+  return res.json();
+}
+
+function formatHistoryDate(dateStr) {
+  const dt = new Date(dateStr);
+  if (Number.isNaN(dt.getTime())) return dateStr;
+  const pad = n => String(n).padStart(2, '0');
+  return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+}
+
+function escapeHTML(value) {
+  return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function renderProfile(u, title) {
+  const initial = (u.name || '我')[0];
+  const imageStyle = `background:${avatarColor(initial)};color:#fff`;
+  const nameText = u.name || title;
+  const deptText = u.mail || '中興大學';
+  const sinceText = u.uid ? '2026-06' : '2026-06';
+  const profileMeta = userData['我的帳號'] || { dept:'中興大學', since:'2026-06', score:4.6, compliance:91, gb:12, history:[] };
+  const score = u.score ?? profileMeta.score;
+  const compliance = u.compliance ?? profileMeta.compliance;
+  const gb = u.gb ?? profileMeta.gb;
+  const history = (u.history && u.history.length) ? u.history : profileMeta.history;
+
+  const starsFilled = Math.round(score);
+  const starsHTML = [1,2,3,4,5].map(i =>
+    `<div class="pp-star"><div class="pp-star-fill" style="width:${i<=starsFilled?100:i-1<score?(score%1)*100:0}%"></div></div>`
+  ).join('');
+
+  const histHTML = history.filter(h => h.type === 'gb').map(h =>
+    `<div class="pp-hist-row">
+      <span class="pp-hist-type gb">揪團</span>
+      <span class="pp-hist-title">${escapeHTML(h.title)}</span>
+      <span class="pp-hist-date">${escapeHTML(h.date)}</span>
+      <span class="pp-hist-status ${h.ok?'ok':'pending'}">${h.ok?'完成':'進行中'}</span>
+    </div>`
+  ).join('');
+
+  const editableSection = title === '我的帳號' ? `
+    <div class="pp-section-title">編輯會員資料</div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label class="form-label">姓名</label>
+        <input class="form-ctrl" type="text" id="pp-input-name" value="${escapeHTML(u.name)}" placeholder="請輸入姓名">
+      </div>
+      <div class="form-field">
+        <label class="form-label">電子郵件</label>
+        <input class="form-ctrl" type="email" id="pp-input-mail" value="${escapeHTML(u.mail)}" placeholder="請輸入電子郵件">
+      </div>
+      <div class="form-field">
+        <label class="form-label">新密碼</label>
+        <input class="form-ctrl" type="password" id="pp-input-password" placeholder="留空則不修改">
+      </div>
+    </div>
+    <div class="modal-section" style="border:none;padding-top:0">
+      <button class="modal-submit green" onclick="submitProfileUpdate()">儲存變更</button>
+    </div>
+    <div id="pp-update-msg" class="submit-success" style="padding:16px 0 0; display:none; text-align:left;">
+      <div class="submit-success-icon green">✓</div>
+      <div class="submit-success-title" id="pp-update-title"></div>
+      <div class="submit-success-sub" id="pp-update-sub"></div>
+    </div>
+  ` : '';
+
+  document.getElementById('pp-header-title').textContent = title === '我的帳號' ? '我的個人頁面' : `${title} 的頁面`;
+  document.getElementById('pp-body').innerHTML = `
+    <div class="pp-avatar-wrap">
+      <div class="pp-avatar" style="${imageStyle}">${initial}</div>
+      <div>
+        <div class="pp-name">${escapeHTML(nameText)}</div>
+        <div class="pp-dept">${escapeHTML(deptText)}</div>
+        <div class="pp-since">加入於 ${escapeHTML(sinceText)}</div>
+      </div>
+    </div>
+    ${editableSection}
+    ${history.length ? `<div class="pp-section-title">近期活動</div><div class="pp-history">${histHTML}</div>` : ''}
+  `;
+  document.getElementById('profile-panel').classList.add('open');
+  document.getElementById('profile-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+async function submitProfileUpdate() {
+  const auth = getAuthData();
+  if (!auth.token || !auth.uid) {
+    showPageMessage('請重新登入', '目前無法儲存會員資料');
+    return;
+  }
+  const name = document.getElementById('pp-input-name').value.trim();
+  const mail = document.getElementById('pp-input-mail').value.trim();
+  const password = document.getElementById('pp-input-password').value;
+  const payload = {};
+  if (name) payload.name = name;
+  if (mail) payload.mail = mail;
+  if (password) payload.password = password;
+  try {
+    const res = await fetch(`/api/account/${encodeURIComponent(auth.uid)}`, {
+      method: 'PATCH',
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || '更新失敗');
+    setAuthData(localStorage.getItem('foodweb_token'), data.uid, data.name);
+    updateNavAuth();
+    document.getElementById('pp-update-title').textContent = '個人資料已更新';
+    document.getElementById('pp-update-sub').textContent = '名稱、電子郵件與密碼已更新；若修改密碼，下次登入時生效。';
+    const msg = document.getElementById('pp-update-msg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 2800);
+    fetchMyProfile().then(profile => renderProfile(profile, '我的帳號'));
+  } catch (err) {
+    showPageMessage('更新失敗', err.message);
+  }
+}
 
 /* ── Profile panel ── */
 function openProfile(name) {
-  const u = userData[name] || { dept:'中興大學', since:'2024-01', score:4.0, compliance:80, gb:1, fs:1, history:[] };
-  const initial = name === '我的帳號' ? '葉' : name[0];
+  if (name === '我的帳號') {
+    fetchMyProfile()
+      .then(profile => renderProfile(profile, '我的帳號'))
+      .catch(err => showPageMessage('讀取會員資料失敗', err.message));
+    return;
+  }
+
+  const u = userData[name] || { dept:'中興大學', since:'2026-06', score:4.0, compliance:80, gb:1, fs:1, history:[] };
+  const initial = name === '我的帳號' ? (getAuthData().name || '我')[0] : name[0];
   document.getElementById('pp-header-title').textContent = name === '我的帳號' ? '我的個人頁面' : `${name} 的頁面`;
 
   const starsFilled = Math.round(u.score);
@@ -1406,10 +1725,9 @@ function openProfile(name) {
 
   const histHTML = u.history.filter(h => h.type === 'gb').map(h =>
     `<div class="pp-hist-row">
-      <span class="pp-hist-type gb">揪團</span>
-      <span class="pp-hist-title">${h.title}</span>
-      <span class="pp-hist-date">${h.date}</span>
-      <span class="pp-hist-status ${h.ok?'ok':'pending'}">${h.ok?'完成':'進行中'}</span>
+      <span class="pp-hist-title">${escapeHTML(h.title)}</span>
+      <span class="pp-hist-date">${escapeHTML(formatHistoryDate(h.date))}</span>
+      <span class="pp-hist-status ${h.ok?'ok':'pending'}">${h.ok?'已結束':'揪團中'}</span>
     </div>`
   ).join('');
 
@@ -1417,21 +1735,8 @@ function openProfile(name) {
     <div class="pp-avatar-wrap">
       <div class="pp-avatar" style="background:${avatarColor(initial)};color:#fff">${initial}</div>
       <div>
-        <div class="pp-name">${name === '我的帳號' ? '葉潔頤' : name}</div>
+        <div class="pp-name">${name === '我的帳號'}</div>
         <div class="pp-dept">${u.dept}</div>
-        <div class="pp-since">加入於 ${u.since}</div>
-      </div>
-    </div>
-    <div class="pp-rep-card">
-      <div class="pp-rep-top">
-        <span class="pp-rep-label">信譽積分</span>
-        <div class="pp-score-wrap"><span class="pp-score">${u.score.toFixed(1)}</span><span class="pp-score-max">/ 5.0</span></div>
-      </div>
-      <div class="pp-score-stars">${starsHTML}</div>
-      <div class="pp-rep-bars">
-        <div class="pp-rep-row"><span class="pp-rep-row-lbl">履約率</span><div class="pp-rep-track"><div class="pp-rep-fill" style="width:${u.compliance}%"></div></div><span class="pp-rep-val">${u.compliance}%</span></div>
-        <div class="pp-rep-row"><span class="pp-rep-row-lbl">準時率</span><div class="pp-rep-track"><div class="pp-rep-fill" style="width:${Math.min(u.compliance+4,100)}%;background:var(--gold)"></div></div><span class="pp-rep-val">${Math.min(u.compliance+4,100)}%</span></div>
-        <div class="pp-rep-row"><span class="pp-rep-row-lbl">評價數</span><div class="pp-rep-track"><div class="pp-rep-fill" style="width:${Math.min(u.gb*3,100)}%;background:var(--orange)"></div></div><span class="pp-rep-val">${u.gb}</span></div>
       </div>
     </div>
     <div class="pp-stats">
@@ -1475,31 +1780,39 @@ function rejectReq(reqId) {
 }
 
 // Override joinRoom to submit request instead
-const _origJoinRoom = joinRoom;
 joinRoom = function() {
-  const name  = document.getElementById('room-join-name').value.trim();
-  const item  = document.getElementById('room-join-item').value.trim();
+  const auth = getAuthData();
+  if (!auth.token) {
+    alert('請先登入後再加入揪團');
+    return;
+  }
+  const item = document.getElementById('room-join-item').value.trim();
   const price = parseInt(document.getElementById('room-join-price').value) || 0;
-  if (!name || !item || !price) return;
+  if (!item || !price) return;
+  const room = roomDataByOrderId[currentRoomOrderId];
+  if (!room || !room.orderId) {
+    alert('找不到揪團 ID，請重新整理頁面');
+    return;
+  }
 
-  const board = document.getElementById('approval-board');
-  const reqId = 'req-' + Date.now();
-  const row = document.createElement('div'); row.className = 'pending-req'; row.id = reqId;
-  row.innerHTML = `
-    <div class="pr-avatar">${name[0]}</div>
-    <div class="pr-info"><div class="pr-name">${name}</div><div class="pr-item">${item}</div></div>
-    <div class="pr-price">NT$${price}</div>
-    <div class="pr-actions">
-      <button class="btn-approve" onclick="approveReq('${reqId}')">同意</button>
-      <button class="btn-reject" onclick="rejectReq('${reqId}')">婉拒</button>
-    </div>`;
-  if (board) board.appendChild(row);
-
-  ['room-join-name','room-join-item','room-join-price'].forEach(id => document.getElementById(id).value = '');
-  const btn = document.getElementById('room-join-btn');
-  btn.textContent = '✓ 申請已送出'; btn.style.background = 'var(--green)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--green)';
-  setTimeout(() => { btn.textContent = '送出申請'; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 2500);
-  console.log('[API] POST /api/group-buy/join-request →', { name, item, price });
+  fetch(`/api/team/${encodeURIComponent(room.orderId)}/join`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({ foodName: item, price }),
+  })
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || '加入揪團失敗');
+      room.joinRequests = room.joinRequests || [];
+      room.joinRequests.push({ uid: data.uid, name: data.name, foodName: data.foodName, price: data.price, status: data.status });
+      renderRoom(room);
+      ['room-join-name','room-join-item','room-join-price'].forEach(id => document.getElementById(id).value = '');
+      const btn = document.getElementById('room-join-btn');
+      btn.textContent = '✓ 已送出申請';
+      btn.style.background = 'var(--green-l)';
+      setTimeout(() => { btn.textContent = '送出申請'; btn.style.background = ''; }, 2500);
+    })
+    .catch(err => alert(err.message));
 };
 </script>
 </body>
