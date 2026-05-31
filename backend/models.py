@@ -9,7 +9,6 @@ class User(Base):
     name = Column(String(20), nullable=False, index=True)
     mail = Column(String(100), unique=True)
     hashed_password = Column(String)
-    mainImage = Column(String, nullable=True)
 
 class Team(Base):
     __tablename__ = 'team'

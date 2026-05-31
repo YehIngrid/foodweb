@@ -5,6 +5,9 @@ from typing import Optional, List
 class MemberInfo(BaseModel):
     uid: str
     name: str
+    foodName: Optional[str] = None
+    price: Optional[int] = None
+    status: Optional[int] = None
 
 # --- User ---
 # signup
@@ -30,11 +33,17 @@ class UserLoginResponse(BaseModel):
         from_attributes = True
 
 # get user data
+class ActivityInfo(BaseModel):
+    type: str
+    title: str
+    date: str
+    status: str
+
 class GetUser(BaseModel):
     uid: str
     name: str
-    mainImage: Optional[str]=None
     mail: str
+    history: Optional[List[ActivityInfo]] = None
 
     class Config:
         from_attributes = True
@@ -42,7 +51,6 @@ class GetUser(BaseModel):
 # patch user data
 class UserChange(BaseModel):
     name: Optional[str]=None
-    mainImage: Optional[str]=None
     mail: Optional[str]=None
     password: Optional[str]=None
 
@@ -64,6 +72,7 @@ class TeamCreate(BaseModel):
 class TeamResponse(BaseModel):
     orderId: str
     ownerId: str
+    ownerName: Optional[str] = None
     title: str
     url: str
     location: str
@@ -71,6 +80,7 @@ class TeamResponse(BaseModel):
     endAt: datetime
     description: Optional[str]=None
     member: Optional[List[MemberInfo]]=None
+    joinRequests: Optional[List[MemberInfo]]=None
     memberNum: Optional[int]=None
     totalPrice: Optional[int]=None
 
