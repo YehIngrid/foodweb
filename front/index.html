@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>惜食揪團 FoodWeb — 國立中興大學</title>
+  <title>圓食 RoundFood — 國立中興大學</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -617,8 +617,8 @@
   <a href="#" class="nav-logo">
     <div class="logo-mark">食</div>
     <div>
-      <span class="logo-name">惜食揪團</span>
-      <span class="logo-sub">NCHU · FoodWeb</span>
+      <span class="logo-name">圓食</span>
+      <span class="logo-sub">NCHU · RoundFood</span>
     </div>
   </a>
   <ul class="nav-links">
@@ -686,7 +686,7 @@
               <div class="step-left"><div class="step-n green">03</div><div class="step-connector"></div></div>
               <div class="step-body">
                 <div class="step-ttl">自動結算取餐</div>
-                <div class="step-dsc">結單後系統產生費用明細，取餐後回報完成，誠信積分自動累積。</div>
+                <div class="step-dsc">結單後系統產生費用明細，取餐後回報完成。</div>
               </div>
             </div>
           </div>
@@ -741,14 +741,21 @@
         <div class="modal-section">
           <div class="modal-sect-title">基本資訊</div>
           <div class="form-grid">
-            <div class="form-field">
+            <div class="form-field" style="grid-column:1/-1">
               <label class="form-label">餐廳名稱 <span class="req">*</span></label>
               <input class="form-ctrl" type="text" placeholder="例：麥當勞興大店" id="gbf-name">
             </div>
-            <div class="form-field" style="grid-column:1/-1">
+            
+            <div class="form-field">
               <label class="form-label">取餐地點 <span class="req">*</span></label>
               <input class="form-ctrl" type="text" placeholder="例：理學院一樓大廳" id="gbf-loc">
             </div>
+            
+            <div class="form-field">
+              <label class="form-label">取餐時間 <span class="req">*</span></label>
+              <input class="form-ctrl" type="time" id="gbf-pickup-time">
+            </div>
+            
             <div class="form-field" style="grid-column:1/-1">
               <label class="form-label">外送平台連結 <span class="req">*</span></label>
               <input class="form-ctrl" type="url" placeholder="https://www.foodpanda.com/tw/..." id="gbf-url">
@@ -945,7 +952,7 @@
       <input type="email" class="cta-in" placeholder="your@nchu.edu.tw" id="cta-email">
       <button class="cta-btn" onclick="openAuthModal('signup')">立即加入</button>
     </div>
-    <p class="cta-note">立即註冊帳號，開始使用 FoodWeb 會員系統</p>
+    <p class="cta-note">立即註冊帳號，開始使用 RoundFood 會員系統</p>
   </div>
 </section>
 
@@ -953,7 +960,7 @@
 <footer>
   <div class="footer-top">
     <div>
-      <div class="ft-logo"><div class="ft-logo-mark">食</div><div class="ft-logo-name">惜食揪團 FoodWeb</div></div>
+      <div class="ft-logo"><div class="ft-logo-mark">食</div><div class="ft-logo-name">圓食 RoundFood</div></div>
       <p class="ft-tagline">讓每一頓飯都物盡其用，讓每一次外送都節省開支。中興大學校園永續飲食平台。</p>
       <span class="ft-nchu">國立中興大學</span>
     </div>
@@ -971,7 +978,7 @@
     </div>
   </div>
   <div class="footer-bot">
-    <div class="footer-copy">© 2026 惜食揪團 FoodWeb · 國立中興大學 網際網路系統設計課程</div>
+    <div class="footer-copy">© 2026 圓食 RoundFood · 國立中興大學 網際網路系統設計課程</div>
     <div class="footer-team">指導教授：<strong>黃仲誼 博士</strong> · 專案成員：<strong>葉潔頤、賴姿妍</strong></div>
   </div>
 </footer>
@@ -1157,7 +1164,7 @@ function submitAuthForm() {
       if (authMode === 'login') {
         setAuthData(data.access_token, data.uid, data.name);
         updateNavAuth();
-        showAuthSuccess('登入成功', '歡迎回到 FoodWeb。', closeAuthModal);
+        showAuthSuccess('登入成功', '歡迎回到 RoundFood。', closeAuthModal);
       } else {
         showAuthSuccess('註冊成功', '已建立帳號，請用帳號密碼登入。', () => openAuthModal('login'));
       }
@@ -1243,6 +1250,7 @@ function submitCreateGB() {
 
   const name     = document.getElementById('gbf-name').value.trim();
   const loc      = document.getElementById('gbf-loc').value.trim();
+  const locTime  = document.getElementById('gbf-pickup-time').value; // 1. 取得取餐時間
   const url      = document.getElementById('gbf-url').value.trim();
   const delivery = parseInt(document.getElementById('gbf-delivery').value) || 0;
   const dl       = document.getElementById('gbf-deadline').value;
@@ -1250,6 +1258,7 @@ function submitCreateGB() {
 
   let deadline;
   if (dl === 'custom') {
+    // ... 原本的 custom deadline 邏輯保留 ...
     const timeValue = document.getElementById('gbf-custom-time').value;
     const [hh, mm] = timeValue.split(':').map(v => parseInt(v, 10));
     const dt = new Date();
@@ -1257,15 +1266,18 @@ function submitCreateGB() {
     if (dt < new Date()) dt.setDate(dt.getDate() + 1);
     deadline = dt.toISOString();
   } else {
+    // ... 原本的下拉選單 deadline 邏輯保留 ...
     const minutes = parseInt(dl, 10);
     const dt = new Date();
     dt.setMinutes(dt.getMinutes() + (isNaN(minutes) ? 0 : minutes));
     deadline = dt.toISOString();
   }
 
+  // 2. 將取餐時間加入必填驗證清單
   const fields = [
     { el: document.getElementById('gbf-name'),     val: name },
     { el: document.getElementById('gbf-loc'),      val: loc },
+    { el: document.getElementById('gbf-pickup-time'), val: locTime }, // 新增這行
     { el: document.getElementById('gbf-url'),      val: url },
     { el: document.getElementById('gbf-deadline'), val: dl },
   ];
@@ -1276,10 +1288,14 @@ function submitCreateGB() {
   });
   if (!valid) return;
 
+  // 3. 將地點與時間合併為「地點 HH:MM」格式
+  const combinedLoc = `${loc} ${locTime}`;
+
+  // 4. 將 combinedLoc 傳入 location 欄位送出給 API
   fetch('/api/team', {
     method: 'POST',
     headers: authHeaders(),
-    body: JSON.stringify({ url, title: name, location: loc, deliverFee: delivery, endAt: deadline, description: note }),
+    body: JSON.stringify({ url, title: name, location: combinedLoc, deliverFee: delivery, endAt: deadline, description: note }),
   })
     .then(async res => {
       const data = await res.json();
@@ -1371,6 +1387,27 @@ function buildGroupCard(team, ended = false) {
   const remainSec = Math.max(0, Math.floor((new Date(toUtcIso(team.endAt)) - Date.now()) / 1000));
   const total  = team.totalPrice || 0;
 
+  const statusText  = ended ? '已結束' : '揪團中';
+  const statusStyle = ended ? 'background:var(--border);color:var(--text2)' : '';
+  const cardClass   = ended ? 'gb-card gb-card-ended' : 'gb-card';
+
+  if (ended) {
+    return `
+      <div class="${cardClass}" id="gb-card-${escapeHTML(team.orderId)}">
+        <div class="gb-head">
+          <div class="gb-top"><div class="gb-name">${escapeHTML(team.title)}</div></div>
+          <div class="gb-host">團主：${escapeHTML(team.ownerName||team.ownerId)} · <span class="gb-tag" style="font-size:10px;padding:1px 6px;${statusStyle}">${statusText}</span></div>
+        </div>
+        <div class="gb-meta" style="padding-bottom:12px;">
+          <div class="gb-loc" style="margin-bottom:6px;"><span class="loc-dot"></span>取餐地點及時間：${escapeHTML(team.location)}</div>
+          <div class="gb-loc" style="margin-bottom:0;"><span class="loc-dot"></span>結單於 ${deadline}</div>
+        </div>
+        <div class="gb-footer">
+          <button class="btn-room" onclick="openRoom('${escapeHTML(team.orderId)}')">進入揪團房間 →</button>
+        </div>
+      </div>`;
+  }
+
   const membersHtml = Array.isArray(team.member) && team.member.length
     ? team.member.map(m => `
         <div class="member-row">
@@ -1379,10 +1416,6 @@ function buildGroupCard(team, ended = false) {
           <div class="m-item">${escapeHTML(m.foodName||'無餐點')}</div>
         </div>`).join('')
     : `<div class="member-row"><div class="m-avatar">?</div><div class="m-name">目前尚無成員</div></div>`;
-
-  const statusText  = ended ? '已結束' : '揪團中';
-  const statusStyle = ended ? 'background:var(--border);color:var(--text2)' : '';
-  const cardClass   = ended ? 'gb-card gb-card-ended' : 'gb-card';
 
   return `
     <div class="${cardClass}" id="gb-card-${escapeHTML(team.orderId)}">
@@ -1394,7 +1427,7 @@ function buildGroupCard(team, ended = false) {
         <a class="btn-room btn-room-link" href="${escapeHTML(team.url||'#')}" target="_blank" rel="noreferrer noopener">外送平台連結</a>
       </div>
       <div class="gb-meta">
-        <div class="gb-loc"><span class="loc-dot"></span>取餐：${escapeHTML(team.location)}</div>
+        <div class="gb-loc"><span class="loc-dot"></span>取餐地點及時間：${escapeHTML(team.location)}</div>
         <div class="gb-prog-wrap">
           <div class="gb-prog-lbl"><span>訂單總金額</span><span>NT$<span class="gb-amt">${total}</div>
         </div>
@@ -1501,7 +1534,7 @@ function renderRoom(d) {
   const foodTotal = members.reduce((sum, m) => sum + (m.price || 0), 0);
   const perPerson = Math.ceil((d.deliverFee || 0) / Math.max(members.length, 1));
   document.getElementById('room-title').textContent        = d.title;
-  document.getElementById('room-sub').textContent          = `團主：${d.ownerName||d.ownerId} · 取餐：${d.location} · 結單 ${formatTimeString(d.endAt)}`;
+  document.getElementById('room-sub').textContent          = `團主：${d.ownerName||d.ownerId} · 取餐地點及時間：${d.location} · 結單時間 ${formatTimeString(d.endAt)}`;
   document.getElementById('room-link').innerHTML           = d.url
     ? `<a class="btn-room" href="${escapeHTML(d.url)}" target="_blank" rel="noreferrer noopener">前往外送平台</a>`
     : '<span style="color:var(--text3)">尚無外送平台連結</span>';
@@ -1801,43 +1834,6 @@ async function submitProfileUpdate() {
     updateNavAuth();
     document.getElementById('pp-update-title').textContent = '個人資料已更新';
     document.getElementById('pp-update-sub').textContent   = '名稱、電子郵件與密碼已更新；若修改密碼，下次登入時生效。';
-    const msg = document.getElementById('pp-update-msg');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 2800);
-    fetchMyProfile().then(profile => renderProfile(profile, '我的帳號'));
-  } catch (err) {
-    showPageMessage('更新失敗', err.message);
-  }
-}
-
-function openProfile(name) {
-  if (name === '我的帳號') {
-    fetchMyProfile()
-      .then(profile => renderProfile(profile, '我的帳號'))
-      .catch(err => showPageMessage('讀取會員資料失敗', err.message));
-    return;
-  }
-  // 其他使用者（目前無 API，顯示基本資訊）
-  const u = { name, mail:'中興大學', history:[] };
-  renderProfile(u, name);
-}
-function closeProfile() {
-  document.getElementById('profile-panel').classList.remove('open');
-  document.getElementById('profile-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-/* ── Scroll reveal ── */
-const revObs = new IntersectionObserver(entries => entries.forEach(e => {
-  if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
-}), { threshold:.08 });
-document.querySelectorAll('.gb-card,.stat-cell').forEach(el => {
-  el.style.cssText += 'opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .4s ease;';
-  revObs.observe(el);
-});
-</script>
-</body>
-</html>��，下次登入時生效。';
     const msg = document.getElementById('pp-update-msg');
     msg.style.display = 'block';
     setTimeout(() => msg.style.display = 'none', 2800);
