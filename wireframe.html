@@ -1,0 +1,439 @@
+<style>
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f8f5ee;
+  --color-border-secondary: #ddd6c6;
+  --color-border-tertiary: #ccc4b0;
+  --color-text-primary: #1c1710;
+  --color-text-secondary: #5c5040;
+  --font-sans: 'Noto Sans TC', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  
+  --green:     #2a6e3c;
+  --green-bg:  rgba(42,110,60,.08);
+  --green-bd:  rgba(42,110,60,.22);
+  --gold:      #a07828;
+  --gold-bg:   rgba(160,120,40,.09);
+  --gold-bd:   rgba(160,120,40,.22);
+  --orange:    #b53a18;
+  --orange-bg: rgba(181,58,24,.08);
+  --orange-bd: rgba(181,58,24,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--color-background-secondary);display:flex;flex-direction:column;align-items:center;padding:40px;gap:24px}
+body,div,span{font-family:var(--font-sans)}
+.ph{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:10px}
+.ph-green{background:var(--green-bg);border:0.5px solid var(--green-bd);border-radius:6px}
+.ph-gray{background:var(--color-border-tertiary);border-radius:6px}
+.label{font-size:10px;color:var(--color-text-secondary);font-weight:500;letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px;display:block}
+.tag-green{background:var(--green-bg);color:var(--green);font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;border:0.5px solid var(--green-bd);white-space:nowrap}
+.tag-amber{background:var(--gold-bg);color:var(--gold);font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;border:0.5px solid var(--gold-bd);white-space:nowrap}
+.tag-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;border:0.5px solid var(--color-border-tertiary)}
+.section-title{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px}
+.wf{background:var(--color-background-primary);border:1.5px solid var(--color-border-secondary);border-radius:12px;overflow:hidden;font-size:12px;color:var(--color-text-primary);width:100%;max-width:800px;}
+.row-ph{display:flex;gap:5px;align-items:center}
+</style>
+
+<h2 class="sr-only">圓食 RoundFood 彩色線框圖</h2>
+
+<div class="wf">
+
+  <div style="height:46px;background:var(--green);display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:12px">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:500">食</div>
+      <div>
+        <div style="color:#fff;font-size:13px;font-weight:500;line-height:1.2">圓食 RoundFood</div>
+        <div style="color:rgba(255,255,255,.6);font-size:9px;line-height:1.2">NCHU · 校園外送揪團平台</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:20px">
+      <span style="color:rgba(255,255,255,.85);font-size:11px">揪團外送</span>
+      <span style="color:rgba(255,255,255,.85);font-size:11px">社群數據</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="ph" style="width:44px;height:26px;color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);border:0.5px solid rgba(255,255,255,.25);font-size:10px">登入</div>
+      <div style="width:64px;height:26px;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:10px;font-weight:500">立即加入</div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:500">我</div>
+    </div>
+  </div>
+
+  <div style="background:var(--color-background-secondary);padding:22px 18px 18px;border-bottom:0.5px solid var(--color-border-secondary)">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+      <div style="width:5px;height:5px;border-radius:50%;background:var(--green)"></div>
+      <span style="font-size:10px;color:var(--green);font-weight:500;letter-spacing:.08em;text-transform:uppercase">國立中興大學 · 校園飲食平台</span>
+    </div>
+    <div style="margin-bottom:6px">
+      <div style="font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1.2">揪團省運費，外送更輕鬆。</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:18px">
+      <div class="ph" style="width:78%;height:8px"></div>
+      <div class="ph" style="width:60%;height:8px"></div>
+    </div>
+
+    <div style="border:1.5px dashed var(--green-bd);border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;background:#fff">
+      <div>
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px">發布新揪團</div>
+        <div style="font-size:10px;color:var(--color-text-secondary)">填寫餐廳、地點與結單時間，系統自動建立私人房間</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;background:var(--green);color:#fff;font-size:11px;font-weight:500;padding:7px 14px;border-radius:6px">
+        <span style="font-size:14px;line-height:1;font-weight:300">+</span> 發布新揪團
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--green)"></div>
+      <span style="font-size:10px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.06em;text-transform:uppercase">即時揪單列表</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px">
+
+      <div style="background:#fff;border:0.5px solid var(--color-border-secondary);border-radius:10px;overflow:hidden">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:500">揪團名稱</span>
+            <span class="tag-green">揪團中</span>
+          </div>
+          <div class="ph" style="width:80px;height:7px"></div>
+        </div>
+        <div style="padding:8px 12px">
+          <div class="ph" style="width:100%;height:7px;margin-bottom:6px"></div>
+          <div class="ph" style="width:100%;height:7px;margin-bottom:8px"></div>
+          <div style="height:4px;background:var(--color-border-tertiary);border-radius:2px;margin-bottom:8px;overflow:hidden">
+            <div style="height:100%;width:60%;background:var(--green);border-radius:2px"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:10px;color:var(--green);display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span> 倒數</span>
+            <span style="font-size:10px;color:var(--color-text-secondary)">N 人</span>
+          </div>
+        </div>
+        <div style="padding:4px 12px;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)">
+          <div class="ph" style="width:85%;height:7px;background:var(--green-bg);border-color:var(--color-border-secondary)"></div>
+        </div>
+        <div style="padding:6px 12px">
+          <div style="padding:5px 8px;border-radius:6px;background:var(--gold-bg);border:0.5px solid var(--gold-bd);font-size:10px;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:5px">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block"></span> N 筆申請待審核
+          </div>
+        </div>
+        <div style="padding:4px 12px 10px">
+          <div style="border:0.5px solid var(--green);border-radius:6px;text-align:center;padding:7px;font-size:11px;color:var(--green);font-weight:500">進入揪團房間 →</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:0.5px solid var(--color-border-secondary);border-radius:10px;overflow:hidden">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:500">揪團名稱</span>
+            <span class="tag-green">揪團中</span>
+          </div>
+          <div class="ph" style="width:80px;height:7px"></div>
+        </div>
+        <div style="padding:8px 12px">
+          <div class="ph" style="width:100%;height:7px;margin-bottom:6px"></div>
+          <div class="ph" style="width:100%;height:7px;margin-bottom:8px"></div>
+          <div style="height:4px;background:var(--color-border-tertiary);border-radius:2px;margin-bottom:8px;overflow:hidden">
+            <div style="height:100%;width:30%;background:var(--green);border-radius:2px"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:10px;color:var(--orange);display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:var(--orange);display:inline-block"></span> 緊急</span>
+            <span style="font-size:10px;color:var(--color-text-secondary)">N 人</span>
+          </div>
+        </div>
+        <div style="padding:6px 12px">
+          <div style="padding:5px 8px;border-radius:6px;background:var(--green-bg);border:0.5px solid var(--green-bd);font-size:10px;color:var(--green);font-weight:500;display:flex;align-items:center;gap:5px">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span> 已加入揪團
+          </div>
+        </div>
+        <div style="padding:4px 12px 10px">
+          <div style="border:0.5px solid var(--green);border-radius:6px;text-align:center;padding:7px;font-size:11px;color:var(--green);font-weight:500">進入揪團房間 →</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:0.5px solid var(--color-border-secondary);border-radius:10px;overflow:hidden">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:500">揪團名稱</span>
+            <span class="tag-green">揪團中</span>
+          </div>
+          <div class="ph" style="width:80px;height:7px"></div>
+        </div>
+        <div style="padding:8px 12px">
+          <div class="ph" style="width:100%;height:7px;margin-bottom:6px"></div>
+          <div class="ph" style="width:100%;height:7px;margin-bottom:8px"></div>
+          <div style="height:4px;background:var(--color-border-tertiary);border-radius:2px;margin-bottom:8px;overflow:hidden">
+            <div style="height:100%;width:15%;background:var(--green);border-radius:2px"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:10px;color:var(--green);display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span> 倒數</span>
+            <span style="font-size:10px;color:var(--color-text-secondary)">N 人</span>
+          </div>
+        </div>
+        <div style="padding:6px 12px">
+          <div style="padding:5px 8px;border-radius:6px;background:var(--gold-bg);border:0.5px solid var(--gold-bd);font-size:10px;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:5px">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block"></span> 申請審核中
+          </div>
+        </div>
+        <div style="padding:4px 12px 10px">
+          <div style="border:0.5px solid var(--green);border-radius:6px;text-align:center;padding:7px;font-size:11px;color:var(--green);font-weight:500">進入揪團房間 →</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--color-border-secondary)"></div>
+      <span style="font-size:10px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.06em;text-transform:uppercase">已結束的訂單</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div style="background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;opacity:.45;filter:grayscale(40%)">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:500;color:var(--color-text-secondary)">揪團名稱</span>
+            <span class="tag-gray">已結束</span>
+          </div>
+          <div class="ph" style="width:80px;height:7px"></div>
+        </div>
+        <div style="padding:8px 12px">
+          <div class="ph" style="width:100%;height:7px;margin-bottom:6px"></div>
+          <div class="ph" style="width:60%;height:7px;margin-bottom:10px"></div>
+          <div style="border:0.5px solid var(--color-border-tertiary);border-radius:6px;text-align:center;padding:7px;font-size:11px;color:var(--color-text-secondary)">進入揪團房間 →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--color-background-secondary);border-top:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary);display:grid;grid-template-columns:repeat(3,1fr)">
+    <div style="padding:18px;text-align:center;border-right:0.5px solid var(--color-border-tertiary)">
+      <div style="font-size:22px;font-weight:500;font-family:var(--font-mono);color:var(--color-text-primary);line-height:1;margin-bottom:5px">— 團</div>
+      <div style="font-size:10px;color:var(--color-text-secondary);letter-spacing:.06em">揪團成功數</div>
+    </div>
+    <div style="padding:18px;text-align:center;border-right:0.5px solid var(--color-border-tertiary)">
+      <div style="font-size:22px;font-weight:500;font-family:var(--font-mono);color:var(--color-text-primary);line-height:1;margin-bottom:5px">— 元</div>
+      <div style="font-size:10px;color:var(--color-text-secondary);letter-spacing:.06em">累計省下運費</div>
+    </div>
+    <div style="padding:18px;text-align:center">
+      <div style="font-size:22px;font-weight:500;font-family:var(--font-mono);color:var(--color-text-primary);line-height:1;margin-bottom:5px">—+</div>
+      <div style="font-size:10px;color:var(--color-text-secondary);letter-spacing:.06em">社群成員</div>
+    </div>
+  </div>
+
+  <div style="background:var(--green);padding:28px 16px;text-align:center">
+    <div style="font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">立即加入</div>
+    <div style="font-size:18px;font-weight:500;color:#fff;margin-bottom:8px">加入興大外送揪團，從今天開始。</div>
+    <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">
+      <div style="height:8px;background:rgba(255,255,255,.2);border-radius:4px;width:70%;margin:0 auto"></div>
+      <div style="height:8px;background:rgba(255,255,255,.2);border-radius:4px;width:55%;margin:0 auto"></div>
+    </div>
+    <div style="display:flex;gap:8px;max-width:300px;margin:0 auto">
+      <div style="flex:1;height:34px;background:rgba(255,255,255,.15);border:0.5px solid rgba(255,255,255,.3);border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-size:10px">email 輸入欄</div>
+      <div style="width:72px;height:34px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:10px;font-weight:500">立即加入</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:800px;">
+
+  <div>
+    <span class="label" style="display:flex;align-items:center;gap:5px;margin-bottom:6px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span> 發布新揪團 modal
+    </span>
+    <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:18px;display:flex;justify-content:center">
+      <div class="wf" style="width:100%;max-width:300px">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:3px">發布新揪團</div>
+            <div style="font-size:10px;color:var(--color-text-secondary)">填寫後系統自動建立揪團房間</div>
+          </div>
+          <div class="ph" style="width:20px;height:20px;border-radius:4px">✕</div>
+        </div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px">基本資訊</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+            <div class="ph" style="width:100%;height:26px">餐廳名稱 *</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+              <div class="ph" style="height:26px">取餐地點 *</div>
+              <div class="ph" style="height:26px">取餐時間 *</div>
+            </div>
+            <div class="ph" style="width:100%;height:26px">外送平台連結 *</div>
+          </div>
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px">金額與時間設定</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+            <div class="ph" style="width:100%;height:26px">外送費 + 平台費 *</div>
+            <div class="ph" style="width:100%;height:26px">結單時間 *</div>
+          </div>
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px">團主點餐（選填）</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px">
+            <div class="ph" style="height:26px">餐點名稱</div>
+            <div class="ph" style="height:26px">金額</div>
+          </div>
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px">備註（選填）</div>
+          <div class="ph" style="width:100%;height:40px;margin-bottom:10px"></div>
+          <div style="background:var(--green);color:#fff;text-align:center;padding:10px;border-radius:6px;font-size:12px;font-weight:500">建立揪團房間</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <span class="label" style="display:flex;align-items:center;gap:5px;margin-bottom:6px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span> 揪團房間 modal
+    </span>
+    <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:18px;display:flex;justify-content:center">
+      <div class="wf" style="width:100%;max-width:300px">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:3px">揪團名稱</div>
+            <div style="font-size:10px;color:var(--color-text-secondary)">團主 · 地點 · 結單時間</div>
+          </div>
+          <div class="ph" style="width:20px;height:20px;border-radius:4px">✕</div>
+        </div>
+        <div style="padding:10px 12px">
+
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px">揪團概況</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:12px">
+            <div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:7px 8px">
+              <div style="font-size:14px;font-weight:500;font-family:var(--font-mono);line-height:1;margin-bottom:3px">—</div>
+              <div style="font-size:9px;color:var(--color-text-secondary)">目前人數</div>
+            </div>
+            <div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:7px 8px">
+              <div style="font-size:14px;font-weight:500;font-family:var(--font-mono);line-height:1;margin-bottom:3px">—</div>
+              <div style="font-size:9px;color:var(--color-text-secondary)">目前總金額</div>
+            </div>
+            <div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:7px 8px">
+              <div style="font-size:14px;font-weight:500;font-family:var(--font-mono);line-height:1;margin-bottom:3px">—:—</div>
+              <div style="font-size:9px;color:var(--color-text-secondary)">結單倒數</div>
+            </div>
+          </div>
+
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:5px">外送平台連結</div>
+          <div style="border:0.5px solid var(--green);border-radius:6px;text-align:center;padding:6px;font-size:10px;color:var(--green);font-weight:500;margin-bottom:12px">前往外送平台 ↗</div>
+
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:5px">成員與點餐清單</div>
+          <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--green-bg);flex-shrink:0"></div>
+              <div class="ph" style="flex:1;height:7px"></div>
+              <div class="ph" style="width:50px;height:7px"></div>
+              <div style="font-size:10px;font-family:var(--font-mono)">NT$—</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--green-bg);flex-shrink:0"></div>
+              <div class="ph" style="flex:1;height:7px"></div>
+              <div class="ph" style="width:50px;height:7px"></div>
+              <div style="font-size:10px;font-family:var(--font-mono)">NT$—</div>
+            </div>
+          </div>
+
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:5px">費用試算</div>
+          <div style="display:flex;flex-direction:column;gap:0;margin-bottom:12px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;overflow:hidden">
+            <div style="display:flex;justify-content:space-between;padding:5px 8px;border-bottom:0.5px dashed var(--color-border-tertiary)">
+              <span style="font-size:10px;color:var(--color-text-secondary)">餐點小計</span>
+              <span style="font-size:10px;font-family:var(--font-mono)">NT$—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:5px 8px;border-bottom:0.5px dashed var(--color-border-tertiary)">
+              <span style="font-size:10px;color:var(--color-text-secondary)">外送費 + 平台費</span>
+              <span style="font-size:10px;font-family:var(--font-mono)">NT$—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:5px 8px;border-bottom:0.5px dashed var(--color-border-tertiary)">
+              <span style="font-size:10px;color:var(--color-text-secondary)">每人分攤運費</span>
+              <span style="font-size:10px;font-family:var(--font-mono)">≈ NT$—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 8px;background:var(--green-bg)">
+              <span style="font-size:10px;font-weight:500;color:var(--green)">總計</span>
+              <span style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--green)">NT$—</span>
+            </div>
+          </div>
+
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:5px">待審核申請 <span style="background:var(--gold-bg);color:var(--gold);padding:1px 5px;border-radius:3px;font-size:9px">團主可見</span></div>
+          <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;margin-bottom:12px">
+            <div style="width:20px;height:20px;border-radius:50%;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);flex-shrink:0"></div>
+            <div style="flex:1"><div class="ph" style="width:60px;height:7px;margin-bottom:3px"></div><div class="ph" style="width:44px;height:6px"></div></div>
+            <div style="font-size:10px;font-family:var(--font-mono)">NT$—</div>
+            <div style="display:flex;gap:4px">
+              <div style="background:var(--green-bg);color:var(--green);border:0.5px solid var(--green-bd);border-radius:4px;padding:3px 8px;font-size:10px;font-weight:500">同意</div>
+              <div style="background:var(--orange-bg);color:var(--orange);border:0.5px solid var(--orange-bd);border-radius:4px;padding:3px 8px;font-size:10px;font-weight:500">婉拒</div>
+            </div>
+          </div>
+
+          <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:5px">申請加入此團</div>
+          <div style="display:flex;gap:5px;margin-bottom:4px">
+            <div class="ph" style="flex:1;height:28px">想點的餐點</div>
+            <div class="ph" style="width:52px;height:28px">金額</div>
+            <div style="background:var(--green);color:#fff;padding:0 10px;border-radius:6px;font-size:10px;font-weight:500;display:flex;align-items:center;white-space:nowrap">送出申請</div>
+          </div>
+          <div style="font-size:9px;color:var(--color-text-secondary)">送出後需等待團主審核</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <span class="label" style="display:flex;align-items:center;gap:5px;margin-bottom:6px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--color-text-secondary);display:inline-block"></span> 登入 / 加入 modal
+    </span>
+    <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:18px;display:flex;justify-content:center">
+      <div class="wf" style="width:100%;max-width:260px">
+        <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:13px;font-weight:500">登入帳號</div>
+          <div class="ph" style="width:20px;height:20px;border-radius:4px">✕</div>
+        </div>
+        <div style="padding:10px 12px">
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+            <div>
+              <div style="font-size:9px;color:var(--color-text-secondary);margin-bottom:4px">電子郵件 *</div>
+              <div class="ph" style="width:100%;height:26px"></div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--color-text-secondary);margin-bottom:4px">密碼 *</div>
+              <div class="ph" style="width:100%;height:26px"></div>
+            </div>
+          </div>
+          <div style="background:var(--green);color:#fff;text-align:center;padding:9px;border-radius:6px;font-size:12px;font-weight:500;margin-bottom:8px">登入</div>
+          <div style="text-align:center;font-size:10px;color:var(--color-text-secondary)">還沒有帳號？<span style="color:var(--green);font-weight:500">立即加入</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <span class="label" style="display:flex;align-items:center;gap:5px;margin-bottom:6px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--color-text-secondary);display:inline-block"></span> 個人資料側邊欄
+    </span>
+    <div class="wf" style="max-width:260px">
+      <div style="padding:10px 12px 8px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:12px;font-weight:500">我的個人頁面</div>
+        <div class="ph" style="width:20px;height:20px;border-radius:4px">✕</div>
+      </div>
+      <div style="padding:12px">
+        <div style="display:flex;align-items:flex-end;gap:10px;margin-bottom:14px">
+          <div style="width:46px;height:46px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:500;flex-shrink:0">我</div>
+          <div>
+            <div class="ph" style="width:70px;height:9px;margin-bottom:5px"></div>
+            <div class="ph" style="width:90px;height:7px;margin-bottom:4px"></div>
+            <div class="ph" style="width:70px;height:7px"></div>
+          </div>
+        </div>
+        <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary)">近期活動</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px">
+            <div class="ph" style="flex:1;height:7px"></div>
+            <div class="ph" style="width:44px;height:7px"></div>
+            <span style="font-size:9px;font-weight:500;color:var(--green)">完成</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px">
+            <div class="ph" style="flex:1;height:7px"></div>
+            <div class="ph" style="width:44px;height:7px"></div>
+            <span style="font-size:9px;font-weight:500;color:var(--gold)">進行中</span>
+          </div>
+        </div>
+        <div style="font-size:9px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:8px">編輯會員資料</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div class="ph" style="width:100%;height:26px">姓名</div>
+          <div class="ph" style="width:100%;height:26px">電子郵件</div>
+          <div class="ph" style="width:100%;height:26px">新密碼</div>
+          <div style="background:var(--green);color:#fff;text-align:center;padding:8px;border-radius:6px;font-size:11px;font-weight:500">儲存變更</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

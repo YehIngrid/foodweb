@@ -1146,6 +1146,21 @@ function showPageMessage(title, sub) {
   toast.style.display = 'block';
   setTimeout(() => { toast.classList.remove('show'); toast.style.display = 'none'; }, 2200);
 }
+
+function formatApiError(data) {
+  if (!data) return '操作失敗';
+  if (Array.isArray(data.detail)) {
+    return data.detail.map(e => {
+      const loc = e.loc && e.loc.length ? e.loc[e.loc.length - 1] : '欄位';
+      return `${loc}: ${e.msg}`;
+    }).join(', ');
+  }
+  if (data.detail) {
+    return typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail);
+  }
+  return '操作失敗';
+}
+
 function submitAuthForm() {
   const email    = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value.trim();
@@ -1154,12 +1169,26 @@ function submitAuthForm() {
     document.getElementById('auth-error').textContent = '請填寫所有必填欄位';
     return;
   }
+  const emailRegex = /^[\w\.-]+@[\w\.-]+\.\w+$/;
+  if (!emailRegex.test(email)) {
+    document.getElementById('auth-error').textContent = '信箱格式不正確 (例如: user@nchu.edu.tw)';
+    return;
+  }
+  if (password.length < 8 || password.length > 100) {
+    document.getElementById('auth-error').textContent = '密碼長度必須介於 8 到 100 碼';
+    return;
+  }
+  if (authMode === 'signup' && (name.length < 1 || name.length > 50)) {
+    document.getElementById('auth-error').textContent = '暱稱長度必須介於 1 到 50 字元';
+    return;
+  }
+
   const url  = authMode === 'login' ? '/api/account/login' : '/api/account/signup';
   const body = authMode === 'login' ? { mail: email, password } : { mail: email, name, password };
   fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) })
     .then(async res => {
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || '操作失敗');
+      if (!res.ok) throw new Error(formatApiError(data));
       if (authMode === 'login') {
         setAuthData(data.access_token, data.uid, data.name);
         updateNavAuth();
@@ -1745,7 +1774,7 @@ async function fetchMyProfile() {
   const res = await fetch(`/api/account/${encodeURIComponent(auth.uid)}`, { headers: authHeaders() });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.detail || '無法取得會員資料');
+    throw new Error(formatApiError(data) || '無法取得會員資料');
   }
   return res.json();
 }
@@ -1824,6 +1853,11 @@ async function submitProfileUpdate() {
   const name     = document.getElementById('pp-input-name').value.trim();
   const mail     = document.getElementById('pp-input-mail').value.trim();
   const password = document.getElementById('pp-input-password').value;
+
+  if (name && (name.length < 1 || name.length > 50)) { showPageMessage('格式錯誤', '姓名長度必須介於 1 到 50 字元'); return; }
+  if (mail && !/^[\w\.-]+@[\w\.-]+\.\w+$/.test(mail)) { showPageMessage('格式錯誤', '信箱格式不正確'); return; }
+  if (password && (password.length < 8 || password.length > 100)) { showPageMessage('格式錯誤', '密碼長度必須介於 8 到 100 碼'); return; }
+
   const payload  = {};
   if (name)     payload.name     = name;
   if (mail)     payload.mail     = mail;
@@ -1833,7 +1867,7 @@ async function submitProfileUpdate() {
       method:'PATCH', headers:authHeaders(), body:JSON.stringify(payload),
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.detail || '更新失敗');
+    if (!res.ok) throw new Error(formatApiError(data) || '更新失敗');
     setAuthData(localStorage.getItem('foodweb_token'), data.uid, data.name);
     updateNavAuth();
     document.getElementById('pp-update-title').textContent = '個人資料已更新';

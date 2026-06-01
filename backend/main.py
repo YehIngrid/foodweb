@@ -1,5 +1,5 @@
 import uuid
-from fastapi import FastAPI, Depends, HTTPException, Cookie, Header
+from fastapi import FastAPI, Depends, HTTPException, Cookie, Header, Query, Path
 import os
 import secrets
 from datetime import datetime, timedelta, timezone
@@ -11,7 +11,7 @@ from schemas import (UserSignupCreate, UserSignupResponse, UserLogin, UserLoginR
 from database import SessionLocal, Base, engine
 from models import User, Team, JoinTeam, RefreshToken
 from fastapi.responses import JSONResponse
-from typing import List
+from typing import Annotated, List
 from fastapi.staticfiles import StaticFiles
 
 Base.metadata.create_all(bind=engine)

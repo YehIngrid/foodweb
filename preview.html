@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoundFood 介面草圖 (Wireframe)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #333333;       /* 草圖線條顏色 */
+      --paper: #ffffff;     /* 草圖紙張底色 */
+      --shade: #f0f0f0;     /* 填充佔位符的淺灰色 */
+      --shade-dark: #dcdcdc;/* 稍深的灰色 */
+      --stroke: 2px solid var(--ink);
+    }
+
+    body {
+      background-color: #e5e5e5; /* 畫布外背景 */
+      font-family: 'Klee One', cursive, sans-serif; /* 手寫風字體 */
+      color: var(--ink);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* ─── 草圖外框 (Mockup Board) ─── */
+    .wireframe-board {
+      background: var(--paper);
+      width: 100%;
+      max-width: 1000px;
+      border: var(--stroke);
+      border-radius: 8px;
+      box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+      position: relative;
+      padding: 40px;
+    }
+
+    .board-label {
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--paper);
+      padding: 0 10px;
+      font-weight: 600;
+      font-size: 20px;
+      border: var(--stroke);
+      border-radius: 4px;
+      box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    }
+
+    /* ─── 共用草圖元件 ─── */
+    .wf-box {
+      border: var(--stroke);
+      background: var(--paper);
+      border-radius: 4px;
+    }
+    
+    .wf-image-placeholder {
+      background: var(--shade);
+      border: 2px dashed var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 24px;
+    }
+
+    .wf-text-block {
+      background: var(--shade);
+      height: 14px;
+      border-radius: 2px;
+      margin-bottom: 8px;
+    }
+
+    .wf-button {
+      border: var(--stroke);
+      background: var(--shade-dark);
+      text-align: center;
+      padding: 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* ─── 首頁佈局草圖 ─── */
+    .wf-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--stroke);
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+    }
+    .wf-nav-left { display: flex; align-items: center; gap: 10px; }
+    .wf-logo-box { width: 40px; height: 40px; border: var(--stroke); font-weight: 600; display: flex; align-items: center; justify-content: center;}
+    .wf-nav-right { display: flex; gap: 15px; align-items: center;}
+    .wf-avatar { width: 36px; height: 36px; border-radius: 50%; border: var(--stroke); }
+
+    .wf-hero {
+      text-align: center;
+      padding: 40px 20px;
+      border-bottom: var(--stroke);
+      margin-bottom: 30px;
+    }
+    .wf-hero-title { font-size: 32px; font-weight: 600; margin-bottom: 10px; }
+    .wf-hero-sub { width: 60%; margin: 0 auto 20px; }
+
+    .wf-section-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;}
+    
+    .wf-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .wf-card {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 4px 4px 0px var(--shade-dark);
+    }
+    .wf-card-header { display: flex; justify-content: space-between; align-items: center;}
+    .wf-badge { border: var(--stroke); padding: 2px 6px; font-size: 12px; }
+    .wf-progress-bar { width: 100%; height: 10px; border: var(--stroke); border-radius: 10px; position: relative;}
+    .wf-progress-fill { position: absolute; left: 0; top: 0; height: 100%; width: 60%; background: var(--shade-dark); border-right: var(--stroke);}
+    
+    /* ─── 彈窗佈局草圖 (Modal) ─── */
+    .wf-modal-overlay {
+      background: rgba(0,0,0,0.05);
+      border: 2px dashed #999;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+    .wf-modal {
+      width: 100%;
+      max-width: 500px;
+      background: var(--paper);
+      border: var(--stroke);
+      box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+    }
+    .wf-modal-header {
+      padding: 15px 20px;
+      border-bottom: var(--stroke);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .wf-modal-body { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+    
+    /* 表單草圖 */
+    .wf-form-row { display: flex; gap: 15px; }
+    .wf-input-group { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .wf-label { font-size: 14px; font-weight: 600; }
+    .wf-input { height: 36px; border: var(--stroke); background: var(--paper); }
+    
+    /* 房間數據與名單草圖 */
+    .wf-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .wf-stat-box { border: var(--stroke); padding: 10px; text-align: center; }
+    .wf-stat-num { font-size: 24px; font-weight: 600; }
+    
+    .wf-list-row { display: flex; align-items: center; gap: 10px; border: var(--stroke); padding: 8px; }
+    .wf-list-avatar { width: 24px; height: 24px; border-radius: 50%; border: var(--stroke); }
+    .wf-list-text { flex: 1; }
+
+  </style>
+</head>
+<body>
+
+  <div class="wireframe-board">
+    <div class="board-label">UI 草圖 1：首頁 (Home Page)</div>
+    
+    <div class="wf-nav">
+      <div class="wf-nav-left">
+        <div class="wf-logo-box">Logo</div>
+        <span style="font-weight:600; font-size: 20px;">RoundFood 圓食</span>
+      </div>
+      <div class="wf-nav-right">
+        <div class="wf-text-block" style="width: 60px;"></div>
+        <div class="wf-text-block" style="width: 60px;"></div>
+        <div class="wf-avatar"></div>
+      </div>
+    </div>
+
+    <div class="wf-hero">
+      <div class="wf-hero-title">揪團省運費，外送更輕鬆</div>
+      <div class="wf-hero-sub wf-text-block" style="width: 40%;"></div>
+      <div class="wf-hero-sub wf-text-block" style="width: 30%;"></div>
+      <div class="wf-button" style="width: 150px; margin-top: 10px;">+ 發布新揪團</div>
+    </div>
+
+    <div class="wf-section-title">即時揪單列表</div>
+    <div class="wf-grid">
+      <div class="wf-card wf-box">
+        <div class="wf-card-header">
+          <div style="font-weight: 600; font-size: 18px;">麥當勞興大店</div>
+          <div class="wf-badge">揪團中</div>
+        </div>
+        <div class="wf-text-block" style="width: 80%;"></div>
+        <div class="wf-text-block" style="width: 60%;"></div>
+        <div style="margin-top: 5px;">
+          <div style="font-size:12px; margin-bottom:4px;">進度 60%</div>
+          <div class="wf-progress-bar"><div class="wf-progress-fill"></div></div>
+        </div>
+        <div class="wf-button" style="margin-top: 10px; background:var(--paper);">進入房間 →</div>
+      </div>
+
+      <div class="wf-card wf-box">
+        <div class="wf-card-header">
+          <div style="font-weight: 600; font-size: 18px;">可不可紅茶</div>
+          <div class="wf-badge">揪團中</div>
+        </div>
+        <div class="wf-text-block" style="width: 70%;"></div>
+        <div class="wf-text-block" style="width: 50%;"></div>
+        <div style="margin-top: 5px;">
+          <div style="font-size:12px; margin-bottom:4px;">進度 30%</div>
+          <div class="wf-progress-bar"><div class="wf-progress-fill" style="width:30%;"></div></div>
+        </div>
+        <div class="wf-button" style="margin-top: 10px; background:var(--paper);">進入房間 →</div>
+      </div>
+
+      <div class="wf-card wf-box" style="border-style: dashed;">
+        <div class="wf-card-header">
+          <div style="font-weight: 600; font-size: 18px; color: #888;">胡椒廚房晚餐</div>
+          <div class="wf-badge" style="color: #888; border-color:#888;">已結束</div>
+        </div>
+        <div class="wf-text-block" style="width: 80%; background:#e0e0e0;"></div>
+        <div class="wf-text-block" style="width: 60%; background:#e0e0e0;"></div>
+        <div class="wf-button" style="margin-top: auto; background:var(--paper); border-color:#888; color:#888;">查看明細</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wireframe-board">
+    <div class="board-label">UI 草圖 2：發布新揪團 (Modal Form)</div>
+    
+    <div class="wf-modal-overlay">
+      <div class="wf-modal">
+        <div class="wf-modal-header">
+          <div>
+            <div style="font-size: 20px; font-weight: 600;">發布新揪團</div>
+            <div style="font-size: 12px; margin-top:4px;">填寫資訊後系統自動建立房間</div>
+          </div>
+          <div style="font-size: 20px; font-weight:600;">X</div>
+        </div>
+        
+        <div class="wf-modal-body">
+          <div class="wf-input-group">
+            <span class="wf-label">餐廳名稱 *</span>
+            <div class="wf-input"></div>
+          </div>
+          
+          <div class="wf-form-row">
+            <div class="wf-input-group">
+              <span class="wf-label">取餐地點 *</span>
+              <div class="wf-input"></div>
+            </div>
+            <div class="wf-input-group">
+              <span class="wf-label">取餐時間 *</span>
+              <div class="wf-input"></div>
+            </div>
+          </div>
+
+          <div class="wf-input-group">
+            <span class="wf-label">外送平台連結 *</span>
+            <div class="wf-input"></div>
+          </div>
+
+          <div class="wf-form-row">
+            <div class="wf-input-group">
+              <span class="wf-label">總運費 *</span>
+              <div class="wf-input"></div>
+            </div>
+            <div class="wf-input-group">
+              <span class="wf-label">結單時間倒數 *</span>
+              <div class="wf-input" style="display:flex; align-items:center; justify-content:flex-end; padding-right:10px;">▼</div>
+            </div>
+          </div>
+
+          <div class="wf-button" style="margin-top: 10px;">建立揪團房間</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wireframe-board">
+    <div class="board-label">UI 草圖 3：揪團房間看板 (Room Dashboard)</div>
+    
+    <div class="wf-modal-overlay">
+      <div class="wf-modal">
+        <div class="wf-modal-header">
+          <div>
+            <div style="font-size: 20px; font-weight: 600;">麥當勞興大店午餐團</div>
+            <div style="font-size: 12px; margin-top:4px;">團主：葉同學 | 取餐：理學院大廳 12:30</div>
+          </div>
+          <div style="font-size: 20px; font-weight:600;">X</div>
+        </div>
+        
+        <div class="wf-modal-body" style="gap: 15px;">
+          <div class="wf-stats-grid">
+            <div class="wf-stat-box">
+              <div class="wf-stat-num">3 人</div>
+              <div style="font-size: 12px; margin-top:4px;">目前人數</div>
+            </div>
+            <div class="wf-stat-box">
+              <div class="wf-stat-num">$540</div>
+              <div style="font-size: 12px; margin-top:4px;">目前總金額</div>
+            </div>
+            <div class="wf-stat-box">
+              <div class="wf-stat-num">14:25</div>
+              <div style="font-size: 12px; margin-top:4px;">結單倒數</div>
+            </div>
+          </div>
+
+          <div style="font-weight: 600; margin-top:10px;">成員與點餐清單</div>
+          <div class="wf-list-row">
+            <div class="wf-list-avatar"></div>
+            <div class="wf-list-text">葉同學 (團主) <br><span style="font-size:12px;">大麥克套餐</span></div>
+            <div style="font-weight: 600;">$140</div>
+          </div>
+          <div class="wf-list-row">
+            <div class="wf-list-avatar"></div>
+            <div class="wf-list-text">王同學 <br><span style="font-size:12px;">勁辣雞腿堡</span></div>
+            <div style="font-weight: 600;">$145</div>
+          </div>
+
+          <div style="font-weight: 600; margin-top:10px;">申請加入此團</div>
+          <div class="wf-form-row" style="align-items: center;">
+            <div class="wf-input" style="flex:2; padding-left:10px; display:flex; align-items:center; color:#999;">想點的餐點</div>
+            <div class="wf-input" style="flex:1; padding-left:10px; display:flex; align-items:center; color:#999;">金額</div>
+          </div>
+          <div class="wf-button">送出申請</div>
+
+          <div style="border-top: 2px dashed var(--ink); padding-top:15px; margin-top:10px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+              <span>餐點小計</span> <span>$410</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+              <span>外送與平台費</span> <span>$60</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-weight:600; font-size:18px;">
+              <span>預估總計</span> <span>$470</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

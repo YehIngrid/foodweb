@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Annotated
 
 class MemberInfo(BaseModel):
     uid: str
@@ -12,9 +12,9 @@ class MemberInfo(BaseModel):
 # --- User ---
 # signup
 class UserSignupCreate(BaseModel):
-    name: str
-    mail: str
-    password: str
+    name: Annotated[str, Field(min_length=1, max_length=50, description="暱稱")]
+    mail: Annotated[str, Field(pattern=r"^[\w\.-]+@[\w\.-]+\.\w+$", description="信箱格式")]
+    password: Annotated[str, Field(min_length=8, max_length=100, description="密碼至少 8 碼")]
 
 class UserSignupResponse(BaseModel):
     uid: str
@@ -23,8 +23,8 @@ class UserSignupResponse(BaseModel):
 
 # login
 class UserLogin(BaseModel):
-    mail: str
-    password: str
+    mail: Annotated[str, Field(pattern=r"^[\w\.-]+@[\w\.-]+\.\w+$", description="信箱格式")]
+    password: Annotated[str, Field(min_length=8, max_length=100, description="密碼至少 8 碼")]
 
 class UserLoginResponse(BaseModel):
     uid: str
@@ -50,9 +50,9 @@ class GetUser(BaseModel):
 
 # patch user data
 class UserChange(BaseModel):
-    name: Optional[str]=None
-    mail: Optional[str]=None
-    password: Optional[str]=None
+    name: Annotated[Optional[str], Field(min_length=1, max_length=50, default=None)]
+    mail: Annotated[Optional[str], Field(pattern=r"^[\w\.-]+@[\w\.-]+\.\w+$", default=None)]
+    password: Annotated[Optional[str], Field(min_length=8, max_length=100, default=None)]
 
 # delete user data
 class DeleteUser(BaseModel):
@@ -62,12 +62,12 @@ class DeleteUser(BaseModel):
 # --- Team ---
 # create team
 class TeamCreate(BaseModel):
-    title: str
-    url: str
-    location: str
-    deliverFee: int
+    title: Annotated[str, Field(min_length=1, max_length=100, description="揪團標題")]
+    url: Annotated[str, Field(pattern=r"^https?://.*", description="必須是有效的網址")]
+    location: Annotated[str, Field(min_length=1, max_length=100, description="面交地點")]
+    deliverFee: Annotated[int, Field(ge=0, description="運費不可為負數")]
     endAt: datetime
-    description: Optional[str]=None
+    description: Annotated[Optional[str], Field(max_length=500, default=None)]
 
 class TeamResponse(BaseModel):
     orderId: str
@@ -90,8 +90,8 @@ class TeamResponse(BaseModel):
 # --- JoinTeam ---
 # join
 class JoinTeamCreate(BaseModel):
-    foodName: str
-    price: int
+    foodName: Annotated[str, Field(min_length=1, max_length=100, description="餐點名稱")]
+    price: Annotated[int, Field(ge=0, description="價格不可為負數")]
 
 class JoinTeamResponse(BaseModel):
     orderId: str
@@ -105,7 +105,7 @@ class JoinTeamResponse(BaseModel):
         from_attributes = True
 
 class HandleJoinTeam(BaseModel):
-    status: int
+    status: Annotated[int, Field(ge=0, le=3, description="狀態碼")]
 
 class HandleResponse(BaseModel):
     orderId: str

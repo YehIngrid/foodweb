@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodWeb 操作流程圖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --card:      #ffffff;
+      --border:    #ddd6c6;
+      --text:      #1c1710;
+      --text2:     #5c5040;
+      --text3:     #8a7d68;
+      
+      --green:     #2a6e3c;
+      --green-bg:  rgba(42,110,60,.1);
+      --green-bd:  rgba(42,110,60,.25);
+      
+      --orange:    #b53a18;
+      --orange-bg: rgba(181,58,24,.1);
+      --orange-bd: rgba(181,58,24,.25);
+      
+      --shadow:    0 4px 12px rgba(0,0,0,.05), 0 0 0 1px rgba(0,0,0,.03);
+    }
+
+    /* 1. 沒有底色 (背景透明) */
+    body {
+      background: transparent;
+      font-family: 'Noto Sans TC', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 10px; /* 縮減整體留白 */
+      margin: 0;
+    }
+
+    .flow-wrapper {
+      max-width: 960px; /* 稍微加寬以容納更大的字體 */
+      width: 100%;
+    }
+
+    /* ─── 標題區 ─── */
+    .flow-header {
+      text-align: center;
+      margin-bottom: 12px; /* 4. 極小化留白 */
+    }
+    .flow-header h2 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 36px; /* 3. 字體顯著放大 */
+      color: var(--text);
+      margin: 0 0 4px 0;
+    }
+    .flow-header p {
+      font-size: 20px; /* 3. 字體顯著放大 */
+      color: var(--text3);
+      margin: 0;
+    }
+
+    /* ─── 起點節點 ─── */
+    .node-start-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px; /* 4. 極小化留白 */
+    }
+    
+    /* 2. 不要icon和黑底 (改為線條框) */
+    .node-start {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--text);
+      padding: 8px 32px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 24px; /* 3. 字體顯著放大 */
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .node-start span {
+      background: rgba(0,0,0,.06);
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── 箭頭與分流文字 ─── */
+    .arrow-down {
+      text-align: center;
+      color: var(--text3);
+      font-size: 26px;
+      margin-bottom: 6px; /* 4. 極小化留白 */
+      line-height: 1;
+    }
+    
+    .split-text {
+      text-align: center;
+      font-size: 18px; /* 3. 字體放大 */
+      font-weight: 700;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px; /* 4. 極小化留白 */
+      position: relative;
+    }
+    .split-text::before, .split-text::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 32%;
+      height: 1px;
+      background: var(--border);
+    }
+    .split-text::before { left: 0; }
+    .split-text::after { right: 0; }
+
+    /* ─── 分支區塊 ─── */
+    .flow-branches {
+      display: flex;
+      gap: 20px;
+    }
+    .branch {
+      flex: 1;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px 20px; /* 4. 縮減內部 padding */
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .branch-left {
+      border-top: 5px solid var(--green);
+    }
+    .branch-right {
+      border-top: 5px solid var(--orange);
+    }
+
+    /* ─── 分支標題 ─── */
+    .branch-title {
+      font-size: 22px; /* 3. 字體放大 */
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px; /* 4. 極小化留白 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .branch-left .branch-title { color: var(--green); }
+    .branch-right .branch-title { color: var(--orange); }
+
+    /* ─── 步驟列表 ─── */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px; /* 4. 行與行之間留白縮到最小 */
+      position: relative;
+    }
+    
+    /* 連接線 */
+    .step-list::before {
+      content: '';
+      position: absolute;
+      left: 17px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+      z-index: 1;
+    }
+    
+    .step-item {
+      display: flex;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+      align-items: flex-start; /* 讓文字過多時圓圈保持在頂部對齊 */
+    }
+    .step-num {
+      width: 36px; /* 加大圓圈 */
+      height: 36px; /* 加大圓圈 */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 18px; /* 3. 數字加大 */
+      font-weight: 700;
+      flex-shrink: 0;
+      background: var(--card);
+    }
+    .branch-left .step-num {
+      border: 2px solid var(--green);
+      color: var(--green);
+    }
+    .branch-right .step-num {
+      border: 2px solid var(--orange);
+      color: var(--orange);
+    }
+    
+    .step-content {
+      padding-top: 4px; /* 微調文字垂直對齊 */
+      font-size: 20px; /* 3. 內文字體顯著放大 */
+      color: var(--text2);
+      line-height: 1.35; /* 縮減行高 */
+    }
+    .step-content strong {
+      color: var(--text);
+    }
+
+    /* ─── 終點節點 ─── */
+    .node-end {
+      margin-top: 16px; /* 4. 縮減留白 */
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 20px; /* 3. 字體放大 */
+      font-weight: 700;
+    }
+    .branch-left .node-end {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px dashed var(--green-bd);
+    }
+    .branch-right .node-end {
+      background: var(--orange-bg);
+      color: var(--orange);
+      border: 1px dashed var(--orange-bd);
+    }
+  </style>
+</head>
+<body>
+
+<div class="flow-wrapper">
+  
+  <div class="flow-header">
+    <h2>使用者操作流程圖</h2>
+    <p>從進入首頁到完成外送點餐的兩大核心路徑</p>
+  </div>
+
+  <!-- 起點 (移除Icon、透明底黑框、加大字體) -->
+  <div class="node-start-wrap">
+    <div class="node-start">
+      進入系統 <span>首頁</span>
+    </div>
+  </div>
+  <div style="text-align: center; font-size: 20px; color: var(--text2); margin-bottom: 10px;">
+    使用者進入首頁瀏覽目前的即時揪單卡片
+  </div>
+
+  <div class="arrow-down">↓</div>
+  <div class="split-text">路徑分流</div>
+
+  <!-- 分支區域 -->
+  <div class="flow-branches">
+    
+    <!-- 左側：發起路徑 -->
+    <div class="branch branch-left">
+      <div class="branch-title">🚀 發起路徑 (作為房主)</div>
+      
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">點擊<strong>「發布新揪團」</strong>按鈕</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">填寫餐廳、地點、<strong>時間</strong>與運費</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">系統自動建立獨立<strong>揪團房間</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-content">在房間內<strong>審核</strong>同學的加入申請</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-content">時間到<strong>結單下訂</strong></div>
+        </div>
+      </div>
+
+      <div class="node-end">
+        ✓ 完成揪團，省下運費
+      </div>
+    </div>
+
+    <!-- 右側：加入路徑 -->
+    <div class="branch branch-right">
+      <div class="branch-title">🙋 加入路徑 (作為成員)</div>
+      
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">點擊感興趣的<strong>揪團卡片</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">進入揪團房間<strong>查看進度</strong>與資訊</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">填寫餐點名稱與金額，點擊<strong>「送出申請」</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-content">等待房主<strong>審核</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-content">審核通過，<strong>等待取餐</strong>通知</div>
+        </div>
+      </div>
+
+      <div class="node-end">
+        ✓ 成功加入，等待享用餐點
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
