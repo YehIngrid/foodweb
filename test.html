@@ -1,12 +1,327 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圓食 Round Food - 核心使用情境雙軌流程</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ─── 採用專案 index.html 官方精準色彩變數 ─── */
+        :root {
+            --bg:        #f2ece0;
+            --bg2:       #e9e2d3;
+            --surface:   #f8f5ee;
+            --card:      #ffffff;
+            --border:    #ddd6c6;
+            --border-s:  #ccc4b0;
+
+            --text:      #1c1710;
+            --text2:     #5c5040;
+            --text3:     #8a7d68;
+
+            --green:     #2a6e3c;
+            --green-bg:  rgba(42,110,60,.06);
+            --green-bd:  rgba(42,110,60,.18);
+
+            --orange:    #b53a18;
+            --orange-bg: rgba(181,58,24,.06);
+            --orange-bd: rgba(181,58,24,.18);
+
+            --sh-sm: 0 2px 8px rgba(28,23,16,.04), 0 0 0 1px rgba(28,23,16,.02);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans TC', sans-serif;
+            padding: 40px 20px;
+            display: block;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--sh-sm);
+        }
+
+        /* 頂部標題整合標誌 */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            background: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .main-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+
+        /* 橫向滾動保護層（防手機板擠壓變形） */
+        .flow-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        /* 精準網格核心佈局 */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr 30px 1fr 30px 1fr 30px 1fr;
+            min-width: 940px; /* 確保內容緊湊不失真 */
+            align-items: center;
+        }
+
+        /* 軌道橫條區隔線 */
+        .track-title {
+            grid-column: span 7;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 4px 0;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .host-title {
+            color: var(--green);
+            border-bottom: 1px solid var(--green-bd);
+        }
+
+        .member-title {
+            color: var(--orange);
+            border-bottom: 1px solid var(--orange-bd);
+            margin-top: 16px;
+        }
+
+        /* 流程卡片樣式 */
+        .step-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 105px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .host-card { border-top: 4px solid var(--green); }
+        .member-card { border-top: 4px solid var(--orange); }
+
+        /* 步驟數字標籤 */
+        .step-badge {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            width: fit-content;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .host-card .step-badge {
+            color: var(--green);
+            background: var(--green-bg);
+        }
+
+        .member-card .step-badge {
+            color: var(--orange);
+            background: var(--orange-bg);
+        }
+
+        .step-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.4;
+        }
+
+        /* 水平過渡箭頭 */
+        .horizontal-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 中間縱向互動列（極致收緊留白） */
+        .interaction-row {
+            grid-column: 5; /* 精準定位在第三個步驟下方 */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 52px; /* 緊湊高度 */
+            margin: 4px 0;
+        }
+
+        /* 精緻文字排版區 */
+        .sync-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sync-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green);
+            background: var(--green-bg);
+            border: 1px solid var(--green-bd);
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .sync-desc {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 3px;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
-    <h1 class="greet">hello</h1>
-    <a style="color: white; background: #2a2018;" href="#">touch</a>
+
+<div class="container">
+    
+    <div class="page-header">
+        <div class="logo-mark">圓</div>
+        <h1 class="main-title">核心使用情境：雙軌互動流程</h1>
+    </div>
+
+    <div class="flow-scroll-wrapper">
+        <div class="flow-grid">
+            
+            <div class="track-title host-title">房主主線 (Host Flow)</div>
+            
+            <div class="step-card host-card">
+                <div class="step-badge">STEP 01</div>
+                <div class="step-title">發布揪團房間</div>
+                <div class="step-desc">填寫餐廳、取餐時間與運費規則。</div>
+            </div>
+            
+            <div class="horizontal-arrow">
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="var(--border-s)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <div class="step-card host-card">
+                <div class="step-badge">STEP 02</div>
+                <div class="step-title">大廳曝光與分享</div>
+                <div class="step-desc">房間上架至首頁，並複製連結至群組。</div>
+            </div>
+
+            <div class="horizontal-arrow">
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="var(--border-s)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <div class="step-card host-card" style="background: var(--green-bg); border-color: var(--green-bd);">
+                <div class="step-badge">STEP 03</div>
+                <div class="step-title">審核面板管理</div>
+                <div class="step-desc">即時查看名單，手動同意或婉拒申請。</div>
+            </div>
+
+            <div class="horizontal-arrow">
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="var(--border-s)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <div class="step-card host-card">
+                <div class="step-badge">STEP 04</div>
+                <div class="step-title">統一結單下單</div>
+                <div class="step-desc">鎖定房間名單，外送送達後通知取餐。</div>
+            </div>
+
+
+            <div class="interaction-row">
+                <svg width="16" height="42" viewBox="0 0 16 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 38V4M8 4L3 9M8 4L13 9" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="sync-info">
+                    <span class="sync-tag">數據即時連動</span>
+                    <span class="sync-desc">成員送出點餐，房主審核端即時刷新</span>
+                </div>
+            </div>
+
+
+            <div class="track-title member-title">成員主線 (Member Flow)</div>
+
+            <div class="step-card member-card">
+                <div class="step-badge">STEP 01</div>
+                <div class="step-title">瀏覽首頁大廳</div>
+                <div class="step-desc">查看校園當前進行中的即時揪單列表。</div>
+            </div>
+
+            <div class="horizontal-arrow">
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="var(--border-s)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <div class="step-card member-card">
+                <div class="step-badge">STEP 02</div>
+                <div class="step-title">進入揪團房間</div>
+                <div class="step-desc">查看該團詳細資訊、備註與當前運費分攤。</div>
+            </div>
+
+            <div class="horizontal-arrow">
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="var(--border-s)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <div class="step-card member-card" style="background: var(--orange-bg); border-color: var(--orange-bd);">
+                <div class="step-badge">STEP 03</div>
+                <div class="step-title">填寫點餐明細</div>
+                <div class="step-desc">輸入欲點餐點與金額，送出參團申請。</div>
+            </div>
+
+            <div class="horizontal-arrow">
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="var(--border-s)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <div class="step-card member-card">
+                <div class="step-badge">STEP 04</div>
+                <div class="step-title">狀態變更通知</div>
+                <div class="step-desc">個人頁面查看進度 (待核准 → 揪團成功)。</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
